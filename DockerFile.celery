@@ -1,0 +1,18 @@
+# Use the official Playwright image which has all Linux dependencies for Chromium
+FROM mcr.microsoft.com/playwright/python:v1.45.0-jammy
+
+WORKDIR /app
+
+# Install Python dependencies
+COPY requirement.txt .
+RUN pip install --no-cache-dir -r requirement.txt
+
+# Install only the Chromium browser to save space
+RUN playwright install chromium
+
+# Copy application code
+COPY . .
+
+# We still run Gunicorn here to satisfy Render's health checks for Web Services
+# Using & to run both processes in the background
+CMD gunicorn main:app --bind 0.0.0.0:10000 & celery -A worker.celery worker --loglevel=info --concurrency=1

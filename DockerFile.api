@@ -1,0 +1,23 @@
+# Use the official Playwright Python image for built-in dependencies
+FROM mcr.microsoft.com/playwright/python:v1.45.0-jammy
+
+WORKDIR /app
+
+# Install system dependencies for PostgreSQL (if using psycopg2)
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirement.txt .
+RUN pip install --no-cache-dir -r requirement.txt
+
+# Copy application code
+COPY . .
+
+# Expose Render's default port
+EXPOSE 10000
+
+# Start the Flask API using Gunicorn
+CMD ["gunicorn", "run:app", "--bind", "0.0.0.0:10000", "--timeout", "320"]

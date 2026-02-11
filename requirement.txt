@@ -11,6 +11,7 @@ pypandoc
 google-auth
 psycopg2-binary
 jinja2 
+gunicorn 
 playwright 
 celery
 redis
