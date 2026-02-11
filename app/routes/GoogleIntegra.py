@@ -72,13 +72,13 @@ def google_callback():
 
 
         #  IMPORTANT: redirect to FRONTEND
-        return redirect("http://localhost:3000/oauth/callback")
+        return redirect("https://backstage-rookie-frontend.vercel.app/oauth/callback")
 
     except Exception as e:
         # Handles user cancellation, invalid state, or any other token exchange error
         print(f"Google OAuth callback failed: {e}")
         session.clear() # Clear any potentially incomplete or invalid session data
-        return redirect("http://localhost:3000/login?error=auth_cancelled")
+        return redirect("https://backstage-rookie-frontend.vercel.app/login?error=auth_cancelled")
 
 @google_auth_bp.route("/api/auth/google/session", methods=["GET"])
 def get_google_session():
