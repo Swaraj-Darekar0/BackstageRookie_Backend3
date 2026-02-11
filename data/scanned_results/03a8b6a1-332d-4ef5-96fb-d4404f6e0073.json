@@ -1,0 +1,197 @@
+{
+  "executive_summary": {
+    "overview": "This security assessment report details the findings from a static analysis of a healthcare application's source code. The analysis identified potential security vulnerabilities that could impact the confidentiality, integrity, and availability of the application and its data.",
+    "vulnerability_overview_text": "1 Low severity vulnerability identified.",
+    "vulnerability_list": [
+      {
+        "id": "L1",
+        "title": "Exposed Internal IP",
+        "cvss": 2.5,
+        "page": "settings.py:28"
+      }
+    ],
+    "severity_distribution": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 0,
+      "LOW": 1
+    }
+  },
+  "methodology": {
+    "introduction": "This report details the results of a security assessment conducted on the specified repository. The analysis involved a multi-layered approach, combining automated static analysis tools with advanced, AI-driven verification and enrichment to identify potential security vulnerabilities.",
+    "objective": "The primary objective of this assessment was to identify security weaknesses, assess their potential impact, and provide actionable recommendations for remediation to improve the overall security posture of the application.",
+    "scope_text": "The assessment was performed on the source code of the repository cloned at the time of the scan. The analysis focused on common web application vulnerabilities, insecure coding practices, and dependency risks.",
+    "systems": [],
+    "user_accounts_description": "As this was a static source code analysis, no user accounts were provisioned or tested.",
+    "accounts": []
+  },
+  "findings": [
+    {
+      "id": "L1",
+      "title": "Exposed Internal IP",
+      "severity": "low",
+      "severity_label": "Low",
+      "cvss": 2.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+      "target": "The application's networking configuration",
+      "references": [
+        "https://owasp.org/www-community/vulnerabilities/Information_Disclosure"
+      ],
+      "overview": "The application's settings file contains an exposed internal IP address, which could potentially disclose sensitive information about the application's network configuration.",
+      "details": "The exposed internal IP address is hardcoded in the ALLOWED_HOSTS setting, which could allow an attacker to identify the application's internal network structure and potentially exploit other vulnerabilities.",
+      "evidence": [
+        {
+          "name": "settings.py:28",
+          "description": "ALLOWED_HOSTS = ['192.168.0.111', '127.0.0.1', '192.168.43.155']"
+        }
+      ],
+      "recommendation": "- Remove or restrict internal IP addresses from the ALLOWED_HOSTS setting.\n- Consider using environment variables or a configuration management system to manage sensitive settings.\n- Limit access to the settings file to only those who need it.",
+      "prompts_to_solve_the_vulnerability": "In settings.py, there is an exposed internal IP address at line 28. To remediate this issue, you should remove or restrict internal IP addresses from the ALLOWED_HOSTS setting. For example, you can change the code from `ALLOWED_HOSTS = ['192.168.0.111', '127.0.0.1', '192.168.43.155']` to `ALLOWED_HOSTS = ['127.0.0.1']` or use environment variables to manage sensitive settings."
+    }
+  ],
+  "total_findings": 1,
+  "scan_id": "03a8b6a1-332d-4ef5-96fb-d4404f6e0073",
+  "timestamp": "2026-02-07T03:24:52.378992",
+  "framework_analysis": {
+    "framework": "django",
+    "endpoints": [
+      {
+        "path": "/admin/",
+        "view": "admin.site.urls",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\myHospital\\urls.py",
+        "line_number": 22
+      },
+      {
+        "path": "/profile/",
+        "view": "myProfile",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\profiles\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/profile/register/",
+        "view": "register",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\profiles\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/profile/do_register/",
+        "view": "doRegister",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\profiles\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/appointments/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\appointments\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/appointments/book/",
+        "view": "book",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\appointments\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/appointments/do_book/",
+        "view": "doBook",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\appointments\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/appointments/do_change/",
+        "view": "doChange",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\appointments\\urls.py",
+        "line_number": 11
+      },
+      {
+        "path": "/case/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\case\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/case/generate/",
+        "view": "generate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\case\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/case/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\case\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/reports/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\reports\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/reports/generate/",
+        "view": "generate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\reports\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/reports/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\reports\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/reports/do_change/",
+        "view": "doChange",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\reports\\urls.py",
+        "line_number": 10
+      },
+      {
+        "path": "/bill/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\bill\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/bill/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\bill\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/bill/pay/",
+        "view": "pay",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\bill\\urls.py",
+        "line_number": 11
+      },
+      {
+        "path": "/bill/medicines/",
+        "view": "viewMedicine",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\bill\\urls.py",
+        "line_number": 12
+      },
+      {
+        "path": "/login/",
+        "view": "login",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\myHospital\\urls.py",
+        "line_number": 30
+      },
+      {
+        "path": "/logout/",
+        "view": "logout",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\myHospital\\urls.py",
+        "line_number": 31
+      },
+      {
+        "path": "/loginmodule/auth",
+        "view": "auth_view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\03a8b6a1-332d-4ef5-96fb-d4404f6e0073\\myHospital\\loginmodule\\urls.py",
+        "line_number": 7
+      }
+    ],
+    "errors": [],
+    "llm_enriched": {
+      "error": "Gemini API call failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite\nPlease retry in 6.429056664s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerDayPerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash-lite\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 20\n}\n, retry_delay {\n  seconds: 6\n}\n]",
+      "raw_response": ""
+    }
+  }
+}

@@ -1,0 +1,779 @@
+{
+  "error": "GROQ_API_KEY is not configured on the server.",
+  "scan_id": "5fca3f23-a150-46fd-a982-003156f989f0",
+  "timestamp": "2026-02-04T13:56:21.216250",
+  "framework_analysis": {
+    "framework": "flask/fastapi",
+    "endpoints": [
+      {
+        "path": "/login",
+        "methods": [
+          "POST"
+        ],
+        "view": "login",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\5fca3f23-a150-46fd-a982-003156f989f0\\LibraryMangement_Flask\\libraryManagement\\auth\\routes.py",
+        "line_number": 14,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/logout",
+        "methods": [
+          "POST"
+        ],
+        "view": "logout",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\5fca3f23-a150-46fd-a982-003156f989f0\\LibraryMangement_Flask\\libraryManagement\\auth\\routes.py",
+        "line_number": 32,
+        "auth": {
+          "required": true,
+          "hints": [
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "jwt",
+              "line": 31
+            },
+            {
+              "type": "decorator",
+              "pattern": "JWT",
+              "line": 31
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 32
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 32
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 31
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 31
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 31
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 31
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/signup",
+        "methods": [
+          "POST"
+        ],
+        "view": "signup",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\5fca3f23-a150-46fd-a982-003156f989f0\\LibraryMangement_Flask\\libraryManagement\\auth\\routes.py",
+        "line_number": 38,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/",
+        "methods": [
+          "POST",
+          "GET",
+          "PUT",
+          "DELETE"
+        ],
+        "view": "book",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\5fca3f23-a150-46fd-a982-003156f989f0\\LibraryMangement_Flask\\libraryManagement\\books\\routes.py",
+        "line_number": 12,
+        "auth": {
+          "required": true,
+          "hints": [
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "jwt",
+              "line": 11
+            },
+            {
+              "type": "decorator",
+              "pattern": "JWT",
+              "line": 11
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 11
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 11
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 11
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 11
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 13
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": [
+            200
+          ]
+        }
+      },
+      {
+        "path": "/",
+        "methods": [
+          "GET",
+          "PUT",
+          "DELETE"
+        ],
+        "view": "profile",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\5fca3f23-a150-46fd-a982-003156f989f0\\LibraryMangement_Flask\\libraryManagement\\Member\\routes.py",
+        "line_number": 13,
+        "auth": {
+          "required": true,
+          "hints": [
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "jwt",
+              "line": 12
+            },
+            {
+              "type": "decorator",
+              "pattern": "JWT",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 14
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 14
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 14
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 14
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 14
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 14
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      }
+    ],
+    "errors": [],
+    "llm_enriched": {
+      "metadata": {
+        "framework": "flask/fastapi",
+        "sector": "General Data Privacy",
+        "compliances": [
+          "GDPR",
+          "CCPA/CPRA",
+          "LGPD",
+          "PIPEDA"
+        ]
+      },
+      "endpoints": [
+        {
+          "path": "/login",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "unknown",
+            "line_number": 14
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": [
+              {
+                "name": "username",
+                "type": "string",
+                "sensitive": true
+              },
+              {
+                "name": "password",
+                "type": "string",
+                "sensitive": true
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for the login endpoint.",
+              "Potential_attack_scenario": "An attacker could attempt to bypass authentication mechanisms by sending crafted requests to the login endpoint."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Login endpoints handle authentication credentials which are considered personal data."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Login endpoints handle credentials which are considered personal information."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Login endpoints handle authentication credentials which are considered personal data."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Login endpoints handle authentication credentials which are considered personal information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Cross_Site_Request_Forgery_(CSRF)"
+            ]
+          }
+        },
+        {
+          "path": "/logout",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "unknown",
+            "line_number": 32
+          },
+          "auth": {
+            "required": true,
+            "type": "token",
+            "detected_at_lines": [
+              31,
+              31,
+              31,
+              31,
+              31,
+              31,
+              31,
+              31
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout endpoints typically do not process personal data directly."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout endpoints typically do not process personal information directly."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout endpoints typically do not process personal data directly."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout endpoints typically do not process personal information directly."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 3.7,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:PPR:N/UI:N/S:U/C:N/I:N/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/signup",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "unknown",
+            "line_number": 38
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": [
+              {
+                "name": "username",
+                "type": "string",
+                "sensitive": true
+              },
+              {
+                "name": "email",
+                "type": "string",
+                "sensitive": true
+              },
+              {
+                "name": "password",
+                "type": "string",
+                "sensitive": true
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              201,
+              400,
+              409,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for the signup endpoint.",
+              "Potential_attack_scenario": "An attacker could create an excessive number of accounts or use the signup endpoint for malicious purposes if there are no authentication or rate-limiting measures."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Signup endpoints collect personal data such as username, email, and password, requiring compliance with data protection regulations."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Signup endpoints collect personal information including username, email, and password, necessitating adherence to CCPA/CPRA."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Signup endpoints collect personal data like username, email, and password, making LGPD compliance essential."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Signup endpoints collect personal information such as username, email, and password, requiring compliance with PIPEDA."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Improper_Input_Validation",
+              "https://owasp.org/www-community/vulnerabilities/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/",
+          "methods": [
+            "POST",
+            "GET",
+            "PUT",
+            "DELETE"
+          ],
+          "source_info": {
+            "file": "unknown",
+            "line_number": 12
+          },
+          "auth": {
+            "required": true,
+            "type": "token",
+            "detected_at_lines": [
+              11,
+              11,
+              11,
+              11,
+              11,
+              11,
+              11,
+              11,
+              13,
+              13,
+              13,
+              13,
+              13,
+              13
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": [
+              {
+                "name": "book_id",
+                "type": "string | number",
+                "sensitive": false
+              },
+              {
+                "name": "title",
+                "type": "string",
+                "sensitive": false
+              },
+              {
+                "name": "author",
+                "type": "string",
+                "sensitive": false
+              },
+              {
+                "name": "year",
+                "type": "number",
+                "sensitive": false
+              }
+            ]
+          },
+          "response": {
+            "content_type": "application/json",
+            "status_codes": [
+              200,
+              201,
+              400,
+              401,
+              403,
+              404,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "The endpoint for managing books does not appear to directly process personal data."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "The endpoint for managing books does not appear to directly process personal information."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "The endpoint for managing books does not appear to directly process personal data."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "The endpoint for managing books does not appear to directly process personal information."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 5.3,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/",
+          "methods": [
+            "GET",
+            "PUT",
+            "DELETE"
+          ],
+          "source_info": {
+            "file": "unknown",
+            "line_number": 13
+          },
+          "auth": {
+            "required": true,
+            "type": "token",
+            "detected_at_lines": [
+              12,
+              12,
+              12,
+              12,
+              12,
+              12,
+              12,
+              12,
+              14,
+              14,
+              14,
+              14,
+              14,
+              14
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": [
+              {
+                "name": "user_id",
+                "type": "string | number",
+                "sensitive": true
+              }
+            ]
+          },
+          "response": {
+            "content_type": "application/json",
+            "status_codes": [
+              200,
+              400,
+              401,
+              403,
+              404,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "medium",
+              "description": "The profile endpoint might expose sensitive user data if not properly secured.",
+              "Potential_attack_scenario": "An attacker could gain unauthorized access to user profiles and sensitive information."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "The profile endpoint likely handles sensitive personal data (e.g., user details, activity logs), requiring strict adherence to GDPR."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Profile endpoints commonly expose personal information, making CCPA/CPRA compliance critical."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "The profile endpoint's potential to process sensitive personal data necessitates LGPD compliance."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Profile endpoints often contain personal information, requiring PIPEDA compliance."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 8.8,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Sensitive_Data_Exposure"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

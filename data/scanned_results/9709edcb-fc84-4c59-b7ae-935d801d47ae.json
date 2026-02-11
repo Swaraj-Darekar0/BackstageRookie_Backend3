@@ -1,0 +1,1599 @@
+{
+  "executive_summary": {
+    "overview": "A security assessment was conducted on the specified repository, combining automated static analysis with AI-driven verification and enrichment to identify potential security vulnerabilities.",
+    "vulnerability_overview_text": "2 Critical, 2 High, 5 Medium, 6 Low vulnerabilities identified.",
+    "vulnerability_list": [
+      {
+        "id": "C1",
+        "title": "Unsafe Hugging Face Hub Download",
+        "cvss": 9.8,
+        "page": 1
+      },
+      {
+        "id": "C2",
+        "title": "Probable Insecure Usage of Temp File/Directory",
+        "cvss": 9.5,
+        "page": 2
+      },
+      {
+        "id": "H1",
+        "title": "Possible Binding to All Interfaces",
+        "cvss": 7.8,
+        "page": 3
+      },
+      {
+        "id": "H2",
+        "title": "Sensitive Data Exposure in Error",
+        "cvss": 7.5,
+        "page": 4
+      },
+      {
+        "id": "M1",
+        "title": "EVAL-EXEC-USE Vulnerability",
+        "cvss": 5.5,
+        "page": 5
+      },
+      {
+        "id": "M2",
+        "title": "INSECURE-TEMPFILE Vulnerability",
+        "cvss": 5.3,
+        "page": 6
+      },
+      {
+        "id": "M3",
+        "title": "BANDIT-B615 Vulnerability",
+        "cvss": 5.2,
+        "page": 7
+      },
+      {
+        "id": "M4",
+        "title": "BANDIT-B615 Vulnerability",
+        "cvss": 5.2,
+        "page": 8
+      },
+      {
+        "id": "M5",
+        "title": "SENSITIVE-DATA-EXPOSURE-IN-ERROR Vulnerability",
+        "cvss": 5.1,
+        "page": 9
+      },
+      {
+        "id": "L1",
+        "title": "ASSERT-RAISES-USAGE Vulnerability",
+        "cvss": 2.5,
+        "page": 10
+      },
+      {
+        "id": "L2",
+        "title": "SENSITIVE-DATA-EXPOSURE-IN-ERROR Vulnerability",
+        "cvss": 2.3,
+        "page": 11
+      },
+      {
+        "id": "L3",
+        "title": "SENSITIVE-DATA-EXPOSURE-IN-ERROR Vulnerability",
+        "cvss": 2.3,
+        "page": 12
+      },
+      {
+        "id": "L4",
+        "title": "SENSITIVE-DATA-EXPOSURE-IN-ERROR Vulnerability",
+        "cvss": 2.2,
+        "page": 13
+      },
+      {
+        "id": "L5",
+        "title": "SENSITIVE-DATA-EXPOSURE-IN-ERROR Vulnerability",
+        "cvss": 2.2,
+        "page": 14
+      },
+      {
+        "id": "L6",
+        "title": "DNSSEC-NOT-ENABLED Vulnerability",
+        "cvss": 1.8,
+        "page": 15
+      }
+    ],
+    "severity_distribution": {
+      "CRITICAL": 2,
+      "HIGH": 2,
+      "MEDIUM": 5,
+      "LOW": 6
+    }
+  },
+  "methodology": {
+    "introduction": "This report details the results of a security assessment conducted on the specified repository. The analysis involved a multi-layered approach, combining automated static analysis tools with advanced, AI-driven verification and enrichment to identify potential security vulnerabilities.",
+    "objective": "The primary objective of this assessment was to identify security weaknesses, assess their potential impact, and provide actionable recommendations for remediation to improve the overall security posture of the application.",
+    "scope_text": "The assessment was performed on the source code of the repository cloned at the time of the scan. The analysis focused on common web application vulnerabilities, insecure coding practices, and dependency risks.",
+    "systems": [],
+    "user_accounts_description": "As this was a static source code analysis, no user accounts were provisioned or tested.",
+    "accounts": []
+  },
+  "findings": [
+    {
+      "id": "C1",
+      "title": "Unsafe Hugging Face Hub Download",
+      "severity": "CRITICAL",
+      "severity_label": "Critical",
+      "cvss": 9.8,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+      "target": "The application's Hugging Face Hub download functionality",
+      "references": [
+        "https://huggingface.co/docs/hub/security-guidelines"
+      ],
+      "overview": "The application uses Hugging Face Hub downloads without revision pinning, making it vulnerable to potential security risks.",
+      "details": "The application downloads models from Hugging Face Hub without specifying a particular revision, which could lead to unexpected changes in the model's behavior or even the introduction of malicious code.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "analysis_engine/analyzers/llm_analyzer.py:60"
+        }
+      ],
+      "recommendation": "- Use revision pinning when downloading models from Hugging Face Hub to ensure consistency and security.\n- Regularly review and update dependencies to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "C2",
+      "title": "Probable Insecure Usage of Temp File/Directory",
+      "severity": "CRITICAL",
+      "severity_label": "Critical",
+      "cvss": 9.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+      "target": "The application's temporary file handling",
+      "references": [
+        "https://owasp.org/www-community/attacks/Temporary_File_Vulnerabilities"
+      ],
+      "overview": "The application may be using temporary files or directories in an insecure manner, making it vulnerable to potential security risks.",
+      "details": "The application uses the '/tmp/' directory or the 'tempfile.mktemp()' function, which can be insecure if not properly sanitized or validated.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "analysis_engine/analyzers/regex_analyzer.py:212"
+        }
+      ],
+      "recommendation": "- Use secure temporary file handling practices, such as using the 'tempfile' module with the 'delete' parameter set to True.\n- Regularly review and sanitize temporary file handling code to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "H1",
+      "title": "Possible Binding to All Interfaces",
+      "severity": "HIGH",
+      "severity_label": "High",
+      "cvss": 7.8,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's network binding",
+      "references": [
+        "https://owasp.org/www-community/attacks/Binding_to_All_Interfaces"
+      ],
+      "overview": "The application may be binding to all available network interfaces, making it potentially vulnerable to security risks.",
+      "details": "The application uses the '0.0.0.0' address to bind to all available network interfaces, which can increase the attack surface.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "run.py:10"
+        }
+      ],
+      "recommendation": "- Use a specific IP address or hostname to bind to a particular network interface.\n- Regularly review and restrict network binding to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "H2",
+      "title": "Sensitive Data Exposure in Error",
+      "severity": "HIGH",
+      "severity_label": "High",
+      "cvss": 7.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's error handling",
+      "references": [
+        "https://owasp.org/www-community/attacks/Sensitive_Data_Exposure"
+      ],
+      "overview": "The application may be exposing sensitive data in error messages, making it potentially vulnerable to security risks.",
+      "details": "The application returns error messages that may contain sensitive data, such as internal IP addresses or database credentials.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "app/routes/main.py:75"
+        }
+      ],
+      "recommendation": "- Implement error handling that does not expose sensitive data.\n- Regularly review and sanitize error messages to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "M1",
+      "title": "EVAL-EXEC-USE Vulnerability",
+      "severity": "MEDIUM",
+      "severity_label": "Medium",
+      "cvss": 5.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's evaluation and execution",
+      "references": [
+        "https://owasp.org/www-community/attacks/Eval-Exec-Use"
+      ],
+      "overview": "The application may be using evaluation and execution functions in an insecure manner, making it potentially vulnerable to security risks.",
+      "details": "The application uses the 'eval()' function, which can be insecure if not properly sanitized or validated.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "analysis_engine/analyzers/llm_analyzer.py:70"
+        }
+      ],
+      "recommendation": "- Use secure evaluation and execution practices, such as using the 'ast' module for parsing and validation.\n- Regularly review and sanitize evaluation and execution code to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "M2",
+      "title": "INSECURE-TEMPFILE Vulnerability",
+      "severity": "MEDIUM",
+      "severity_label": "Medium",
+      "cvss": 5.3,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's temporary file handling",
+      "references": [
+        "https://owasp.org/www-community/attacks/Temporary_File_Vulnerabilities"
+      ],
+      "overview": "The application may be using temporary files in an insecure manner, making it potentially vulnerable to security risks.",
+      "details": "The application uses the '/tmp/' directory or the 'tempfile.mktemp()' function, which can be insecure if not properly sanitized or validated.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "analysis_engine/analyzers/regex_analyzer.py:212"
+        }
+      ],
+      "recommendation": "- Use secure temporary file handling practices, such as using the 'tempfile' module with the 'delete' parameter set to True.\n- Regularly review and sanitize temporary file handling code to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "M3",
+      "title": "BANDIT-B615 Vulnerability",
+      "severity": "MEDIUM",
+      "severity_label": "Medium",
+      "cvss": 5.2,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's Hugging Face Hub download functionality",
+      "references": [
+        "https://huggingface.co/docs/hub/security-guidelines"
+      ],
+      "overview": "The application uses Hugging Face Hub downloads without revision pinning, making it vulnerable to potential security risks.",
+      "details": "The application downloads models from Hugging Face Hub without specifying a particular revision, which can lead to unexpected changes in the model's behavior or even the introduction of malicious code.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "analysis_engine/analyzers/llm_analyzer.py:60"
+        }
+      ],
+      "recommendation": "- Use revision pinning when downloading models from Hugging Face Hub to ensure consistency and security.\n- Regularly review and update dependencies to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "M4",
+      "title": "BANDIT-B615 Vulnerability",
+      "severity": "MEDIUM",
+      "severity_label": "Medium",
+      "cvss": 5.2,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's Hugging Face Hub download functionality",
+      "references": [
+        "https://huggingface.co/docs/hub/security-guidelines"
+      ],
+      "overview": "The application uses Hugging Face Hub downloads without revision pinning, making it vulnerable to potential security risks.",
+      "details": "The application downloads models from Hugging Face Hub without specifying a particular revision, which can lead to unexpected changes in the model's behavior or even the introduction of malicious code.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "analysis_engine/analyzers/llm_analyzer.py:61"
+        }
+      ],
+      "recommendation": "- Use revision pinning when downloading models from Hugging Face Hub to ensure consistency and security.\n- Regularly review and update dependencies to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "M5",
+      "title": "SENSITIVE-DATA-EXPOSURE-IN-ERROR Vulnerability",
+      "severity": "MEDIUM",
+      "severity_label": "Medium",
+      "cvss": 5.1,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's error handling",
+      "references": [
+        "https://owasp.org/www-community/attacks/Sensitive_Data_Exposure"
+      ],
+      "overview": "The application may be exposing sensitive data in error messages, making it potentially vulnerable to security risks.",
+      "details": "The application returns error messages that may contain sensitive data, such as internal IP addresses or database credentials.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "app/routes/main.py:75"
+        }
+      ],
+      "recommendation": "- Implement error handling that does not expose sensitive data.\n- Regularly review and sanitize error messages to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "L1",
+      "title": "ASSERT-RAISES-USAGE Vulnerability",
+      "severity": "LOW",
+      "severity_label": "Low",
+      "cvss": 2.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's assertion and raises usage",
+      "references": [
+        "https://owasp.org/www-community/attacks/Assertion_and_Raises_Usage"
+      ],
+      "overview": "The application may be using assertions and raises in an insecure manner, making it potentially vulnerable to security risks.",
+      "details": "The application uses the 'assert' statement, which can be insecure if not properly sanitized or validated.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "run.py:10"
+        }
+      ],
+      "recommendation": "- Use secure assertion and raises practices, such as using the 'logging' module for error handling.\n- Regularly review and sanitize assertion and raises code to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "L2",
+      "title": "SENSITIVE-DATA-EXPOSURE-IN-ERROR Vulnerability",
+      "severity": "LOW",
+      "severity_label": "Low",
+      "cvss": 2.3,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's error handling",
+      "references": [
+        "https://owasp.org/www-community/attacks/Sensitive_Data_Exposure"
+      ],
+      "overview": "The application may be exposing sensitive data in error messages, making it potentially vulnerable to security risks.",
+      "details": "The application returns error messages that may contain sensitive data, such as internal IP addresses or database credentials.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "app/routes/main.py:166"
+        }
+      ],
+      "recommendation": "- Implement error handling that does not expose sensitive data.\n- Regularly review and sanitize error messages to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "L3",
+      "title": "SENSITIVE-DATA-EXPOSURE-IN-ERROR Vulnerability",
+      "severity": "LOW",
+      "severity_label": "Low",
+      "cvss": 2.3,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's error handling",
+      "references": [
+        "https://owasp.org/www-community/attacks/Sensitive_Data_Exposure"
+      ],
+      "overview": "The application may be exposing sensitive data in error messages, making it potentially vulnerable to security risks.",
+      "details": "The application returns error messages that may contain sensitive data, such as internal IP addresses or database credentials.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "app/routes/main.py:195"
+        }
+      ],
+      "recommendation": "- Implement error handling that does not expose sensitive data.\n- Regularly review and sanitize error messages to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "L4",
+      "title": "SENSITIVE-DATA-EXPOSURE-IN-ERROR Vulnerability",
+      "severity": "LOW",
+      "severity_label": "Low",
+      "cvss": 2.2,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's error handling",
+      "references": [
+        "https://owasp.org/www-community/attacks/Sensitive_Data_Exposure"
+      ],
+      "overview": "The application may be exposing sensitive data in error messages, making it potentially vulnerable to security risks.",
+      "details": "The application returns error messages that may contain sensitive data, such as internal IP addresses or database credentials.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "app/routes/main.py:259"
+        }
+      ],
+      "recommendation": "- Implement error handling that does not expose sensitive data.\n- Regularly review and sanitize error messages to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "L5",
+      "title": "SENSITIVE-DATA-EXPOSURE-IN-ERROR Vulnerability",
+      "severity": "LOW",
+      "severity_label": "Low",
+      "cvss": 2.2,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's error handling",
+      "references": [
+        "https://owasp.org/www-community/attacks/Sensitive_Data_Exposure"
+      ],
+      "overview": "The application may be exposing sensitive data in error messages, making it potentially vulnerable to security risks.",
+      "details": "The application returns error messages that may contain sensitive data, such as internal IP addresses or database credentials.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "app/services/flaskFastApi_info_service.py:347"
+        }
+      ],
+      "recommendation": "- Implement error handling that does not expose sensitive data.\n- Regularly review and sanitize error messages to prevent potential security vulnerabilities."
+    },
+    {
+      "id": "L6",
+      "title": "DNSSEC-NOT-ENABLED Vulnerability",
+      "severity": "LOW",
+      "severity_label": "Low",
+      "cvss": 1.8,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+      "target": "The application's DNS configuration",
+      "references": [
+        "https://owasp.org/www-community/attacks/DNSSEC"
+      ],
+      "overview": "The application may not have DNSSEC enabled, making it potentially vulnerable to security risks.",
+      "details": "The application's DNS configuration may not have DNSSEC enabled, which can lead to DNS spoofing attacks.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "analysis_engine/analyzers/regex_analyzer.py:237"
+        }
+      ],
+      "recommendation": "- Enable DNSSEC for the application's domain.\n- Regularly review and update DNS configuration to prevent potential security vulnerabilities."
+    }
+  ],
+  "total_findings": 15,
+  "scan_id": "9709edcb-fc84-4c59-b7ae-935d801d47ae",
+  "timestamp": "2026-02-05T06:06:59.341889",
+  "framework_analysis": {
+    "framework": "flask/fastapi",
+    "endpoints": [
+      {
+        "path": "/api/auth/google/login",
+        "methods": [
+          "GET"
+        ],
+        "view": "google_login",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 23,
+        "auth": {
+          "required": true,
+          "hints": [
+            "Authorization",
+            "Authorization",
+            "Authorization",
+            "Authorization"
+          ],
+          "locations": [
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 23
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/google/callback",
+        "methods": [
+          "GET"
+        ],
+        "view": "google_callback",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 46,
+        "auth": {
+          "required": true,
+          "hints": [
+            "Authorization",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "oauth",
+            "oauth"
+          ],
+          "locations": [
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 46
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 46
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 56
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 56
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 75
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/google/session",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_google_session",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 82,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/change-plan",
+        "methods": [
+          "POST"
+        ],
+        "view": "change_plan",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 55,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/logout",
+        "methods": [
+          "POST"
+        ],
+        "view": "logout",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 79,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/get-plan",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_plan",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 87,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 86
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 87
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 86
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/analyze",
+        "methods": [
+          "POST"
+        ],
+        "view": "analyze_repository",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 98,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 97
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 98
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 97
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/generate-report",
+        "methods": [
+          "POST"
+        ],
+        "view": "generate_report",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 176,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 175
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 176
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 175
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/me",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_user_profile",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 200,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "oauth",
+            "oauth",
+            "login_required",
+            "oauth",
+            "oauth",
+            "oauth"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 199
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 200
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 200
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 207
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 199
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            }
+          ]
+        },
+        "request": {
+          "fields": [
+            "body"
+          ]
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/healthz",
+        "methods": [
+          "GET"
+        ],
+        "view": "health_check",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 264,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/models",
+        "methods": [
+          "GET"
+        ],
+        "view": "list_models",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9709edcb-fc84-4c59-b7ae-935d801d47ae\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 271,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 270
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 271
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 270
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      }
+    ],
+    "errors": [],
+    "llm_enriched": {
+      "metadata": {
+        "framework": "flask/fastapi",
+        "sector": "General Data Privacy",
+        "compliances": [
+          "GDPR",
+          "CCPA/CPRA",
+          "LGPD",
+          "PIPEDA"
+        ]
+      },
+      "endpoints": [
+        {
+          "path": "/api/auth/google/login",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 23
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              23,
+              35,
+              35,
+              35
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint is for authentication initiation and does not appear to process personal data directly."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint is for authentication initiation and does not appear to process personal data directly."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint is for authentication initiation and does not appear to process personal data directly."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint is for authentication initiation and does not appear to process personal data directly."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Authentication_related_vulnerabilities"
+            ]
+          }
+        },
+        {
+          "path": "/api/auth/google/callback",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 46
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              46,
+              46,
+              56,
+              56,
+              57,
+              73,
+              75,
+              57,
+              73,
+              77,
+              57,
+              73,
+              77,
+              77,
+              77
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint is a callback for authentication and does not appear to process personal data directly."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint is a callback for authentication and does not appear to process personal data directly."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint is a callback for authentication and does not appear to process personal data directly."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint is a callback for authentication and does not appear to process personal data directly."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Authentication_related_vulnerabilities"
+            ]
+          }
+        },
+        {
+          "path": "/api/auth/google/session",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 82
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint retrieves session information, but without context of what data is stored in the session, it's difficult to assess direct personal data processing."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint retrieves session information, but without context of what data is stored in the session, it's difficult to assess direct personal data processing."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint retrieves session information, but without context of what data is stored in the session, it's difficult to assess direct personal data processing."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint retrieves session information, but without context of what data is stored in the session, it's difficult to assess direct personal data processing."
+            }
+          },
+          "llm_notes": {
+            "severity": "medium",
+            "severity_label": "Medium",
+            "cvss": 6.5,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Session_prediction"
+            ]
+          }
+        },
+        {
+          "path": "/api/change-plan",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 55
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is required for this endpoint, but no authentication mechanism is detected.",
+              "Potential_attack_scenario": "An unauthenticated user could change the subscription plan of another user or the system's default plan, leading to unauthorized access or service disruption."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint modifies user-specific subscription plans. Unauthorized access could lead to data breaches or misuse of personal data (subscription details)."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Modifying subscription plans without proper authentication could compromise user account integrity and potentially lead to unauthorized access to personal information."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Unauthorized modification of subscription plans may violate user data control and privacy rights."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Unauthorized changes to user plans could lead to misuse of personal information and account compromise."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.8,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Insecure_Direct_Object_Reference",
+              "https://owasp.org/www-community/vulnerabilities/Broken_Access_Control"
+            ]
+          }
+        },
+        {
+          "path": "/api/auth/logout",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 79
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is required for this endpoint, but no authentication mechanism is detected.",
+              "Potential_attack_scenario": "An attacker could prevent legitimate users from logging out, potentially maintaining their session longer than intended or leading to confusion."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Logout functionality is related to session management. If session data is not properly invalidated, it could pose a risk, but direct personal data processing is not evident here."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Proper session termination is important for privacy. A failure to logout properly could leave user sessions active."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Ensuring users can terminate sessions is a part of data subject rights."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Proper session management, including logout, is part of safeguarding personal information."
+            }
+          },
+          "llm_notes": {
+            "severity": "medium",
+            "severity_label": "Medium",
+            "cvss": 6.5,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Session_fixation"
+            ]
+          }
+        },
+        {
+          "path": "/api/get-plan",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 87
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              86,
+              87,
+              86
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Retrieving plan information is generally low risk unless it's linked to PII without proper access controls."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Accessing subscription plan details is typically not considered sensitive personal information under CCPA/CPRA unless linked to identifiable individuals."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Plan details themselves are not typically considered personal data unless directly linked to an identified or identifiable individual."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Subscription plan information is generally not considered personal information unless it can be linked to an individual."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 3.7,
+            "cvss_vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Information_Disclosure"
+            ]
+          }
+        },
+        {
+          "path": "/api/analyze",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 98
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              97,
+              98,
+              97
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "This endpoint analyzes a repository. If the repository contains personal data, or if the analysis itself generates insights that could identify individuals, it may fall under GDPR."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "If the repository contains personal information, its analysis could fall under CCPA/CPRA regulations regarding data processing."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Analysis of repositories that might contain personal data requires compliance with data processing regulations."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Analysis of repositories that may contain personal information needs to be conducted with privacy in mind."
+            }
+          },
+          "llm_notes": {
+            "severity": "medium",
+            "severity_label": "Medium",
+            "cvss": 5.3,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Data_exposure"
+            ]
+          }
+        },
+        {
+          "path": "/api/generate-report",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 176
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              175,
+              176,
+              175
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Generating reports could involve personal data. If the reports contain PII, then GDPR compliance is necessary, especially regarding data minimization and purpose limitation."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Reports generated may contain personal information, requiring adherence to CCPA/CPRA regulations on data handling and consumer rights."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "If reports contain personal data, LGPD compliance is required, ensuring data processing is lawful and transparent."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Reports containing personal information must be handled in accordance with PIPEDA, focusing on consent and accountability."
+            }
+          },
+          "llm_notes": {
+            "severity": "medium",
+            "severity_label": "Medium",
+            "cvss": 5.3,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Data_exposure"
+            ]
+          }
+        },
+        {
+          "path": "/api/auth/me",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 200
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              199,
+              200,
+              200,
+              207,
+              199,
+              208,
+              208,
+              208
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint retrieves user profile information, which is likely to contain PII. Lack of proper authentication or authorization could expose this sensitive data."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "User profile data is personal information under CCPA/CPRA. Unauthorized access could lead to a data breach."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "User profile information constitutes personal data. Unauthorized access or disclosure would violate LGPD."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "User profile information is personal information. Exposing it without consent or proper authorization violates PIPEDA."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Sensitive_Data_Exposure"
+            ]
+          }
+        },
+        {
+          "path": "/healthz",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 264
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoints typically do not process personal data."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoints typically do not process personal data."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoints typically do not process personal data."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoints typically do not process personal data."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 3.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:N/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Information_Disclosure"
+            ]
+          }
+        },
+        {
+          "path": "/api/models",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<INPUT_FILE>",
+            "line_number": 271
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              270,
+              271,
+              270
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Listing available models typically does not involve processing personal data. Compliance would depend on the nature of the models themselves if they relate to individual profiling."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Listing models is unlikely to involve personal data unless the models are used for profiling specific individuals."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Listing models itself is not typically considered processing personal data."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "low",
+              "reason": "Listing model names is generally not related to personal information."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 3.7,
+            "cvss_vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Information_Disclosure"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "error": "Failed to parse the structured report from the LLM: Expecting ',' delimiter: line 1 column 296 (char 295)",
+  "raw_output": "{\"error\": \"Both primary and fallback LLM services failed. Gemini error: 401 Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project. [reason: \"ACCESS_TOKEN_TYPE_UNSUPPORTED\"\nmetadata {\n  key: \"service\"\n  value: \"generativelanguage.googleapis.com\"\n}\nmetadata {\n  key: \"method\"\n  value: \"google.ai.generativelanguage.v1beta.GenerativeService.GenerateContent\"\n}\n]\"}",
+  "total_findings": 1,
+  "scan_id": "5720d5a3-32fd-4fbd-a353-c096952aec13",
+  "timestamp": "2026-02-10T13:57:37.045891",
+  "framework_analysis": {
+    "framework": "flask/fastapi",
+    "endpoints": [],
+    "errors": [],
+    "llm_enriched": {
+      "error": "Gemini API call failed: 401 Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project. [reason: \"ACCESS_TOKEN_TYPE_UNSUPPORTED\"\nmetadata {\n  key: \"service\"\n  value: \"generativelanguage.googleapis.com\"\n}\nmetadata {\n  key: \"method\"\n  value: \"google.ai.generativelanguage.v1beta.GenerativeService.GenerateContent\"\n}\n]",
+      "raw_response": ""
+    }
+  },
+  "BRadvice": {
+    "error": "Gemini enrichment failed: 401 Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project. [reason: \"ACCESS_TOKEN_TYPE_UNSUPPORTED\"\nmetadata {\n  key: \"service\"\n  value: \"generativelanguage.googleapis.com\"\n}\nmetadata {\n  key: \"method\"\n  value: \"google.ai.generativelanguage.v1beta.GenerativeService.GenerateContent\"\n}\n]",
+    "raw_response_snippet": ""
+  }
+}

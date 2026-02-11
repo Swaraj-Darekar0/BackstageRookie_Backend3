@@ -1,0 +1,1190 @@
+{
+  "executive_summary": {
+    "overview": "This security assessment of the application, operating within the Healthcare sector, identified several areas requiring immediate attention to bolster its security posture. The most significant finding relates to a critical supply chain vulnerability concerning the unpinned downloading of Machine Learning models and tokenizers from external repositories. This practice, especially when allowing remote code execution, could lead to arbitrary code execution or data compromise. Furthermore, the application exposes verbose error messages that could leak internal system details and binds to all network interfaces, potentially expanding its attack surface. Addressing these vulnerabilities is paramount to safeguarding sensitive healthcare data, ensuring operational integrity, and complying with regulatory requirements.",
+    "vulnerability_overview_text": "0 Critical, 1 High, 1 Medium, 1 Low vulnerability identified.",
+    "vulnerability_list": [
+      {
+        "id": "H1",
+        "title": "Unsafe Hugging Face Model/Tokenizer Download Without Revision Pinning",
+        "cvss": 9.0,
+        "page": "analysis_engine\\analyzers\\llm_analyzer.py:60,61; analysis_engine\\utils\\model_manager.py:50"
+      },
+      {
+        "id": "M1",
+        "title": "Application Binds to All Network Interfaces (0.0.0.0)",
+        "cvss": 6.5,
+        "page": "run.py:10"
+      },
+      {
+        "id": "L1",
+        "title": "Verbose Error Messages Expose Internal Information",
+        "cvss": 3.1,
+        "page": "app\\routes\\main.py:75,166,195,259; app\\services\\flaskFastApi_info_service.py:347"
+      }
+    ],
+    "severity_distribution": {
+      "CRITICAL": 0,
+      "HIGH": 1,
+      "MEDIUM": 1,
+      "LOW": 1
+    }
+  },
+  "methodology": {
+    "introduction": "This report details the results of a security assessment conducted on the specified repository. The analysis involved a multi-layered approach, combining automated static analysis tools with advanced, AI-driven verification and enrichment to identify potential security vulnerabilities.",
+    "objective": "The primary objective of this assessment was to identify security weaknesses, assess their potential impact, and provide actionable recommendations for remediation to improve the overall security posture of the application.",
+    "scope_text": "The assessment was performed on the source code of the repository cloned at the time of the scan. The analysis focused on common web application vulnerabilities, insecure coding practices, and dependency risks.",
+    "systems": [],
+    "user_accounts_description": "As this was a static source code analysis, no user accounts were provisioned or tested.",
+    "accounts": []
+  },
+  "findings": [
+    {
+      "id": "H1",
+      "title": "Unsafe Hugging Face Model/Tokenizer Download Without Revision Pinning",
+      "severity": "high",
+      "severity_label": "High",
+      "cvss": 9.0,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "target": "Supply Chain / Application Integrity",
+      "references": [
+        "https://owasp.org/www-project-top-10/2021/A04_2021-Insecure_Design",
+        "https://owasp.org/www-project-top-10/2021/A08_2021-Software_and_Data_Integrity_Failures"
+      ],
+      "overview": "The application downloads machine learning models and tokenizers from the Hugging Face Hub without specifying a fixed revision (e.g., a commit hash). This practice, especially when `trust_remote_code=True` is used, makes the application vulnerable to supply chain attacks. An attacker could publish a malicious version of the model or its associated code (e.g., in `modeling_*.py` files if `trust_remote_code` is enabled) and have it automatically executed upon download, leading to arbitrary code execution within the application's environment. Given the healthcare sector, this represents a significant risk to data confidentiality and system integrity.",
+      "details": "The `from_pretrained` and `snapshot_download` functions are used to fetch models and tokenizers. When no specific `revision` argument is provided, these functions default to using the `main` branch or latest available version. If `trust_remote_code=True` is set, the downloaded code (e.g., custom model architectures, tokenization logic) can be executed. This poses a significant risk as the integrity and authenticity of the downloaded code cannot be guaranteed against future malicious updates by the repository owner or compromise of the repository itself. A compromised model could lead to data exfiltration, service disruption, or further system compromise.",
+      "evidence": [
+        {
+          "name": "analysis_engine\\analyzers\\llm_analyzer.py:60",
+          "description": "AutoTokenizer.from_pretrained(model_path, trust_remote_code=True) without revision pinning."
+        },
+        {
+          "name": "analysis_engine\\analyzers\\llm_analyzer.py:61",
+          "description": "AutoModelForCausalLM.from_pretrained(...) without revision pinning."
+        },
+        {
+          "name": "analysis_engine\\utils\\model_manager.py:50",
+          "description": "snapshot_download(...) without revision pinning."
+        }
+      ],
+      "recommendation": "- Always pin model and tokenizer downloads to a specific immutable revision (e.g., a full Git commit hash) using the `revision` parameter in `from_pretrained` and `snapshot_download`.\n- Avoid using `trust_remote_code=True` unless absolutely necessary and after thorough manual review of the remote code. If unavoidable, combine it with strict revision pinning and consider hashing the expected model files.\n- Implement robust integrity checks (e.g., checksums) for all downloaded models and associated files.\n- Consider hosting critical models in a private, trusted model registry or mirroring them to prevent reliance on external, mutable sources.",
+      "prompts_to_solve_the_vulnerability": "In `analysis_engine\\analyzers\\llm_analyzer.py` at lines 60 and 61, and `analysis_engine\\utils\\model_manager.py` at line 50, modify the `from_pretrained` and `snapshot_download` calls to include a specific `revision` argument. For example, change `self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)` to `self.tokenizer = AutoTokenizer.from_pretrained(model_path, revision=\"<COMMIT_HASH_OR_TAG>\", trust_remote_code=True)`. Similarly, for `snapshot_download`, add `revision=\"<COMMIT_HASH_OR_TAG>\"`. This ensures that a fixed, known-good version of the model or tokenizer is always downloaded, mitigating supply chain risks. Also, carefully review the necessity of `trust_remote_code=True` in these contexts."
+    },
+    {
+      "id": "M1",
+      "title": "Application Binds to All Network Interfaces (0.0.0.0)",
+      "severity": "medium",
+      "severity_label": "Medium",
+      "cvss": 6.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+      "target": "Network Configuration / Server Binding",
+      "references": [
+        "https://owasp.org/www-project-top-10/2021/A05_2021-Security_Misconfiguration"
+      ],
+      "overview": "The application is configured to listen on all available network interfaces by binding to `0.0.0.0`. While this is a common practice in containerized or highly firewalled environments, it can potentially expose the application to unintended networks if not properly secured at the infrastructure level. In a healthcare context, any unnecessary network exposure should be minimized to protect sensitive patient data and infrastructure from unauthorized access.",
+      "details": "The `app.run(host='0.0.0.0')` call instructs the Flask development server (or a similar WSGI server configuration) to bind to all network interfaces. This means that if the host machine has multiple network interfaces, the application will be accessible from all of them. Although `debug=False` is set, indicating a production-like configuration, without adequate network segmentation (e.g., firewalls, VPCs), this could lead to unintended external access or broader internal access than required, increasing the attack surface. This is particularly concerning in environments handling sensitive information.",
+      "evidence": [
+        {
+          "name": "run.py:10",
+          "description": "Flask application running with host='0.0.0.0'."
+        }
+      ],
+      "recommendation": "- Review the deployment environment to determine if binding to `0.0.0.0` is strictly necessary.\n- If possible, bind the application to a specific IP address (e.g., `127.0.0.1` for local-only access, or an internal network IP).\n- Ensure robust network segmentation and firewall rules are in place to restrict access to the application only from trusted sources and necessary interfaces.\n- Use a production-ready WSGI server (like Gunicorn or uWSGI) in a production environment, as the Flask `app.run()` is not designed for production use, and configure it appropriately.",
+      "prompts_to_solve_the_vulnerability": "In `run.py` at line 10, reconsider the `host` parameter for `app.run()`. If the application should only be accessible internally or from specific services, change `'0.0.0.0'` to a more restrictive IP address, such as `'127.0.0.1'` for loopback only, or a specific internal IP address assigned to the server. For example, `app.run(debug=False, host='127.0.0.1', port=port)`. Additionally, for production deployments, always use a dedicated production-ready WSGI server (e.g., Gunicorn, uWSGI) instead of `app.run()`, configuring it with the appropriate host settings."
+    },
+    {
+      "id": "L1",
+      "title": "Verbose Error Messages Expose Internal Information",
+      "severity": "low",
+      "severity_label": "Low",
+      "cvss": 3.1,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "target": "Application Error Handling / Information Disclosure",
+      "references": [
+        "https://owasp.org/www-project-top-10/2021/A01_2021-Broken_Access_Control#Information_Disclosure",
+        "https://cwe.mitre.org/data/definitions/209.html"
+      ],
+      "overview": "The application is configured to return raw exception messages (`str(e)`) directly in API error responses. This practice can lead to information disclosure, where internal details about the server environment, file paths, database schema, or application logic are inadvertently revealed to clients. In the healthcare sector, this could aid attackers in understanding the system's architecture for further exploitation or expose details that could be deemed sensitive.",
+      "details": "When an unhandled exception occurs in several API endpoints, the application catches the `Exception` and includes `str(e)` in the JSON response payload. While useful for debugging, this exposes potentially sensitive information from stack traces or exception messages, such as SQL queries, environment variables, or specific library versions, that should not be visible to unauthenticated or external users. This information can be leveraged by attackers to craft more targeted attacks or to gain a deeper understanding of the system's vulnerabilities, which is particularly risky when dealing with sensitive health-related data.",
+      "evidence": [
+        {
+          "name": "app\\routes\\main.py:75",
+          "description": "Error response including `str(e)` from /api/change-plan."
+        },
+        {
+          "name": "app\\routes\\main.py:166",
+          "description": "Error response including `str(e)` from /api/analyze."
+        },
+        {
+          "name": "app\\routes\\main.py:195",
+          "description": "Error response including `str(e)` from /api/generate-report."
+        },
+        {
+          "name": "app\\routes\\main.py:259",
+          "description": "Error response including `str(e)` from /api/auth/me (ValueError)."
+        },
+        {
+          "name": "app\\services\\flaskFastApi_info_service.py:347",
+          "description": "Error response including `str(e)` from Gemini API call failure."
+        }
+      ],
+      "recommendation": "- Implement a centralized error handling mechanism to catch exceptions globally.\n- For public-facing APIs, return generic error messages to clients (e.g., \"An unexpected error occurred. Please try again later.\") instead of raw exception details.\n- Log detailed error information, including stack traces, to a secure, internal logging system for debugging purposes. Do not expose these logs externally.\n- Ensure no sensitive data (e.g., API keys, database credentials) are ever included in error messages or logs, even internally.",
+      "prompts_to_solve_the_vulnerability": "In `app\\routes\\main.py` at lines 75, 166, 195, 259, and in `app\\services\\flaskFastApi_info_service.py` at line 347, modify the error handling to avoid returning `str(e)` directly in API responses. Instead of `jsonify({'status': 'error', 'message': str(e)})`, consider a generic message like `jsonify({'status': 'error', 'message': 'An unexpected server error occurred.'})`. Ensure that the actual exception details and stack traces are logged securely on the server-side using a logging framework (e.g., Python's `logging` module) but are not exposed to the client. For example, replace `return jsonify({'status': 'error', 'message': str(e)}), 500` with `logger.exception(\"An error occurred in API endpoint\"); return jsonify({'status': 'error', 'message': 'Internal Server Error'}), 500`."
+    }
+  ],
+  "total_findings": 3,
+  "scan_id": "0f82d1a7-93b9-4789-89de-eb258362694a",
+  "timestamp": "2026-02-08T02:56:24.268848",
+  "framework_analysis": {
+    "framework": "flask/fastapi",
+    "endpoints": [
+      {
+        "path": "/api/auth/google/login",
+        "methods": [
+          "GET"
+        ],
+        "view": "google_login",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 23,
+        "auth": {
+          "required": true,
+          "hints": [
+            "Authorization",
+            "Authorization",
+            "Authorization",
+            "Authorization"
+          ],
+          "locations": [
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 23
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/google/callback",
+        "methods": [
+          "GET"
+        ],
+        "view": "google_callback",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 46,
+        "auth": {
+          "required": true,
+          "hints": [
+            "Authorization",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "oauth",
+            "oauth"
+          ],
+          "locations": [
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 46
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 46
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 56
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 56
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 75
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/google/session",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_google_session",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 82,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/change-plan",
+        "methods": [
+          "POST"
+        ],
+        "view": "change_plan",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 55,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/logout",
+        "methods": [
+          "POST"
+        ],
+        "view": "logout",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 79,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/get-plan",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_plan",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 87,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 86
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 87
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 86
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/analyze",
+        "methods": [
+          "POST"
+        ],
+        "view": "analyze_repository",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 98,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 97
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 98
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 97
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/generate-report",
+        "methods": [
+          "POST"
+        ],
+        "view": "generate_report",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 176,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 175
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 176
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 175
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/me",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_user_profile",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 200,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "oauth",
+            "oauth",
+            "login_required",
+            "oauth",
+            "oauth",
+            "oauth"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 199
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 200
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 200
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 207
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 199
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            }
+          ]
+        },
+        "request": {
+          "fields": [
+            "body"
+          ]
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/healthz",
+        "methods": [
+          "GET"
+        ],
+        "view": "health_check",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 264,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/models",
+        "methods": [
+          "GET"
+        ],
+        "view": "list_models",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 271,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 270
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 271
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 270
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      }
+    ],
+    "errors": [],
+    "llm_enriched": {
+      "metadata": {
+        "framework": "flask/fastapi",
+        "sector": "Healthcare",
+        "compliances": [
+          "HIPAA",
+          "HITECH"
+        ]
+      },
+      "endpoints": [
+        {
+          "path": "/api/auth/google/login",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+            "line_number": 23
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive data is processed or stored in this endpoint."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive data is processed or stored in this endpoint."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "None",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/auth/google/callback",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+            "line_number": 46
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              46,
+              46,
+              56,
+              56,
+              57,
+              73,
+              75,
+              57,
+              73,
+              77,
+              57,
+              73,
+              77,
+              77,
+              77
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive data is processed or stored in this endpoint."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive data is processed or stored in this endpoint."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "None",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/auth/google/session",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+            "line_number": 82
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive data is processed or stored in this endpoint."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive data is processed or stored in this endpoint."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "None",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/change-plan",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 55
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a write operation.",
+              "Potential_attack_scenario": "An unauthenticated user could change the plan without authorization."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "medium",
+              "reason": "POST request for plan changes lacks authentication, which could lead to unauthorized modifications of sensitive user data if plan information is linked to protected health information."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "medium",
+              "reason": "POST request for plan changes lacks authentication, which could lead to unauthorized modifications of sensitive user data if plan information is linked to protected health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 8.1,
+            "cvss_vector": "AV:N/AC:N/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/306.html"
+            ]
+          }
+        },
+        {
+          "path": "/api/auth/logout",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 79
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a write operation.",
+              "Potential_attack_scenario": "An unauthenticated user could attempt to log out, which might have unintended consequences on session management."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout endpoint not directly handling PHI, but lack of authentication could be a vector for session hijacking if not properly secured."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout endpoint not directly handling PHI, but lack of authentication could be a vector for session hijacking if not properly secured."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 8.1,
+            "cvss_vector": "AV:N/AC:N/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/306.html"
+            ]
+          }
+        },
+        {
+          "path": "/api/get-plan",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 87
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": [
+              86,
+              87,
+              86
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "This endpoint retrieves plan information which could be linked to patient data, and thus potentially Protected Health Information (PHI). Authentication is required, which is good, but the sensitivity of the data returned needs to be assessed."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "This endpoint retrieves plan information which could be linked to patient data, and thus potentially Protected Health Information (PHI). Authentication is required, which is good, but the sensitivity of the data returned needs to be assessed."
+            }
+          },
+          "llm_notes": {
+            "severity": "medium",
+            "severity_label": "Medium",
+            "cvss": 5.3,
+            "cvss_vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Information_Exposure"
+            ]
+          }
+        },
+        {
+          "path": "/api/analyze",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 98
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": [
+              97,
+              98,
+              97
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a write operation.",
+              "Potential_attack_scenario": "An unauthenticated user could trigger repository analysis, potentially consuming resources or accessing sensitive information if the analysis involves it."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "The /api/analyze endpoint, if it processes or analyzes code/data that may contain Protected Health Information (PHI), requires strict authentication and authorization to prevent unauthorized access or exposure. The lack of authentication poses a significant risk."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "The /api/analyze endpoint, if it processes or analyzes code/data that may contain Protected Health Information (PHI), requires strict authentication and authorization to prevent unauthorized access or exposure. The lack of authentication poses a significant risk."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 8.1,
+            "cvss_vector": "AV:N/AC:N/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/306.html"
+            ]
+          }
+        },
+        {
+          "path": "/api/generate-report",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 176
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": [
+              175,
+              176,
+              175
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a write operation.",
+              "Potential_attack_scenario": "An unauthenticated user could generate reports, potentially leading to resource exhaustion or access to information they should not have."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Generating reports could expose sensitive patient information if the reports are based on PHI. The lack of authentication poses a significant risk of unauthorized access and disclosure."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Generating reports could expose sensitive patient information if the reports are based on PHI. The lack of authentication poses a significant risk of unauthorized access and disclosure."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 8.1,
+            "cvss_vector": "AV:N/AC:N/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/306.html"
+            ]
+          }
+        },
+        {
+          "path": "/api/auth/me",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 200
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": [
+              199,
+              200,
+              200,
+              207,
+              199,
+              208,
+              208,
+              208
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "This endpoint retrieves user profile information, which could include sensitive data. Proper authentication is in place, but data exposure risks depend on the specific fields returned and if they constitute PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "This endpoint retrieves user profile information, which could include sensitive data. Proper authentication is in place, but data exposure risks depend on the specific fields returned and if they constitute PHI."
+            }
+          },
+          "llm_notes": {
+            "severity": "medium",
+            "severity_label": "Medium",
+            "cvss": 5.3,
+            "cvss_vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+            "references": [
+              "https://owasp.org/www-community/vulnerabilities/Information_Exposure"
+            ]
+          }
+        },
+        {
+          "path": "/healthz",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 264
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a health check endpoint and does not handle any sensitive data."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a health check endpoint and does not handle any sensitive data."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "None",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/models",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\0f82d1a7-93b9-4789-89de-eb258362694a\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 271
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": [
+              270,
+              271,
+              270
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This endpoint lists models, which is unlikely to contain direct PHI. However, if the models themselves are trained on PHI, this endpoint could indirectly be a vector if model names are revealing."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This endpoint lists models, which is unlikely to contain direct PHI. However, if the models themselves are trained on PHI, this endpoint could indirectly be a vector if model names are revealing."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "None",
+            "references": []
+          }
+        }
+      ]
+    }
+  }
+}

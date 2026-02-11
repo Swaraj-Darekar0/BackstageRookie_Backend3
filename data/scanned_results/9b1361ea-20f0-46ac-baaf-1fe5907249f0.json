@@ -1,0 +1,1333 @@
+{
+  "executive_summary": {
+    "overview": "The security assessment of the provided repository identified several potential security vulnerabilities across various severity levels. This report outlines the findings, their potential impact, and provides recommendations for mitigation to enhance the overall security posture of the application.",
+    "vulnerability_overview_text": "A total of 2 Critical, 4 Medium, and 5 Low severity vulnerabilities were identified.",
+    "vulnerability_list": [
+      {
+        "id": "C1",
+        "title": "Unsafe Hugging Face Hub Download",
+        "cvss": 9.0,
+        "page": 5
+      },
+      {
+        "id": "C2",
+        "title": "Potential Sensitive Data Exposure in Errors",
+        "cvss": 8.5,
+        "page": 10
+      }
+    ],
+    "severity_distribution": {
+      "CRITICAL": 2,
+      "HIGH": 0,
+      "MEDIUM": 4,
+      "LOW": 5
+    }
+  },
+  "methodology": {
+    "introduction": "This report details the results of a security assessment conducted on the specified repository. The analysis involved a multi-layered approach, combining automated static analysis tools with advanced, AI-driven verification and enrichment to identify potential security vulnerabilities.",
+    "objective": "The primary objective of this assessment was to identify security weaknesses, assess their potential impact, and provide actionable recommendations for remediation to improve the overall security posture of the application.",
+    "scope_text": "The assessment was performed on the source code of the repository cloned at the time of the scan. The analysis focused on common web application vulnerabilities, insecure coding practices, and dependency risks.",
+    "systems": [],
+    "user_accounts_description": "As this was a static source code analysis, no user accounts were provisioned or tested.",
+    "accounts": []
+  },
+  "findings": [
+    {
+      "id": "C1",
+      "title": "Unsafe Hugging Face Hub Download",
+      "severity": "critical",
+      "severity_label": "Critical",
+      "cvss": 9.0,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+      "target": "Hugging Face model downloads",
+      "references": [
+        "https://huggingface.co/docs/hub/security"
+      ],
+      "overview": "The application uses Hugging Face models without specifying a revision, making it vulnerable to potential security issues in updated models.",
+      "details": "The `AutoTokenizer.from_pretrained` and `AutoModelForCausalLM.from_pretrained` calls do not specify a revision, which can lead to unintended model updates.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "analysis_engine/analyzers/llm_analyzer.py:60-61"
+        }
+      ],
+      "recommendation": "- Specify a model revision when downloading from the Hugging Face Hub.\n- Implement regular model updates and security reviews.\n- Use a pinned version of the Hugging Face library to control updates."
+    },
+    {
+      "id": "M1",
+      "title": "Insecure Tempfile Usage",
+      "severity": "medium",
+      "severity_label": "Medium",
+      "cvss": 6.5,
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+      "target": "Temporary file handling",
+      "references": [
+        "https://docs.python.org/3/library/tempfile.html"
+      ],
+      "overview": "The application uses temporary files insecurely, which could lead to information disclosure or tampering.",
+      "details": "The regex pattern for insecure tempfile usage has been identified, indicating potential issues with temporary file handling.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "analysis_engine/analyzers/regex_analyzer.py:212"
+        }
+      ],
+      "recommendation": "- Use secure tempfile handling practices.\n- Implement proper error handling for tempfile operations.\n- Regularly review and update tempfile-related code for security."
+    },
+    {
+      "id": "L1",
+      "title": "Sensitive Data Exposure in Errors",
+      "severity": "low",
+      "severity_label": "Low",
+      "cvss": 3.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "target": "Error handling and logging",
+      "references": [
+        "https://owasp.org/www-community/attacks/Information_disclosure"
+      ],
+      "overview": "The application may expose sensitive data through error messages, potentially leaking internal implementation details or user data.",
+      "details": "Error messages contain detailed information about internal errors, which could be exploited to gather sensitive information.",
+      "evidence": [
+        {
+          "name": "Vulnerable Code",
+          "description": "app/routes/main.py:75, app/routes/main.py:166, app/routes/main.py:195, app/routes/main.py:259, app/services/flaskFastApi_info_service.py:347"
+        }
+      ],
+      "recommendation": "- Implement custom error handlers to provide generic error messages.\n- Log detailed error information securely for diagnostic purposes.\n- Train developers on secure error handling practices."
+    }
+  ],
+  "total_findings": 2,
+  "scan_id": "9b1361ea-20f0-46ac-baaf-1fe5907249f0",
+  "timestamp": "2026-02-05T05:34:57.642924",
+  "framework_analysis": {
+    "framework": "flask/fastapi",
+    "endpoints": [
+      {
+        "path": "/api/auth/google/login",
+        "methods": [
+          "GET"
+        ],
+        "view": "google_login",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 23,
+        "auth": {
+          "required": true,
+          "hints": [
+            "Authorization",
+            "Authorization",
+            "Authorization",
+            "Authorization"
+          ],
+          "locations": [
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 23
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/google/callback",
+        "methods": [
+          "GET"
+        ],
+        "view": "google_callback",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 46,
+        "auth": {
+          "required": true,
+          "hints": [
+            "Authorization",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "oauth",
+            "oauth"
+          ],
+          "locations": [
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 46
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 46
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 56
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 56
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 75
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/google/session",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_google_session",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 82,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/change-plan",
+        "methods": [
+          "POST"
+        ],
+        "view": "change_plan",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 55,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/logout",
+        "methods": [
+          "POST"
+        ],
+        "view": "logout",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 79,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/get-plan",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_plan",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 87,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 86
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 87
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 86
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/analyze",
+        "methods": [
+          "POST"
+        ],
+        "view": "analyze_repository",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 98,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 97
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 98
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 97
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/generate-report",
+        "methods": [
+          "POST"
+        ],
+        "view": "generate_report",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 176,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 175
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 176
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 175
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/me",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_user_profile",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 200,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "oauth",
+            "oauth",
+            "login_required",
+            "oauth",
+            "oauth",
+            "oauth"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 199
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 200
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 200
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 207
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 199
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            }
+          ]
+        },
+        "request": {
+          "fields": [
+            "body"
+          ]
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/healthz",
+        "methods": [
+          "GET"
+        ],
+        "view": "health_check",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 264,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/models",
+        "methods": [
+          "GET"
+        ],
+        "view": "list_models",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\9b1361ea-20f0-46ac-baaf-1fe5907249f0\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 271,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 270
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 271
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 270
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      }
+    ],
+    "errors": [],
+    "llm_enriched": {
+      "metadata": {
+        "framework": "flask/fastapi",
+        "sector": "General Data Privacy",
+        "compliances": [
+          "GDPR",
+          "CCPA/CPRA",
+          "LGPD",
+          "PIPEDA"
+        ]
+      },
+      "endpoints": [
+        {
+          "path": "/api/auth/google/login",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 23
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              23,
+              35
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to be for authentication initiation and does not directly process personal data for non-auth purposes."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to be for authentication initiation and does not directly process personal data for non-auth purposes."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to be for authentication initiation and does not directly process personal data for non-auth purposes."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to be for authentication initiation and does not directly process personal data for non-auth purposes."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/auth/google/callback",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 46
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              46,
+              56,
+              57,
+              73,
+              75,
+              77
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to be for authentication callback and does not directly process personal data for non-auth purposes."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to be for authentication callback and does not directly process personal data for non-auth purposes."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to be for authentication callback and does not directly process personal data for non-auth purposes."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to be for authentication callback and does not directly process personal data for non-auth purposes."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/auth/google/session",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 82
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to retrieve session information and does not directly process personal data for non-auth purposes."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to retrieve session information and does not directly process personal data for non-auth purposes."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to retrieve session information and does not directly process personal data for non-auth purposes."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint appears to retrieve session information and does not directly process personal data for non-auth purposes."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/change-plan",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 55
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is required for this endpoint but not detected.",
+              "Potential_attack_scenario": "An unauthenticated user could change their plan, potentially leading to unauthorized access or billing issues."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Endpoint modifies user's plan which may involve personal data. Lack of authentication increases risk of unauthorized data modification."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Endpoint modifies user's plan which may involve personal data. Lack of authentication increases risk of unauthorized data modification."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Endpoint modifies user's plan which may involve personal data. Lack of authentication increases risk of unauthorized data modification."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Endpoint modifies user's plan which may involve personal data. Lack of authentication increases risk of unauthorized data modification."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/auth/logout",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 79
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is required for this endpoint but not detected.",
+              "Potential_attack_scenario": "An unauthenticated user could attempt to log out, which might expose session-related information or cause denial-of-service if improperly handled."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout endpoint typically does not process personal data directly, but proper authentication is crucial for session security."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout endpoint typically does not process personal data directly, but proper authentication is crucial for session security."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout endpoint typically does not process personal data directly, but proper authentication is crucial for session security."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout endpoint typically does not process personal data directly, but proper authentication is crucial for session security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/get-plan",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 87
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              86,
+              87
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is recommended for this endpoint but not detected.",
+              "Potential_attack_scenario": "Unauthorized users could access plan details, potentially revealing sensitive subscription information."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Endpoint may expose plan details which could be linked to a user, thus falling under personal data if not properly secured."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Endpoint may expose plan details which could be linked to a user, thus falling under personal data if not properly secured."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Endpoint may expose plan details which could be linked to a user, thus falling under personal data if not properly secured."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Endpoint may expose plan details which could be linked to a user, thus falling under personal data if not properly secured."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/analyze",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 98
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              97,
+              98
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is required for this endpoint but not detected.",
+              "Potential_attack_scenario": "Unauthorized users could trigger repository analysis, potentially consuming excessive resources or gaining insights into internal structures."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Repository analysis might indirectly involve personal data if the repository contains PII. Unauthorized access could lead to data breaches."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Repository analysis might indirectly involve personal data if the repository contains PII. Unauthorized access could lead to data breaches."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Repository analysis might indirectly involve personal data if the repository contains PII. Unauthorized access could lead to data breaches."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Repository analysis might indirectly involve personal data if the repository contains PII. Unauthorized access could lead to data breaches."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/generate-report",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 176
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              175,
+              176
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is required for this endpoint but not detected.",
+              "Potential_attack_scenario": "Unauthorized users could generate reports, potentially leading to resource exhaustion or the creation of misleading/unwanted reports."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Report generation might involve or create summaries of personal data. Lack of authentication allows unauthorized access/creation."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Report generation might involve or create summaries of personal data. Lack of authentication allows unauthorized access/creation."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Report generation might involve or create summaries of personal data. Lack of authentication allows unauthorized access/creation."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Report generation might involve or create summaries of personal data. Lack of authentication allows unauthorized access/creation."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/auth/me",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 200
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              199,
+              200,
+              207,
+              208
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is required for this endpoint but not detected.",
+              "Potential_attack_scenario": "An unauthenticated user could view the profile information of any user, leading to a severe data breach."
+            }
+          ],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Endpoint retrieves user profile, which is sensitive personal data. Lack of authentication poses a high risk of unauthorized data access."
+            },
+            "CCPA/CPRA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Endpoint retrieves user profile, which is sensitive personal data. Lack of authentication poses a high risk of unauthorized data access."
+            },
+            "LGPD": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Endpoint retrieves user profile, which is sensitive personal data. Lack of authentication poses a high risk of unauthorized data access."
+            },
+            "PIPEDA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Endpoint retrieves user profile, which is sensitive personal data. Lack of authentication poses a high risk of unauthorized data access."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/healthz",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 264
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoint typically does not process personal data."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoint typically does not process personal data."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoint typically does not process personal data."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoint typically does not process personal data."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/models",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "file": "<stdin>",
+            "line_number": 271
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              270,
+              271
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "GDPR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint lists available models, which does not appear to directly involve personal data."
+            },
+            "CCPA/CPRA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint lists available models, which does not appear to directly involve personal data."
+            },
+            "LGPD": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint lists available models, which does not appear to directly involve personal data."
+            },
+            "PIPEDA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Endpoint lists available models, which does not appear to directly involve personal data."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        }
+      ]
+    }
+  },
+  "BRadvice": {
+    "BRadvice": {
+      "recommendation": [
+        {
+          "priority": "Immediate",
+          "title": "Pin Hugging Face Model Revisions",
+          "description": "The application downloads Hugging Face models (e.g., via `AutoTokenizer.from_pretrained`, `AutoModelForCausalLM.from_pretrained`) without specifying immutable revisions. This practice makes the application vulnerable to supply chain attacks or unintended breaking changes from updated model versions.",
+          "why_it_matters": "An attacker could inject malicious code or data into an updated model, which would then be executed within the application's environment. This poses a critical risk of remote code execution, data exfiltration, or denial of service, impacting the integrity and availability of the system.",
+          "recommended_actions": [
+            "Explicitly specify a fixed Git revision (commit hash) for all `from_pretrained` calls to ensure determinism and prevent unauthorized modifications.",
+            "Implement a formal process for regularly reviewing, validating, and securely updating pinned model versions to incorporate security patches.",
+            "Consider using local caches or private registries for critical models to exercise stricter control over external dependencies and their origins."
+          ],
+          "expected_outcome": "Reduced risk of supply chain attacks through compromised Hugging Face models, enhanced software integrity, and improved predictability of model behavior in production."
+        },
+        {
+          "priority": "Immediate",
+          "title": "Enforce Robust Authentication & Authorization on Sensitive Endpoints",
+          "description": "Critical and sensitive API endpoints, including `/api/auth/me`, `/api/change-plan`, `/api/analyze`, `/api/generate-report`, and `/api/get-plan`, are identified as having missing or ineffectively enforced authentication/authorization checks. Despite hints of required authentication, the system's actual enforcement appears insufficient.",
+          "why_it_matters": "This is a severe authorization bypass vulnerability that directly leads to sensitive data exposure (e.g., user profiles, plan details) and unauthorized execution of critical operations (e.g., changing plans, initiating analysis, generating reports). This poses a high risk under GDPR, CCPA, LGPD, and PIPEDA due to unauthorized processing of personal data, potentially leading to data breaches and regulatory fines.",
+          "recommended_actions": [
+            "Verify and explicitly enforce robust authentication middleware (e.g., `login_required` or equivalent) for `/api/auth/me`, `/api/change-plan`, `/api/analyze`, `/api/generate-report`, and `/api/get-plan` to block unauthenticated access.",
+            "Implement granular authorization checks within these endpoints to ensure users can only access or modify data they are explicitly permitted to (e.g., based on user ID or role).",
+            "Conduct a comprehensive security audit of all endpoints flagged as `auth: required: true` in the initial static analysis to confirm that this requirement translates into actual, effective, and robust authentication enforcement in the code."
+          ],
+          "expected_outcome": "Elimination of unauthorized access to sensitive user data and critical application functions, significantly improving data privacy compliance, user trust, and overall security posture."
+        },
+        {
+          "priority": "Short-Term",
+          "title": "Implement Secure Temporary File Handling",
+          "description": "The application uses temporary files in a manner identified as potentially insecure, specifically involving a regex pattern in `regex_analyzer.py` related to temporary file usage.",
+          "why_it_matters": "Insecure temporary file handling can lead to critical vulnerabilities such as information disclosure (e.g., leaking sensitive data stored in temporary files), arbitrary file writes/reads, or privilege escalation if an attacker can predict file names or manipulate their content. This directly impacts data confidentiality and integrity.",
+          "recommended_actions": [
+            "Strictly use the Python `tempfile` module's functions (e.g., `tempfile.mkstemp()`, `tempfile.TemporaryFile()`, `tempfile.TemporaryDirectory()`) to create temporary files and directories with unique, unpredictable names and appropriate secure permissions.",
+            "Ensure that all temporary files are securely deleted immediately after their intended use, minimizing the window of exposure.",
+            "Avoid custom temporary file naming schemes or storing temporary files in easily discoverable or world-writable directories."
+          ],
+          "expected_outcome": "Prevention of information disclosure, file tampering, and privilege escalation vulnerabilities associated with temporary file usage, enhancing system integrity and data protection."
+        },
+        {
+          "priority": "Short-Term",
+          "title": "Standardize Generic Error Responses",
+          "description": "Error messages throughout the application, particularly in `app/routes/main.py` and `app/services/flaskFastApi_info_service.py`, reveal excessive internal implementation details to clients.",
+          "why_it_matters": "Detailed error messages, such as full stack traces, internal paths, or database query failures, provide valuable intelligence to attackers. This information can be leveraged during reconnaissance to understand the system's architecture, identify technologies in use, and pinpoint potential weak points for exploitation, thereby increasing the attack surface.",
+          "recommended_actions": [
+            "Implement custom error handlers to intercept all exceptions and return generic, user-friendly error messages (e.g., 'An unexpected error occurred. Please try again later.') to clients.",
+            "Configure the application to log detailed error information, including stack traces and sensitive context, securely on the server-side for diagnostic purposes, ensuring it is never exposed directly to end-users.",
+            "Ensure production environments are configured to suppress detailed error pages from web servers (e.g., Nginx, Gunicorn) and application frameworks."
+          ],
+          "expected_outcome": "Prevention of information leakage through verbose error messages, significantly reducing the attack surface and making reconnaissance more difficult for adversaries."
+        },
+        {
+          "priority": "Mid-Term",
+          "title": "Integrate Security into the Development Lifecycle",
+          "description": "The presence of various vulnerabilities across different severity levels suggests that security considerations may not be fully integrated into the early stages of the Software Development Lifecycle (SDLC).",
+          "why_it_matters": "Addressing security issues earlier in the SDLC is significantly more cost-effective and efficient than remediating them post-deployment. Integrating security practices proactively helps prevent recurring vulnerabilities, fosters a secure-by-design culture, and reduces the overall security debt.",
+          "recommended_actions": [
+            "Mandate regular security training for all developers, covering topics such as OWASP Top 10, secure coding principles, and framework-specific security best practices.",
+            "Integrate Static Application Security Testing (SAST) and Software Composition Analysis (SCA) tools into CI/CD pipelines to automatically scan code for vulnerabilities and insecure third-party dependencies.",
+            "Implement security-focused code reviews as a mandatory part of the pull request process, requiring peer review by security-aware developers or automated tools."
+          ],
+          "expected_outcome": "Proactive identification and remediation of security vulnerabilities, reduced technical debt, and an elevated baseline security posture for all new and modified code."
+        },
+        {
+          "priority": "Mid-Term",
+          "title": "Enhance Security Logging, Monitoring, and Alerting",
+          "description": "The current security assessment highlights vulnerabilities that could be better detected and responded to with more comprehensive logging, monitoring, and alerting capabilities. This includes tracking authentication failures, unauthorized access attempts, and critical system errors.",
+          "why_it_matters": "Robust logging provides an essential audit trail for forensic analysis after a security incident. Real-time monitoring and alerting enable rapid detection and response to ongoing attacks, minimizing the potential impact of breaches and ensuring compliance with data protection regulations.",
+          "recommended_actions": [
+            "Implement centralized and standardized logging for all application, authentication, authorization, and security-related events with sufficient detail and appropriate retention policies.",
+            "Establish continuous monitoring for unusual activity patterns, such as multiple failed login attempts, unauthorized access attempts to sensitive endpoints, and abnormal error rates.",
+            "Configure automated alerts for critical security events that require immediate attention, integrating them with an incident response system to ensure timely remediation."
+          ],
+          "expected_outcome": "Improved visibility into application security events, enabling quicker detection, more effective investigation, and faster response to potential breaches or attacks."
+        }
+      ]
+    }
+  }
+}

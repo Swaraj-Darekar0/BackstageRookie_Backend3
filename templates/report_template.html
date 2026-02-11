@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ report.title }}</title>
+  <!-- <link rel="stylesheet" href="style.css" /> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yesteryear&display=swap" rel="stylesheet">
+  <style>
+    /* =====================================================
+   API SECURITY ASSESSMENT REPORT - STYLESHEET
+   Optimized for Playwright HTML-to-PDF Conversion
+   Compact, Professional Layout
+   ===================================================== */
+
+/* =====================================================
+   PAGE SETUP - OPTIMIZED MARGINS
+   ===================================================== */
+
+@page {
+  size: A4;
+  margin: 15mm 15mm 15mm 15mm;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: "Calibri", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: #ffffff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+.cvss-critical td {
+  background-color: #e74c3c !important; /* Red */
+  color: #ffffff;
+}
+
+.cvss-high td {
+  background-color: #f39c12 !important; /* Orange */
+  color: #000000;
+}
+
+.cvss-medium td {
+  background-color: #f1c40f !important; /* Yellow */
+  color: #000000;
+}
+
+.cvss-low td {
+  background-color: #3498db !important; /* Blue */
+  color: #ffffff;
+}
+
+/* Ensure borders stay visible in PDF */
+.cvss-critical td,
+.cvss-high td,
+.cvss-medium td,
+.cvss-low td {
+  border-color: #2c3e50;
+}
+
+.cvss-critical td:first-child,
+.cvss-high td:first-child,
+.cvss-medium td:first-child,
+.cvss-low td:first-child {
+  font-weight: bold;
+}
+
+/* =====================================================
+   TYPOGRAPHY HIERARCHY
+   ===================================================== */
+
+/* Main Section Headings (1 Document Control, 2 Executive Summary, etc.) */
+h1 {
+  font-size: 18pt;
+  font-weight: bold;
+  margin: 20px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 3px solid #2c3e50;
+  color: #2c3e50;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  page-break-after: avoid;
+}
+
+/* Subsection Headings (1.1, 2.1, etc.) AND Vulnerability/Endpoint Titles */
+h2 {
+  font-size: 13.5pt;
+  font-weight: bold;
+  margin: 16px 0 8px;
+  color: #34495e;
+  border-bottom: 1px solid #bdc3c7;
+  padding-bottom: 3px;
+  page-break-after: avoid;
+}
+
+/* Content Subheadings (Overview, Details, etc.) */
+h3 {
+  font-size: 11.5pt;
+  font-weight: bold;
+  margin: 12px 0 6px;
+  color: #34495e;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-size: 10.5pt;
+  font-weight: bold;
+  margin: 10px 0 5px;
+  color: #34495e;
+  page-break-after: avoid;
+}
+
+p {
+  margin: 5px 0 8px;
+  text-align: justify;
+  line-height: 1.5;
+  orphans: 3;
+  widows: 3;
+}
+
+ul, ol {
+  margin: 6px 0 10px 20px;
+  line-height: 1.5;
+}
+
+li {
+  margin-bottom: 4px;
+  orphans: 2;
+  widows: 2;
+}
+
+strong {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+em {
+  font-style: italic;
+  color: #555;
+}
+
+/* =====================================================
+   PAGE BREAK CONTROL
+   ===================================================== */
+
+.page-break {
+  page-break-before: always;
+  break-before: always;
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+/* Keep section intro paragraphs with their content */
+section > p:first-of-type {
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+article {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  page-break-after: avoid;
+  break-after: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* =====================================================
+   COVER PAGE
+   ===================================================== */
+
+.cover-page {
+  text-align: center;
+  page-break-after: always;
+  break-after: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 88vh;
+  padding: 30px;
+}
+
+.cover-page h1 {
+  font-size: 30pt;
+  margin-top: 0;
+  margin-bottom: 18px;
+  border: none;
+  color: #2c3e50;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.cover-page h2 {
+  font-size: 18pt;
+  margin-top: 25px;
+  margin-bottom: 12px;
+  border: none;
+  color: #34495e;
+  font-weight: normal;
+}
+
+.cover-page .subtitle {
+  font-size: 14pt;
+  color: #7f8c8d;
+  margin: 12px 0;
+}
+
+.cover-page .company {
+  margin-top: 40px;
+  font-size: 12pt;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.cover-page .company p {
+  margin: 5px 0;
+  text-align: center;
+}
+
+.cover-page .client {
+  margin-top: 25px;
+  font-size: 11pt;
+  color: #34495e;
+}
+
+.cover-page .client p {
+  margin: 5px 0;
+  text-align: center;
+}
+
+.cover-page .meta {
+  margin-top: 30px;
+  font-size: 10pt;
+  color: #7f8c8d;
+}
+
+.cover-page .meta p {
+  margin: 5px 0;
+  text-align: center;
+}
+
+.cover-page .confidential {
+  margin-top: 60px;
+  font-weight: bold;
+  font-size: 12pt;
+  letter-spacing: 2px;
+  color: #c0392b;
+  text-transform: uppercase;
+  border-top: 2px solid #c0392b;
+  border-bottom: 2px solid #c0392b;
+  padding: 12px 0;
+}
+
+/* =====================================================
+   TABLE OF CONTENTS
+   ===================================================== */
+
+#table-of-contents h1 {
+  text-align: center;
+  border-bottom: none;
+  margin-bottom: 20px;
+}
+
+.toc {
+  margin: 20px 0;
+  padding: 0;
+}
+
+.toc-entry {
+  display: flex;
+  align-items: baseline;
+  margin: 6px 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* Level 1 entries (main sections) */
+.toc-level-1 {
+  font-weight: bold;
+  font-size: 11pt;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+/* Level 2 entries (subsections) */
+.toc-level-2 {
+  font-weight: normal;
+  font-size: 10pt;
+  margin-left: 15px;
+}
+
+.toc-number {
+  min-width: 35px;
+  flex-shrink: 0;
+  color: #2c3e50;
+}
+
+.toc-title {
+  flex-grow: 0;
+  flex-shrink: 0;
+  color: #34495e;
+}
+
+.toc-dots {
+  flex-grow: 1;
+  border-bottom: 1px dotted #bdc3c7;
+  margin: 0 8px;
+  min-width: 20px;
+  height: 0.8em;
+}
+
+.toc-page {
+  flex-shrink: 0;
+  min-width: 30px;
+  text-align: right;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+/* =====================================================
+   TABLES - COMPACT LAYOUT
+   ===================================================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 14px;
+  font-size: 9.5pt;
+  background: white;
+  page-break-inside: auto;
+  break-inside: auto;
+}
+
+/* Keep table headers with at least one row */
+table thead {
+  display: table-header-group;
+}
+
+table tbody {
+  display: table-row-group;
+}
+
+table tfoot {
+  display: table-footer-group;
+}
+
+th {
+  background: #34495e;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  padding: 6px 8px;
+  border: 1px solid #2c3e50;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+td {
+  padding: 5px 8px;
+  border: 1px solid #bdc3c7;
+  vertical-align: top;
+  background: white;
+  line-height: 1.4;
+}
+
+tbody tr:nth-child(even) {
+  background: #f8f9fa;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+/* Compact metadata tables in endpoint/finding cards */
+article table:first-child th {
+  width: 32%;
+  background: #ecf0f1;
+  color: #2c3e50;
+  font-weight: bold;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+article table:first-child td {
+  background: white;
+}
+
+thead {
+  display: table-header-group;
+}
+
+tbody {
+  display: table-row-group;
+}
+
+tfoot {
+  display: table-footer-group;
+}
+
+tr {
+  page-break-inside: auto;
+  break-inside: auto;
+}
+
+/* Keep small tables together */
+article table:first-child {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* Allow compliance tables to break */
+#endpoint-analysis table {
+  page-break-inside: auto;
+  break-inside: auto;
+}
+
+#endpoint-analysis tr {
+  page-break-inside: auto;
+  break-inside: auto;
+}
+
+/* =====================================================
+   DOCUMENT CONTROL SECTION
+   ===================================================== */
+
+#document-control h2 {
+  color: #2c3e50;
+  border-bottom-color: #2c3e50;
+}
+
+/* =====================================================
+   EXECUTIVE SUMMARY
+   ===================================================== */
+
+#executive-summary {
+  background: #f8f9fa;
+  padding: 12px 15px;
+  border-left: 5px solid #3498db;
+  margin-bottom: 20px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+#executive-summary h1 {
+  border-bottom-color: #3498db;
+  margin-top: 0;
+}
+
+#executive-summary h2 {
+  color: #3498db;
+  border-bottom-color: #3498db;
+}
+
+#executive-summary figure {
+  margin: 15px auto;
+  text-align: center;
+  max-width: 75%;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+#executive-summary figcaption {
+  font-size: 9pt;
+  font-style: italic;
+  margin-top: 6px;
+  color: #7f8c8d;
+}
+
+#executive-summary table {
+  background: white;
+  margin-top: 12px;
+}
+
+/* =====================================================
+   METHODOLOGY SECTION
+   ===================================================== */
+
+#methodology h2 {
+  color: #16a085;
+  border-bottom-color: #16a085;
+}
+
+#methodology table {
+  margin-top: 10px;
+}
+
+/* =====================================================
+   4. FINDINGS SECTION
+   Vulnerability titles are H2 elements
+   ===================================================== */
+
+#findings h1 {
+  border-bottom-color: #e74c3c;
+  color: #e74c3c;
+}
+
+.finding {
+  margin-top: 18px;
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  border-left: 6px solid #95a5a6;
+  background: #ffffff;
+  page-break-inside: auto;
+  break-inside: auto;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+/* Keep heading with at least some content */
+.finding h2,
+.finding h3 {
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+/* Try to keep evidence/references with their headings */
+.finding h3 + ul,
+.finding h3 + p {
+  page-break-before: avoid;
+  break-before: avoid;
+}
+
+/* Severity-based colors for finding cards */
+.severity-critical {
+  border-left-color: #c0392b;
+  background: #fef5f5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+.severity-critical h2 {
+  color: #c0392b;
+  border-bottom-color: #c0392b;
+}
+
+.severity-high {
+  border-left-color: #e67e22;
+  background: #fef9f5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+.severity-high h2 {
+  color: #e67e22;
+  border-bottom-color: #e67e22;
+}
+
+.severity-medium {
+  border-left-color: #f39c12;
+  background: #fffef5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+.severity-medium h2 {
+  color: #d68910;
+  border-bottom-color: #f39c12;
+}
+
+.severity-low {
+  border-left-color: #27ae60;
+  background: #f5fef8;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+.severity-low h2 {
+  color: #27ae60;
+  border-bottom-color: #27ae60;
+}
+
+/* Vulnerability Title (H2 in findings) */
+.finding h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  font-size: 13pt;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
+
+/* Content subheadings inside findings */
+.finding h3 {
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 11pt;
+  color: #2c3e50;
+}
+
+.finding h4 {
+  margin-top: 8px;
+  margin-bottom: 5px;
+  font-size: 10pt;
+}
+
+/* Label-value pairs */
+.finding > p {
+  margin: 4px 0;
+  line-height: 1.6;
+}
+
+.finding p strong {
+  display: inline-block;
+  min-width: 120px;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+/* Lists in findings */
+.finding ul {
+  margin-left: 18px;
+  margin-top: 6px;
+}
+
+.finding li {
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+
+.finding li strong {
+  color: #2c3e50;
+}
+
+.finding li em {
+  display: block;
+  margin-top: 3px;
+  margin-left: 15px;
+  color: #666;
+  font-size: 9.5pt;
+}
+
+/* =====================================================
+   5. ENDPOINT SECURITY ANALYSIS
+   Endpoint paths are H2 elements
+   ===================================================== */
+
+#endpoint-analysis {
+  margin-top: 20px;
+}
+
+#endpoint-analysis h1 {
+  border-bottom-color: #8e44ad;
+  color: #8e44ad;
+}
+
+#endpoint-analysis > p {
+  background: #f8f9fa;
+  padding: 10px 12px;
+  border-left: 4px solid #8e44ad;
+  margin-bottom: 15px;
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+#endpoint-analysis article {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  page-break-before: avoid;
+  break-before: avoid;
+}
+
+/* Endpoint Path Title (H2 in endpoint analysis) */
+#endpoint-analysis article h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  font-size: 13pt;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
+
+/* Endpoint header table */
+#endpoint-analysis article > table:first-child {
+  border: 2px solid #2c3e50;
+  margin-bottom: 12px;
+}
+
+#endpoint-analysis article > table:first-child th {
+  background: #2c3e50;
+  color: white;
+  font-weight: bold;
+  width: 35%;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+#endpoint-analysis article > table:first-child td {
+  background: white;
+  font-weight: normal;
+}
+
+/* Compliance tables */
+#endpoint-analysis table thead th {
+  background: #34495e;
+  color: white;
+  text-align: center;
+  padding: 6px 5px;
+  font-size: 9pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+#endpoint-analysis table tbody td {
+  text-align: center;
+  font-size: 9pt;
+}
+
+#endpoint-analysis table tbody td:first-child {
+  text-align: left;
+  font-weight: bold;
+}
+
+#endpoint-analysis table {
+  page-break-inside: auto;
+  break-inside: auto;
+}
+
+/* Content subheadings in endpoints */
+#endpoint-analysis article h3 {
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 11pt;
+  color: #2c3e50;
+}
+
+#endpoint-analysis article h4 {
+  margin-top: 8px;
+  margin-bottom: 5px;
+  font-size: 10pt;
+}
+
+/* =====================================================
+   6. METRICS SECTION
+   ===================================================== */
+
+#metrics h1 {
+  border-bottom-color: #16a085;
+  color: #16a085;
+}
+
+#metrics table {
+  max-width: 60%;
+  margin-top: 12px;
+}
+
+#metrics table th {
+  background: #16a085;
+  color: white;
+  text-align: center;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+#metrics table td {
+  text-align: center;
+  font-size: 10pt;
+  font-weight: bold;
+}
+
+#metrics table td:first-child {
+  text-align: left;
+}
+
+#metrics > p {
+  font-size: 11pt;
+  margin: 10px 0;
+}
+
+#metrics > p strong {
+  color: #16a085;
+  font-size: 12pt;
+}
+
+/* =====================================================
+   7. DISCLAIMER SECTION
+   ===================================================== */
+
+#disclaimer {
+  font-size: 9.5pt;
+  background: #f8f9fa;
+  padding: 15px;
+  border: 1px solid #bdc3c7;
+  border-left: 4px solid #e74c3c;
+  line-height: 1.6;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+#disclaimer h1 {
+  border-bottom-color: #e74c3c;
+  color: #e74c3c;
+  margin-top: 0;
+}
+
+#disclaimer p {
+  margin: 8px 0;
+  color: #555;
+}
+
+/* =====================================================
+   8. APPENDIX SECTION
+   ===================================================== */
+
+#appendix h1 {
+  border-bottom-color: #7f8c8d;
+  color: #7f8c8d;
+}
+
+#appendix h2 {
+  color: #7f8c8d;
+  border-bottom-color: #95a5a6;
+  margin-top: 15px;
+}
+
+#appendix pre {
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 8.5pt;
+  background: #2c3e50;
+  color: #ecf0f1;
+  border: 1px solid #34495e;
+  border-radius: 3px;
+  padding: 10px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  line-height: 1.4;
+  margin: 10px 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+/* =====================================================
+   CHARTS AND FIGURES
+   ===================================================== */
+
+figure {
+  page-break-inside: avoid;
+  break-inside: avoid;
+  margin: 12px 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+canvas {
+  max-width: 100%;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* =====================================================
+   PRINT & PDF OPTIMIZATION
+   ===================================================== */
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  table {
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
+  .finding {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  #endpoint-analysis article {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .severity-critical,
+  .severity-high,
+  .severity-medium,
+  .severity-low,
+  #executive-summary,
+  #disclaimer,
+  #endpoint-analysis > p,
+  th,
+  tbody tr:nth-child(even) {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}
+
+/* =====================================================
+   UTILITY CLASSES
+   ===================================================== */
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.no-break {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* =====================================================
+   BROWSER OPTIMIZATIONS
+   ===================================================== */
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p, li {
+  orphans: 2;
+  widows: 2;
+}
+
+h1, h2, h3, h4 {
+  orphans: 3;
+  widows: 3;
+}
+  </style>
+</head>
+<!-- <script>
+  (function () {
+    const ctx = document.getElementById('severityDistributionChart');
+    if (!ctx) return;
+
+    const severityLabels = [
+      {% for sev in metrics.severity_distribution.keys() %}
+        "{{ sev }}"{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ];
+
+    const severityCounts = [
+      {% for count in metrics.severity_distribution.values() %}
+        {{ count }}{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ];
+
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: severityLabels,
+        datasets: [{
+          data: severityCounts,
+          backgroundColor: [
+            '#000000',  // Critical
+            '#444444',  // High
+            '#777777',  // Medium
+            '#BBBBBB'   // Low
+          ],
+          borderColor: '#000',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: {
+                size: 10
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.label + ': ' + context.raw;
+              }
+            }
+          }
+        }
+      }
+    });
+  })();
+</script> -->
+
+<body>
+
+<!-- =========================
+     COVER PAGE
+========================= -->
+<div class="cover-page">
+  <h1>{{ report.title }}</h1>
+  <h2>for repository : {{ report.Repo_name }}</h2>
+  <h2>Generated By</h2>
+  <!-- <h1 style="text-align: center; font-size: 6rem; margin-bottom: 2rem; font-family: 'Yesteryear', cursive; line-height: 1.25; font-weight: normal; text-transform: capitalize;">backstage <span style="color: #dc2626;">rookie</span></h1>-->
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 150"> 
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Yesteryear&amp;display=swap');
+      .text-base {
+        font-family: 'Yesteryear', cursive;
+        font-size: 6rem;
+        text-transform: capitalize;
+      }
+      .highlight {
+        fill: #dc2626;
+      }
+    </style>
+  </defs>
+  
+  <text x="50%" y="100" text-anchor="middle" class="text-base">
+    backstage <tspan class="highlight">rookie</tspan>
+  </text>
+</svg>
+  <div class="company">
+    <p><strong>Provider:</strong> {{ report.provider.name }}</p>
+    <p>{{ report.provider.address }}</p>
+  </div>
+  
+  <div class="client">
+    <p><strong>Client:</strong> {{ report.client.name }}</p>
+    <p>{{ report.client.address }}</p>
+  </div>
+  
+  <div class="meta">
+    <p><strong>Scan ID:</strong> {{ report.scan_id }}</p>
+    <p><strong>Date:</strong> {{ report.date }}</p>
+    <p><strong>Version:</strong> {{ report.version }}</p>
+  </div>
+  
+  <div class="confidential">CONFIDENTIAL</div>
+</div>
+
+<!-- =========================
+     TABLE OF CONTENTS
+========================= -->
+<section id="table-of-contents" class="page-break">
+  <h1>TABLE OF CONTENTS</h1>
+  
+  <div class="toc">
+    <!-- Section 1: Document Control -->
+    <div class="toc-entry toc-level-1">
+      <span class="toc-number">1</span>
+      <span class="toc-title">Document Control</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    <div class="toc-entry toc-level-2">
+      <span class="toc-number">1.1</span>
+      <span class="toc-title">Team</span>
+      <span class="toc-dots"></span>
+     
+    </div>
+    <div class="toc-entry toc-level-2">
+      <span class="toc-number">1.2</span>
+      <span class="toc-title">List of Changes</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+
+    <!-- Section 2: Executive Summary -->
+    <div class="toc-entry toc-level-1">
+      <span class="toc-number">2</span>
+      <span class="toc-title">Executive Summary</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    <div class="toc-entry toc-level-2">
+      <span cl7ass="toc-number">2.1</span>
+      <span class="toc-title">Overview</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    <div class="toc-entry toc-level-2">
+      <span class="toc-number">2.2</span>
+      <span class="toc-title">Identified Vulnerabilities</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+
+    <!-- Section 3: Methodology -->
+    <div class="toc-entry toc-level-1">
+      <span class="toc-number">3</span>
+      <span class="toc-title">Methodology</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    <div class="toc-entry toc-level-2">
+      <span class="toc-number">3.1</span>
+      <span class="toc-title">Objective</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    <div class="toc-entry toc-level-2">
+      <span class="toc-number">3.2</span>
+      <span class="toc-title">Scope</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    <div class="toc-entry toc-level-2">
+      <span class="toc-number">3.3</span>
+      <span class="toc-title">User Accounts and Permissions</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+
+    <!-- Section 4: Findings (DYNAMIC VULNERABILITIES) -->
+    <div class="toc-entry toc-level-1">
+      <span class="toc-number">4</span>
+      <span class="toc-title">Findings</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    {% for finding in findings %}
+    <div class="toc-entry toc-level-2">
+      <span class="toc-number">{{ finding.id }}</span>
+      <span class="toc-title">{{ finding.title }}</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    {% endfor %}
+
+    <!-- Section 5: Endpoint Security Analysis (DYNAMIC ENDPOINTS) -->
+    <div class="toc-entry toc-level-1">
+      <span class="toc-number">5</span>
+      <span class="toc-title">Endpoint Security Analysis</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    {% for ep in framework_analysis.llm_enriched.endpoints %}
+    <div class="toc-entry toc-level-2">
+      <span class="toc-number"></span>
+      <span class="toc-title">{{ ep.path }}</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    {% endfor %}
+
+    <!-- Section 6: Metrics Summary -->
+    <div class="toc-entry toc-level-1">
+      <span class="toc-number">6</span>
+      <span class="toc-title">Metrics Summary</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+
+    <!-- Section 7: Disclaimer -->
+    <div class="toc-entry toc-level-1">
+      <span class="toc-number">7</span>
+      <span class="toc-title">Disclaimer</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+
+    <!-- Section 8: Appendix -->
+    <div class="toc-entry toc-level-1">
+      <span class="toc-number">8</span>
+      <span class="toc-title">Appendix</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    <div class="toc-entry toc-level-2">
+      <span class="toc-number">8.1</span>
+      <span class="toc-title">Static Appendix Section</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+    <div class="toc-entry toc-level-2">
+      <span class="toc-number">8.2</span>
+      <span class="toc-title">Tool Output</span>
+      <span class="toc-dots"></span>
+      
+    </div>
+  </div>
+</section>
+<!-- =========================
+     EXECUTIVE SUMMARY
+========================= -->
+<section id="executive-summary" >
+  <h1>Executive Summary</h1>
+
+  <p>{{ executive_summary.overview }}</p>
+
+  <!-- <h2>Vulnerability Overview</h2>
+  <p>{{ executive_summary.vulnerability_overview_text }}</p>
+
+
+<figure>
+  <figcaption>Figure 1: Vulnerability Severity Distribution</figcaption>
+  <canvas id="severityDistributionChart" height="280"></canvas>
+</figure> -->
+
+
+  <!-- Vulnerability List Table -->
+  <h2>Identified Vulnerabilities</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>CVSS</th>
+        <th>Page</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in findings %}
+      <tr class="
+        {% if v.cvss >= 9.0 %}cvss-critical
+        {% elif v.cvss >= 7.0 %}cvss-high
+        {% elif v.cvss >= 4.0 %}cvss-medium
+        {% else %}cvss-low
+        {% endif %}
+      ">
+        <td>{{ v.id }}</td>
+        <td>{{ v.title }}</td>
+        <td>{{ v.cvss }}</td>
+        <td>{{ v.evidence.name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<!-- =========================
+     METHODOLOGY
+========================= -->
+<section id="methodology" class="page-break">
+  <h1>Methodology</h1>
+
+  <h2>Introduction</h2>
+  <p>{{ methodology.introduction }}</p>
+
+  <h2>Objective</h2>
+  <p>{{ methodology.objective }}</p>
+
+  <h2>Scope</h2>
+  <p>{{ methodology.scope_text }}</p>
+
+  <h2>Systems in Scope</h2>
+  {% if methodology.systems | length > 0 %}
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>IP</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for system in methodology.systems %}
+      <tr>
+        <td>{{ system.name }}</td>
+        <td>{{ system.ip }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No systems explicitly defined.</p>
+  {% endif %}
+
+  <h2>User Accounts</h2>
+  <p>{{ methodology.user_accounts_description }}</p>
+</section>
+
+<!-- =========================
+     FINDINGS
+========================= -->
+<section id="findings" class="page-break">
+  <h1>Findings</h1>
+
+  {% for finding in findings %}
+  <article class="finding severity-{{ finding.severity }}">
+    <h2>{{ finding.id }} – {{ finding.title }}</h2>
+
+    <p><strong>Severity:</strong> {{ finding.severity_label }}</p>
+    <p><strong>CVSS Score:</strong> {{ finding.cvss }}</p>
+    <p><strong>CVSS Vector:</strong> {{ finding.vector }}</p>
+    <p><strong>Target:</strong> {{ finding.target }}</p>
+
+    <h3>Overview</h3>
+    <p>{{ finding.overview }}</p>
+
+    <h3>Details</h3>
+    <p>{{ finding.details }}</p>
+
+    <h3>Evidence</h3>
+    <ul>
+      {% for e in finding.evidence %}
+      <li><strong>{{ e.name }}:</strong> {{ e.description }}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>References</h3>
+    <ul>
+      {% for ref in finding.references %}
+      <li>{{ ref }}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Recommendation</h3>
+    <p>{{ finding.recommendation }}</p>
+    
+    <h3><u>Prompt to Solve the Vulnerability:</u></h3>
+    <p>{{ finding.prompts_to_solve_the_vulnerability }}</p>
+    
+  </article>
+  {% endfor %}
+</section>
+
+
+<!-- =========================
+     ENDPOINT SECURITY ANALYSIS
+========================= -->
+<section id="endpoint-analysis" >
+  {% if framework_analysis.llm_enriched.endpoints %}
+  <h1 class = 'page-break'>Endpoint Security Analysis</h1>
+<!-- 
+  <p>
+    This section provides a detailed security-oriented analysis of the identified API endpoints,
+    including authentication mechanisms, data handling characteristics, potential security risks,
+    and regulatory compliance considerations.
+  </p> -->
+
+  {% for ep in framework_analysis.llm_enriched.endpoints %}
+  <article class="finding severity-{{ ep.llm_notes.severity | default('low') }}">
+    <h2>Endpoint Path {{ ep.path }}</h2>
+
+
+    <!-- =========================
+         ENDPOINT SUMMARY TABLE
+    ========================= -->
+    <table>
+      <tbody>
+        <tr>
+          <th>Endpoint Path</th>
+          <td>{{ ep.path }}</td>
+        </tr>
+        <tr>
+          <th>HTTP Methods</th>
+          <td>{{ ep.methods | join(', ') }}</td>
+        </tr>
+        <tr>
+          <th>Source Location</th>
+          <td>{{ '..\\' ~ (ep.source_info.source_file | replace('\\', '/') | replace('//', '/')).split('/')[-2:] | join('\\') if ep.source_info.source_file else '' }} - {{ ep.source_info.line_number }}</td></tr>
+        <tr>
+          <th>Authentication Required</th>
+          <td>
+            {% if ep.auth.required %}
+              Yes ({{ ep.auth.type }})
+            {% else %}
+              No
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>Risk Severity</th>
+          <td>{{ ep.llm_notes.severity_label | default("Low") }}</td>
+        </tr>
+        <tr>
+          <th>CVSS Score</th>
+          <td>{{ ep.llm_notes.cvss | default("N/A") }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- =========================
+         AUTHENTICATION ANALYSIS
+    ========================= -->
+    <h3>Authentication Analysis</h3>
+    <p>
+      {% if ep.auth.required %}
+        This endpoint enforces authentication using a {{ ep.auth.type }}-based mechanism.
+        Authentication checks were detected at the following code locations:
+        {{ ep.auth.detected_at_lines | join(', ') }}.
+      {% else %}
+        This endpoint does not enforce authentication, which may expose it to unauthorized access
+        depending on its functionality and the sensitivity of data processed.
+      {% endif %}
+    </p>
+
+    <!-- =========================
+         REQUEST ANALYSIS
+    ========================= -->
+    <h3>Request Analysis</h3>
+    <p><strong>Content Type:</strong> {{ ep.request.content_type }}</p>
+
+    {% if ep.request.fields | length > 0 %}
+    <table>
+      <thead>
+        <tr>
+          <th>Field Name</th>
+          <th>Type</th>
+          <th>Sensitive</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for field in ep.request.fields %}
+        <tr>
+          <td>{{ field.name }}</td>
+          <td>{{ field.type }}</td>
+          <td>{{ "Yes" if field.sensitive else "No" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No request fields were identified for this endpoint.</p>
+    {% endif %}
+
+    <!-- =========================
+         RESPONSE ANALYSIS
+    ========================= -->
+    <h3>Response Analysis</h3>
+    <p><strong>Content Type:</strong> {{ ep.response.content_type }}</p>
+    <p><strong>Status Codes:</strong> {{ ep.response.status_codes | join(', ') }}</p>
+    <p>
+      <strong>Contains Sensitive Data:</strong>
+      {{ "Yes" if ep.response.contains_sensitive_data else "No" }}
+    </p>
+
+    <!-- =========================
+         SECURITY RISKS
+    ========================= -->
+    {% if ep.security_risks | length > 0 %}
+    <h3>Identified Security Risks</h3>
+    <ul>
+      {% for risk in ep.security_risks %}
+      <li>
+        <strong>{{ risk.id }}</strong> ({{ risk.severity }}): {{ risk.description }}
+        <br />
+        <em>Potential Attack Scenario:</em> {{ risk.Potential_attack_scenario }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <h3>Identified Security Risks</h3>
+    <p>No direct security risks were identified for this endpoint.</p>
+    {% endif %}
+
+    <!-- =========================
+         COMPLIANCE IMPACT
+    ========================= -->
+    <h3>Compliance Impact</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Regulation</th>
+          <th>Applicable</th>
+          <th>Risk Level</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reg, info in ep.compliance_analysis.items() %}
+        <tr>
+          <td>{{ reg }}</td>
+          <td>{{ "Yes" if info.applicable else "No" }}</td>
+          <td>{{ info.risk_level }}</td>
+          <td>{{ info.reason }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- =========================
+         LLM NOTES & REFERENCES
+    ========================= -->
+    <h3>Security Assessment Notes</h3>
+    <p><strong>CVSS Vector:</strong> {{ ep.llm_notes.cvss_vector }}</p>
+
+    <h4>References</h4>
+    <ul>
+      {% for ref in ep.llm_notes.references %}
+      <li>{{ ref }}</li>
+      {% endfor %}
+    </ul>
+
+  </article>
+  {% else %}
+  {% endfor %}
+</section>
+
+
+<!-- =========================
+     METRICS
+========================= -->
+{% endif %}
+<!-- <section id="metrics" class="page-break">
+  <h1>Metrics Summary</h1>
+
+  <p><strong>Total Findings:</strong> {{ metrics.total_findings }}</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Severity</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sev, count in metrics.severity_distribution.items() %}
+      <tr>
+        <td>{{ sev }}</td>
+        <td>{{ count }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section> -->
+
+<!-- =========================
+     BUSINESS RISK ADVICE (BRadvice)
+========================= -->
+<section id="br-advice">
+  <h1 class="page-break">Business Risk Advice</h1>
+  <p>Based on a comprehensive security analysis, here are the prioritized recommendations to enhance the security posture and mitigate identified risks.</p>
+
+  {% if BRadvice.recommendation | length > 0 %}
+    {% for rec in BRadvice.recommendation %}
+    <article class="recommendation">
+      <h2>{{ rec.title }} (Priority: {{ rec.priority }})</h2>
+      <p><strong>Description:</strong> {{ rec.description }}</p>
+      <p><strong>Why it Matters:</strong> {{ rec.why_it_matters }}</p>
+      <h3>Recommended Actions:</h3>
+      <ul>
+        {% for action in rec.recommended_actions %}
+        <li>{{ action }}</li>
+        {% endfor %}
+      </ul>
+      <p><strong>Expected Outcome:</strong> {{ rec.expected_outcome }}</p>
+    </article>
+    {% endfor %}
+  {% else %}
+  <p>No specific business risk advice was generated for this report.</p>
+  {% endif %}
+</section>
+<!-- =========================
+     DISCLAIMER
+========================= -->
+<section id="disclaimer" >
+  <h1>Disclaimer</h1>
+  <p>{{ disclaimer.text | default("{yet to assign}") }}</p>
+</section>
+
+</body>
+</html>

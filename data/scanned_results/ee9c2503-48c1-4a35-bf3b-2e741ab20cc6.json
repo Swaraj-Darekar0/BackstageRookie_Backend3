@@ -1,0 +1,1353 @@
+{
+  "executive_summary": {
+    "overview": "A comprehensive security assessment was conducted on the specified repository, identifying potential security vulnerabilities through a combination of automated static analysis and advanced AI-driven verification and enrichment.",
+    "vulnerability_overview_text": "2 Critical, 3 High, 4 Medium, and 5 Low vulnerabilities identified.",
+    "vulnerability_list": [
+      {
+        "id": "C1",
+        "title": "Unsafe Hugging Face Hub Download",
+        "cvss": 9.8,
+        "page": "analysis_engine\\analyzers\\llm_analyzer.py:60"
+      },
+      {
+        "id": "C2",
+        "title": "Probable Insecure Usage of Temp File/Directory",
+        "cvss": 8.5,
+        "page": "analysis_engine\\analyzers\\regex_analyzer.py:212"
+      }
+    ],
+    "severity_distribution": {
+      "CRITICAL": 2,
+      "HIGH": 3,
+      "MEDIUM": 4,
+      "LOW": 5
+    }
+  },
+  "methodology": {
+    "introduction": "This report details the results of a security assessment conducted on the specified repository. The analysis involved a multi-layered approach, combining automated static analysis tools with advanced, AI-driven verification and enrichment to identify potential security vulnerabilities.",
+    "objective": "The primary objective of this assessment was to identify security weaknesses, assess their potential impact, and provide actionable recommendations for remediation to improve the overall security posture of the application.",
+    "scope_text": "The assessment was performed on the source code of the repository cloned at the time of the scan. The analysis focused on common web application vulnerabilities, insecure coding practices, and dependency risks.",
+    "systems": [],
+    "user_accounts_description": "As this was a static source code analysis, no user accounts were provisioned or tested.",
+    "accounts": []
+  },
+  "findings": [
+    {
+      "id": "C1",
+      "title": "Unsafe Hugging Face Hub Download",
+      "severity": "CRITICAL",
+      "severity_label": "Critical",
+      "cvss": 9.8,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+      "target": "The application's model initialization",
+      "references": [
+        "https://huggingface.co/docs/hub/security#revision-pinning"
+      ],
+      "overview": "The application uses the `from_pretrained` method without specifying a revision, which could lead to unintended model updates and potential security vulnerabilities.",
+      "details": "The `from_pretrained` method is used to load models from the Hugging Face Hub. However, without specifying a revision, the application may load an unintended model version, potentially introducing security vulnerabilities.",
+      "evidence": [
+        {
+          "name": "analysis_engine\\analyzers\\llm_analyzer.py:60",
+          "description": "The `from_pretrained` method is used without specifying a revision."
+        }
+      ],
+      "recommendation": "- Specify a revision when using the `from_pretrained` method.\n- Use the `revision` parameter to ensure a specific model version is loaded.\n- Pin the model version in the requirements file to prevent unintended updates."
+    },
+    {
+      "id": "C2",
+      "title": "Probable Insecure Usage of Temp File/Directory",
+      "severity": "CRITICAL",
+      "severity_label": "Critical",
+      "cvss": 8.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+      "target": "The application's temporary file handling",
+      "references": [
+        "https://owasp.org/www-community/vulnerabilities/Temporary_File_Vulnerabilities"
+      ],
+      "overview": "The application may use temporary files or directories in an insecure manner, potentially allowing attackers to exploit these files.",
+      "details": "The application may use temporary files or directories without proper access controls, potentially allowing attackers to read or modify sensitive data.",
+      "evidence": [
+        {
+          "name": "analysis_engine\\analyzers\\regex_analyzer.py:212",
+          "description": "The application may use temporary files or directories without proper access controls."
+        }
+      ],
+      "recommendation": "- Use secure temporary file handling mechanisms.\n- Ensure proper access controls are in place for temporary files and directories.\n- Use a secure temporary file directory, such as a directory with restricted access."
+    },
+    {
+      "id": "H1",
+      "title": "Insecure Error Handling",
+      "severity": "HIGH",
+      "severity_label": "High",
+      "cvss": 7.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+      "target": "The application's error handling",
+      "references": [
+        "https://owasp.org/www-community/vulnerabilities/Error_Handling_Vulnerability"
+      ],
+      "overview": "The application may handle errors in an insecure manner, potentially allowing attackers to gather sensitive information.",
+      "details": "The application may handle errors by displaying sensitive information, such as exception messages or stack traces, which could be used by attackers to gather information about the application.",
+      "evidence": [
+        {
+          "name": "app\\routes\\main.py:75",
+          "description": "The application handles errors by displaying exception messages."
+        }
+      ],
+      "recommendation": "- Implement secure error handling mechanisms.\n- Log error messages securely, avoiding the display of sensitive information.\n- Use a centralized error handling mechanism to handle errors consistently throughout the application."
+    },
+    {
+      "id": "M1",
+      "title": "Potential Information Disclosure",
+      "severity": "MEDIUM",
+      "severity_label": "Medium",
+      "cvss": 4.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N",
+      "target": "The application's logging",
+      "references": [
+        "https://owasp.org/www-community/vulnerabilities/Information_Disclosure"
+      ],
+      "overview": "The application may log sensitive information, potentially allowing attackers to gather information about the application or its users.",
+      "details": "The application may log sensitive information, such as user input or database queries, which could be used by attackers to gather information about the application or its users.",
+      "evidence": [
+        {
+          "name": "app\\routes\\main.py:166",
+          "description": "The application logs error messages with sensitive information."
+        }
+      ],
+      "recommendation": "- Implement secure logging mechanisms.\n- Avoid logging sensitive information, such as user input or database queries.\n- Use a logging framework that supports secure logging practices."
+    },
+    {
+      "id": "L1",
+      "title": "Potential Security Misconfiguration",
+      "severity": "LOW",
+      "severity_label": "Low",
+      "cvss": 2.5,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N",
+      "target": "The application's configuration",
+      "references": [
+        "https://owasp.org/www-community/vulnerabilities/Misconfiguration"
+      ],
+      "overview": "The application may be misconfigured, potentially allowing attackers to exploit security weaknesses.",
+      "details": "The application may be misconfigured, such as using insecure protocols or not validating user input, which could be used by attackers to exploit security weaknesses.",
+      "evidence": [
+        {
+          "name": "analysis_engine\\analyzers\\regex_analyzer.py:237",
+          "description": "The application may use insecure protocols or not validate user input."
+        }
+      ],
+      "recommendation": "- Review the application's configuration for security weaknesses.\n- Implement secure configuration practices, such as using secure protocols and validating user input.\n- Regularly review and update the application's configuration to ensure security best practices are followed."
+    }
+  ],
+  "total_findings": 2,
+  "scan_id": "ee9c2503-48c1-4a35-bf3b-2e741ab20cc6",
+  "timestamp": "2026-02-06T18:44:20.743364",
+  "framework_analysis": {
+    "framework": "flask/fastapi",
+    "endpoints": [
+      {
+        "path": "/api/auth/google/login",
+        "methods": [
+          "GET"
+        ],
+        "view": "google_login",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 23,
+        "auth": {
+          "required": true,
+          "hints": [
+            "Authorization",
+            "Authorization",
+            "Authorization",
+            "Authorization"
+          ],
+          "locations": [
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 23
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 35
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/google/callback",
+        "methods": [
+          "GET"
+        ],
+        "view": "google_callback",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 46,
+        "auth": {
+          "required": true,
+          "hints": [
+            "Authorization",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "Authorization",
+            "oauth",
+            "oauth",
+            "oauth",
+            "oauth"
+          ],
+          "locations": [
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 46
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 46
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 56
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 56
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 75
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "Authorization",
+              "line": 57
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 73
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 77
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/google/session",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_google_session",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+        "line_number": 82,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/change-plan",
+        "methods": [
+          "POST"
+        ],
+        "view": "change_plan",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 55,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/logout",
+        "methods": [
+          "POST"
+        ],
+        "view": "logout",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 79,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/get-plan",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_plan",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 87,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 86
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 87
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 86
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/analyze",
+        "methods": [
+          "POST"
+        ],
+        "view": "analyze_repository",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 98,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 97
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 98
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 97
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/generate-report",
+        "methods": [
+          "POST"
+        ],
+        "view": "generate_report",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 176,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 175
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 176
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 175
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/auth/me",
+        "methods": [
+          "GET"
+        ],
+        "view": "get_user_profile",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 200,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "oauth",
+            "oauth",
+            "login_required",
+            "oauth",
+            "oauth",
+            "oauth"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 199
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 200
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 200
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 207
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 199
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            },
+            {
+              "type": "code_usage",
+              "pattern": "oauth",
+              "line": 208
+            }
+          ]
+        },
+        "request": {
+          "fields": [
+            "body"
+          ]
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/healthz",
+        "methods": [
+          "GET"
+        ],
+        "view": "health_check",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 264,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/api/models",
+        "methods": [
+          "GET"
+        ],
+        "view": "list_models",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+        "line_number": 271,
+        "auth": {
+          "required": true,
+          "hints": [
+            "login_required",
+            "login_required",
+            "login_required"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "login_required",
+              "line": 270
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 271
+            },
+            {
+              "type": "code_usage",
+              "pattern": "login_required",
+              "line": 270
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      }
+    ],
+    "errors": [],
+    "llm_enriched": {
+      "metadata": {
+        "framework": "flask/fastapi",
+        "sector": "Technology & SaaS",
+        "compliances": [
+          "SOC 2",
+          "ISO/IEC 27001",
+          "CSA STAR"
+        ]
+      },
+      "endpoints": [
+        {
+          "path": "/api/auth/google/login",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+            "line_number": 23
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified."
+            },
+            "ISO/IEC 27001": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified."
+            },
+            "CSA STAR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/auth/google/callback",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+            "line_number": 46
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              46,
+              46,
+              56,
+              56,
+              57,
+              73,
+              75,
+              57,
+              73,
+              77,
+              57,
+              73,
+              77,
+              77,
+              77
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified."
+            },
+            "ISO/IEC 27001": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified."
+            },
+            "CSA STAR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/auth/google/session",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\GoogleIntegra.py",
+            "line_number": 82
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified."
+            },
+            "ISO/IEC 27001": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified."
+            },
+            "CSA STAR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/change-plan",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 55
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is required for this endpoint, but no authentication mechanism was detected.",
+              "Potential_attack_scenario": "An unauthenticated user could change their plan without authorization."
+            }
+          ],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint modifies user plan information, which is sensitive data. Lack of authentication poses a significant risk to data integrity and security."
+            },
+            "ISO/IEC 27001": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Access control failure on this endpoint could lead to unauthorized modification of sensitive subscription data, violating confidentiality and integrity principles."
+            },
+            "CSA STAR": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Failure to authenticate requests for changing user plans can lead to unauthorized access and modification of critical customer data, impacting trust and service availability."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 8.8,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": [
+              "https://nvd.nist.gov/vuln/detail/CVE-2023-XXXX",
+              "https://owasp.org/www-project-api-security/"
+            ]
+          }
+        },
+        {
+          "path": "/api/auth/logout",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 79
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is required for this endpoint, but no authentication mechanism was detected.",
+              "Potential_attack_scenario": "An attacker could attempt to invalidate sessions of other users."
+            }
+          ],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "While logging out doesn't directly expose data, a missing authentication could allow unauthorized session termination, impacting user experience and potentially leading to denial-of-service."
+            },
+            "ISO/IEC 27001": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Inadequate access control on logout could be exploited to disrupt user sessions, affecting service availability and user trust."
+            },
+            "CSA STAR": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Lack of authentication on logout operations can be exploited to interfere with user sessions, impacting service availability."
+            }
+          },
+          "llm_notes": {
+            "severity": "medium",
+            "severity_label": "Medium",
+            "cvss": 6.5,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "references": [
+              "https://owasp.org/www-project-api-security/"
+            ]
+          }
+        },
+        {
+          "path": "/api/get-plan",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 87
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              86,
+              87,
+              86
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified. If plan details are sensitive, authentication should be enforced."
+            },
+            "ISO/IEC 27001": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified. If plan details are sensitive, access control should be considered."
+            },
+            "CSA STAR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified. Access control for plan information should be reviewed if it contains sensitive user data."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/analyze",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 98
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": [
+              97,
+              98,
+              97
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is required for this endpoint, but no authentication mechanism was detected.",
+              "Potential_attack_scenario": "An unauthenticated user could initiate repository analysis, potentially consuming resources or accessing sensitive repository information."
+            }
+          ],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Repository analysis may involve sensitive code. Lack of authentication could allow unauthorized access or misuse of analysis capabilities."
+            },
+            "ISO/IEC 27001": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Unauthorized initiation of repository analysis could lead to exposure of intellectual property or system vulnerabilities, violating confidentiality."
+            },
+            "CSA STAR": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Access to code analysis tools must be restricted to authorized users to prevent intellectual property theft or malicious exploitation."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 8.8,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": [
+              "https://owasp.org/www-project-api-security/"
+            ]
+          }
+        },
+        {
+          "path": "/api/generate-report",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 176
+          },
+          "auth": {
+            "required": true,
+            "type": "unknown",
+            "detected_at_lines": [
+              175,
+              176,
+              175
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is required for this endpoint, but no authentication mechanism was detected.",
+              "Potential_attack_scenario": "An unauthenticated user could generate reports, potentially gaining access to sensitive information or overwhelming the system with report generation requests."
+            }
+          ],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Report generation may expose sensitive system or user data. Lack of authentication is a critical vulnerability."
+            },
+            "ISO/IEC 27001": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Unauthorized generation of reports can lead to data breaches, violating confidentiality and integrity of information."
+            },
+            "CSA STAR": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Access to sensitive report generation functions must be strictly controlled to prevent unauthorized data disclosure."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 8.8,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": [
+              "https://owasp.org/www-project-api-security/"
+            ]
+          }
+        },
+        {
+          "path": "/api/auth/me",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 200
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              199,
+              200,
+              200,
+              207,
+              199,
+              208,
+              208,
+              208
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified. If user profile contains sensitive data, authentication should be enforced."
+            },
+            "ISO/IEC 27001": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified. Access control for user profile data should be reviewed if sensitive information is exposed."
+            },
+            "CSA STAR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified. Access to user profile data should be restricted to authenticated users."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/healthz",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 264
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoints are typically for monitoring and do not expose sensitive data or perform sensitive operations."
+            },
+            "ISO/IEC 27001": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoints are not typically considered sensitive assets under ISO 27001."
+            },
+            "CSA STAR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Health check endpoints are generally not in scope for CSA STAR assessments unless they reveal sensitive system information."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        },
+        {
+          "path": "/api/models",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\ee9c2503-48c1-4a35-bf3b-2e741ab20cc6\\BackstageRookie_Backend2\\app\\routes\\main.py",
+            "line_number": 271
+          },
+          "auth": {
+            "required": false,
+            "type": "unknown",
+            "detected_at_lines": [
+              270,
+              271,
+              270
+            ]
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "SOC 2": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified. If model details are sensitive, authentication should be enforced."
+            },
+            "ISO/IEC 27001": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified. Access control for model information should be reviewed if it contains sensitive data."
+            },
+            "CSA STAR": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "No sensitive operations or data handling identified. Access to model information should be restricted to authorized users if sensitive."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 0.0,
+            "cvss_vector": "N/A",
+            "references": []
+          }
+        }
+      ]
+    }
+  },
+  "BRadvice": {
+    "BRadvice": {
+      "recommendation": [
+        {
+          "priority": "Immediate",
+          "title": "Pin Hugging Face Model Revisions to Prevent Supply Chain Attacks",
+          "description": "The application loads models from Hugging Face Hub without specifying a fixed revision, posing a critical supply chain risk.",
+          "why_it_matters": "Unpinned model versions can lead to unintended model updates, introducing vulnerabilities, backdoors, or malicious code. This enables remote code execution, data exfiltration, or service disruption, directly impacting data integrity and system availability.",
+          "recommended_actions": [
+            "Modify `analysis_engine\\analyzers\\llm_analyzer.py:60` and all other `from_pretrained` calls to explicitly specify a `revision` (e.g., a commit hash or tag).",
+            "Implement a process for securely updating pinned model versions after thorough validation of upstream changes.",
+            "Integrate integrity checks, such as hashing, to verify downloaded models against known good versions before execution."
+          ],
+          "expected_outcome": "Mitigated risk of supply chain attacks through compromised or outdated machine learning models, ensuring model integrity and predictable behavior."
+        },
+        {
+          "priority": "Immediate",
+          "title": "Secure Temporary File and Directory Usage",
+          "description": "The application likely uses temporary files or directories in a manner that lacks proper access controls, creating avenues for exploitation.",
+          "why_it_matters": "Insecure temporary file handling can result in sensitive data exposure, arbitrary file modification, or local privilege escalation via symlink attacks. This directly threatens data confidentiality and system integrity.",
+          "recommended_actions": [
+            "Refactor temporary file/directory creation, specifically at `analysis_engine\\analyzers\\regex_analyzer.py:212`, to use Python's `tempfile` module (e.g., `tempfile.mkstemp()`, `tempfile.mkdtemp()`) ensuring secure, restrictive permissions.",
+            "Ensure all temporary files and directories are created with owner-only read/write permissions and are securely deleted immediately after use.",
+            "Avoid predictable naming schemes for temporary files and never incorporate untrusted user input into temporary file paths."
+          ],
+          "expected_outcome": "Elimination of data leakage, unauthorized file manipulation, and privilege escalation risks associated with insecure temporary file handling."
+        },
+        {
+          "priority": "Immediate",
+          "title": "Enforce Strict Authentication on Critical API Endpoints",
+          "description": "Key business logic endpoints (`/api/change-plan`, `/api/analyze`, `/api/generate-report`) are identified as requiring authentication but lack effective enforcement, allowing unauthorized access.",
+          "why_it_matters": "Unauthorized access to these endpoints permits unauthenticated users to modify user plans, initiate resource-intensive analysis, or generate reports with sensitive information. This is a severe access control bypass, leading to data integrity violations, potential denial-of-service, and significant non-compliance with SOC 2, ISO/IEC 27001, and CSA STAR requirements.",
+          "recommended_actions": [
+            "Implement and strictly enforce a robust authentication mechanism (e.g., JWT, OAuth2) for `/api/change-plan` (POST), `/api/analyze` (POST), and `/api/generate-report` (POST).",
+            "Integrate server-side authentication checks as middleware or decorators to validate the presence and validity of an authenticated session or token for these specific endpoints.",
+            "Review the authentication flow to ensure all user-initiated sensitive actions require re-authentication or strong session validation."
+          ],
+          "expected_outcome": "Prevention of unauthorized modifications, resource abuse, and sensitive data access, ensuring strict adherence to access control policies and regulatory compliance."
+        },
+        {
+          "priority": "Immediate",
+          "title": "Implement Secure and Generic Error Handling",
+          "description": "The application's error handling, specifically at `app\\routes\\main.py:75`, exposes sensitive internal details like exception messages or stack traces to clients.",
+          "why_it_matters": "Verbose error messages provide attackers with crucial reconnaissance information about the application's internal structure, dependencies, and potential vulnerabilities, accelerating exploitation efforts. This constitutes a high-severity information disclosure risk.",
+          "recommended_actions": [
+            "Modify error handling logic to return only generic, user-friendly error messages (e.g., 'An internal server error occurred') that do not reveal system specifics.",
+            "Ensure detailed exception messages and full stack traces are logged securely on the server-side, with restricted access, and never exposed directly to the client.",
+            "Centralize error handling across the application to maintain consistency and prevent accidental information leakage from new or modified endpoints."
+          ],
+          "expected_outcome": "Reduced attack surface by eliminating information disclosure through error messages, enhancing application security and user experience."
+        },
+        {
+          "priority": "Short-Term",
+          "title": "Eliminate Sensitive Information from Application Logs",
+          "description": "Sensitive information, such as user input or database queries, is logged at `app\\routes\\main.py:166` and potentially other locations, risking exposure.",
+          "why_it_matters": "Logging sensitive data directly creates a significant risk of data breaches if log files are compromised or improperly accessed. This violates data privacy principles and compliance mandates like SOC 2, ISO/IEC 27001, and CSA STAR concerning confidentiality.",
+          "recommended_actions": [
+            "Conduct a comprehensive audit of all logging statements to identify and remove or redact sensitive data (e.g., PII, authentication tokens, session IDs, full SQL queries) prior to writing to logs.",
+            "Implement secure logging configurations, including log rotation, encryption of logs at rest, and strict access controls on log files.",
+            "Utilize a structured logging framework that supports dynamic data redaction, masking, and varying logging levels for production environments."
+          ],
+          "expected_outcome": "Enhanced protection of sensitive data within logs and prevention of information disclosure, ensuring compliance with privacy and security requirements."
+        },
+        {
+          "priority": "Short-Term",
+          "title": "Validate Authentication for Logout Functionality",
+          "description": "The logout endpoint (`/api/auth/logout`) may not adequately verify user authentication, potentially allowing unauthorized session invalidation.",
+          "why_it_matters": "An unauthenticated logout capability could enable an attacker to perform denial-of-service against legitimate users by prematurely terminating their sessions, disrupting user experience and service availability. This carries a medium compliance risk according to SOC 2, ISO/IEC 27001, and CSA STAR.",
+          "recommended_actions": [
+            "Ensure the `/api/auth/logout` (POST) endpoint explicitly requires and validates an active, authenticated session token or credential before processing the logout request.",
+            "Implement a robust token revocation mechanism to securely invalidate session tokens upon logout, preventing replay attacks and ensuring proper session termination.",
+            "Review and update the authentication logic to prevent anonymous or unauthorized requests from impacting legitimate user sessions."
+          ],
+          "expected_outcome": "Prevention of unauthorized session termination, improved user session management, and enhanced service availability and user trust."
+        },
+        {
+          "priority": "Mid-Term",
+          "title": "Comprehensive Application Configuration and Input Validation Hardening",
+          "description": "The application exhibits potential security misconfigurations, including the use of insecure protocols or insufficient user input validation (`analysis_engine\\analyzers\\regex_analyzer.py:237`).",
+          "why_it_matters": "Security misconfigurations create broad attack surfaces, allowing attackers to exploit various weaknesses, from data interception via insecure protocols to injection attacks due to inadequate input validation. This compromises the overall security posture and compliance.",
+          "recommended_actions": [
+            "Conduct a thorough security audit of all application, web server, framework, and database configuration files to identify and remediate insecure settings.",
+            "Enforce the exclusive use of secure communication protocols (e.g., HTTPS with TLS 1.2 or higher) and disable all outdated or weak ciphers.",
+            "Implement robust, centralized input validation for all user-supplied data at API entry points to proactively prevent injection attacks (SQL, XSS, Command Injection) and other malicious inputs."
+          ],
+          "expected_outcome": "Significantly reduced attack surface, strengthened defenses against common configuration-based vulnerabilities, and improved application resilience and compliance."
+        },
+        {
+          "priority": "Long-Term",
+          "title": "Integrate Security into the SDLC and Implement Continuous Monitoring",
+          "description": "The current scan identifies vulnerabilities reactively, indicating a need for proactive security measures throughout the entire software development lifecycle.",
+          "why_it_matters": "Addressing security issues late in the development cycle is substantially more costly and time-consuming. A proactive 'Shift Left' approach reduces the likelihood of critical vulnerabilities reaching production and ensures sustained compliance and security posture improvement.",
+          "recommended_actions": [
+            "Establish a 'Shift Left' security strategy by integrating automated SAST (Static Application Security Testing) and DAST (Dynamic Application Security Testing) tools directly into the CI/CD pipeline.",
+            "Implement mandatory and regular developer security training, covering OWASP Top 10, secure coding practices, and framework-specific security guidelines.",
+            "Develop and incorporate a threat modeling process for all new features and significant architecture changes to proactively identify and mitigate design-level security risks.",
+            "Deploy comprehensive security logging, monitoring, and alerting solutions to enable real-time detection and rapid response to potential security incidents."
+          ],
+          "expected_outcome": "A mature and resilient security program that identifies and remediates vulnerabilities earlier, significantly reduces the overall security risk profile, and fosters a strong security-aware development culture."
+        }
+      ]
+    }
+  }
+}

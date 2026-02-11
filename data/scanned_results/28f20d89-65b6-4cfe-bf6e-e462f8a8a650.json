@@ -1,0 +1,1555 @@
+{
+  "findings": [
+    {
+      "shortform_keyword": "EXPOSED-INTERNAL-IP",
+      "file_path": "myHospital\\settings.py",
+      "line_number": 28,
+      "severity": "LOW",
+      "context_snippet": "ALLOWED_HOSTS = ['192.168.0.111', '127.0.0.1', '192.168.43.155']",
+      "source": "regex",
+      "pattern_name": "exposed_internal_ip",
+      "confidence": "MEDIUM"
+    }
+  ],
+  "total_findings": 1,
+  "scan_id": "28f20d89-65b6-4cfe-bf6e-e462f8a8a650",
+  "timestamp": "2026-02-07T02:34:53.066785",
+  "framework_analysis": {
+    "framework": "django",
+    "endpoints": [
+      {
+        "path": "/admin/",
+        "view": "admin.site.urls",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\myHospital\\urls.py",
+        "line_number": 22
+      },
+      {
+        "path": "/profile/",
+        "view": "myProfile",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\profiles\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/profile/register/",
+        "view": "register",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\profiles\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/profile/do_register/",
+        "view": "doRegister",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\profiles\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/appointments/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\appointments\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/appointments/book/",
+        "view": "book",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\appointments\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/appointments/do_book/",
+        "view": "doBook",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\appointments\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/appointments/do_change/",
+        "view": "doChange",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\appointments\\urls.py",
+        "line_number": 11
+      },
+      {
+        "path": "/case/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\case\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/case/generate/",
+        "view": "generate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\case\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/case/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\case\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/reports/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\reports\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/reports/generate/",
+        "view": "generate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\reports\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/reports/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\reports\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/reports/do_change/",
+        "view": "doChange",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\reports\\urls.py",
+        "line_number": 10
+      },
+      {
+        "path": "/bill/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\bill\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/bill/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\bill\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/bill/pay/",
+        "view": "pay",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\bill\\urls.py",
+        "line_number": 11
+      },
+      {
+        "path": "/bill/medicines/",
+        "view": "viewMedicine",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\bill\\urls.py",
+        "line_number": 12
+      },
+      {
+        "path": "/login/",
+        "view": "login",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\myHospital\\urls.py",
+        "line_number": 30
+      },
+      {
+        "path": "/logout/",
+        "view": "logout",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\myHospital\\urls.py",
+        "line_number": 31
+      },
+      {
+        "path": "/loginmodule/auth",
+        "view": "auth_view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\28f20d89-65b6-4cfe-bf6e-e462f8a8a650\\myHospital\\loginmodule\\urls.py",
+        "line_number": 7
+      }
+    ],
+    "errors": [],
+    "llm_enriched": {
+      "metadata": {
+        "framework": "django",
+        "sector": "Healthcare",
+        "compliances": [
+          "HIPAA",
+          "HITECH"
+        ]
+      },
+      "endpoints": [
+        {
+          "path": "/admin/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 22
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              403,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Access to the admin interface is not protected by authentication.",
+              "Potential_attack_scenario": "An attacker could gain unauthorized access to sensitive administrative functions."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "The admin interface itself does not directly handle Protected Health Information (PHI) but could be a target for unauthorized access."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "While not directly handling PHI, unauthorized access to admin functions could lead to a breach."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/profile/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Access to user profile information is not protected by authentication.",
+              "Potential_attack_scenario": "An attacker could view or modify sensitive personal health information of any user."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "User profile data may contain sensitive personal health information.",
+              "Potential_attack_scenario": "Unauthorized access or viewing of user profile data can lead to identity theft and privacy violations."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "User profile endpoints can expose Protected Health Information (PHI) without proper authentication."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Lack of authentication on endpoints that may handle PHI violates HITECH's security provisions."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/profile/register/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "medium",
+              "description": "Registration endpoint may be vulnerable to data leakage if not properly secured.",
+              "Potential_attack_scenario": "Unvalidated or exposed registration data could lead to information disclosure."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Registration processes for healthcare services could involve sensitive patient data."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Improper handling of registration data may lead to breaches of electronic health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/profile/do_register/",
+          "methods": [
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 9
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "The endpoint for processing user registration is not authenticated.",
+              "Potential_attack_scenario": "An attacker could register accounts with malicious intent or expose sensitive registration data."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Processing registration data without authentication could lead to sensitive information disclosure.",
+              "Potential_attack_scenario": "Unauthorized access to user registration data, potentially including PII and health information."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Processing registration data for healthcare services without authentication poses a significant risk to PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Failure to secure registration data processing can lead to breaches of electronic health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/appointments/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Access to appointment information is not protected by authentication.",
+              "Potential_attack_scenario": "An attacker could view or modify sensitive appointment details of any user."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Appointment data may contain sensitive personal health information.",
+              "Potential_attack_scenario": "Unauthorized access to appointment details, including patient names, dates, and types of services."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Endpoints related to appointments may expose Protected Health Information (PHI) without proper authentication."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Lack of authentication on appointment data endpoints is a violation of HITECH's security requirements."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/appointments/book/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "medium",
+              "description": "The booking interface may expose sensitive appointment details if not properly secured.",
+              "Potential_attack_scenario": "Unauthorized access to appointment booking forms or data could lead to privacy breaches."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Booking an appointment can involve sharing sensitive personal and health information."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Insecure booking processes can lead to unauthorized access of electronic health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/appointments/do_book/",
+          "methods": [
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 9
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "The endpoint for processing appointment bookings is not authenticated.",
+              "Potential_attack_scenario": "An attacker could book appointments for others, cancel appointments, or expose sensitive booking data."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Processing appointment bookings without authentication could lead to sensitive information disclosure.",
+              "Potential_attack_scenario": "Unauthorized access to patient appointment details, including personal information and medical reasons."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Processing appointment booking data without authentication can expose PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Unsecured processing of appointment bookings violates HITECH's requirements for protecting electronic health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/appointments/do_change/",
+          "methods": [
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 11
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "The endpoint for changing appointments is not authenticated.",
+              "Potential_attack_scenario": "An attacker could change or cancel appointments for any user, leading to disruption of care or exposure of sensitive data."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Modifying appointment details without authentication can lead to unauthorized access to sensitive health information.",
+              "Potential_attack_scenario": "Unauthorized modification of appointment times, dates, or services, potentially impacting patient care and privacy."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Modifying appointment details without authentication risks unauthorized access to PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Lack of authentication for appointment modification violates HITECH's security mandate for electronic health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/case/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 6
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Access to case information is not protected by authentication.",
+              "Potential_attack_scenario": "An attacker could view or modify sensitive patient case files."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Case files may contain highly sensitive personal and health information.",
+              "Potential_attack_scenario": "Unauthorized access to patient case details, including medical history, diagnoses, and treatments."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Access to patient case files without authentication directly violates HIPAA's privacy and security rules."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Exposure of electronic health records in case files due to lack of authentication is a major HITECH violation."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/case/generate/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "medium",
+              "description": "The case generation interface might expose sensitive patient data if not properly secured.",
+              "Potential_attack_scenario": "Unauthorized access to case generation forms or data could lead to privacy breaches."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Generating case files can involve inputting and processing sensitive patient health information."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Insecure case generation processes can lead to unauthorized access of electronic health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/case/do_generate/",
+          "methods": [
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "The endpoint for processing case generation is not authenticated.",
+              "Potential_attack_scenario": "An attacker could generate fraudulent case files or expose sensitive patient data."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Processing case generation without authentication could lead to sensitive information disclosure.",
+              "Potential_attack_scenario": "Unauthorized access to patient case details during the generation process."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Generating case files without authentication can expose PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Unsecured processing of case generation violates HITECH's requirements for protecting electronic health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/reports/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 6
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Access to reports is not protected by authentication.",
+              "Potential_attack_scenario": "An attacker could access sensitive patient reports."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Reports may contain sensitive personal and health information.",
+              "Potential_attack_scenario": "Unauthorized access to patient reports, including diagnostic, treatment, and financial information."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Access to healthcare reports without authentication is a direct violation of HIPAA."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Exposure of electronic health records via reports due to lack of authentication is a serious HITECH breach."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/reports/generate/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "medium",
+              "description": "The report generation interface might expose sensitive patient data if not properly secured.",
+              "Potential_attack_scenario": "Unauthorized access to report generation parameters or generated reports could lead to privacy breaches."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Generating reports can involve aggregating and exposing sensitive patient health information."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Insecure report generation processes can lead to unauthorized access of electronic health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/reports/do_generate/",
+          "methods": [
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "The endpoint for processing report generation is not authenticated.",
+              "Potential_attack_scenario": "An attacker could generate unauthorized or altered reports containing sensitive information."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Processing report generation without authentication could lead to sensitive information disclosure.",
+              "Potential_attack_scenario": "Unauthorized access to patient report data during the generation process."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Generating reports without authentication can expose PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Unsecured processing of report generation violates HITECH's requirements for protecting electronic health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/reports/do_change/",
+          "methods": [
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 10
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "The endpoint for changing reports is not authenticated.",
+              "Potential_attack_scenario": "An attacker could alter or delete sensitive patient reports, compromising data integrity and patient care."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Modifying report details without authentication can lead to unauthorized access to sensitive health information.",
+              "Potential_attack_scenario": "Unauthorized alteration of report content, potentially leading to misdiagnosis or incorrect treatment."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Modifying report details without authentication risks unauthorized access to and tampering with PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Lack of authentication for report modification violates HITECH's security mandate for electronic health information integrity."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/bill/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Access to billing information is not protected by authentication.",
+              "Potential_attack_scenario": "An attacker could view or tamper with sensitive billing and payment information."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Billing information may contain sensitive financial and personal data.",
+              "Potential_attack_scenario": "Unauthorized access to patient billing statements, insurance details, and payment history."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Access to billing information, which can include PHI, without authentication violates HIPAA."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Exposure of electronic health information within billing data due to lack of authentication is a HITECH breach."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/bill/do_generate/",
+          "methods": [
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 9
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "The endpoint for processing bill generation is not authenticated.",
+              "Potential_attack_scenario": "An attacker could generate fraudulent bills or expose sensitive financial and patient data."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Processing bill generation without authentication could lead to sensitive information disclosure.",
+              "Potential_attack_scenario": "Unauthorized access to patient billing details during the generation process."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Generating bills without authentication can expose PHI and financial data."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Unsecured processing of bill generation violates HITECH's requirements for protecting electronic health information and financial data."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/bill/pay/",
+          "methods": [
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 11
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              400,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "The payment processing endpoint is not authenticated.",
+              "Potential_attack_scenario": "An attacker could make unauthorized payments, steal payment information, or disrupt payment processing."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Processing payments without authentication can lead to exposure of sensitive financial and personal data.",
+              "Potential_attack_scenario": "Unauthorized access to credit card details, bank account information, and patient payment history."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Processing payments without authentication poses a severe risk to financial and health information, violating HIPAA."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Insecure payment processing for healthcare services is a significant HITECH violation, risking breaches of financial and health data."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/bill/medicines/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 12
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Access to medicine billing information is not protected by authentication.",
+              "Potential_attack_scenario": "An attacker could view or tamper with sensitive information about prescribed medicines and associated costs."
+            },
+            {
+              "id": "DATA_EXPOSURE",
+              "severity": "high",
+              "description": "Medicine billing information may contain sensitive health data (e.g., drug names, dosages).",
+              "Potential_attack_scenario": "Unauthorized access to details about patient prescriptions and medication history."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Access to medicine billing, which can contain PHI, without authentication is a HIPAA violation."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Exposure of electronic health information (medication details) within billing due to lack of authentication is a HITECH breach."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/login/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 30
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              400,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "The login endpoint is not explicitly authenticated, which could be a misconfiguration.",
+              "Potential_attack_scenario": "While login itself is an authentication mechanism, the absence of explicit auth checks here could be indicative of broader issues."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "The login endpoint itself does not directly handle PHI, but its security is crucial for subsequent access."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Secure login mechanisms are fundamental for protecting EHR, but this endpoint's immediate risk is low."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/logout/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 31
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "low",
+              "description": "The logout endpoint is not explicitly authenticated, which is generally acceptable for logout functionality.",
+              "Potential_attack_scenario": "No significant security risk is presented by an unauthenticated logout endpoint."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout functionality does not directly handle PHI."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout functionality is not directly related to the security of electronic health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        },
+        {
+          "path": "/loginmodule/auth",
+          "methods": [
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "The authentication endpoint '/loginmodule/auth' is not protected by authentication itself.",
+              "Potential_attack_scenario": "An attacker could potentially interfere with or bypass the authentication process if this endpoint is not secured."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This endpoint is related to authentication mechanisms, not direct handling of PHI."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "While important for security, this endpoint doesn't directly involve PHI, so the compliance risk is low."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": []
+          }
+        }
+      ]
+    }
+  }
+}

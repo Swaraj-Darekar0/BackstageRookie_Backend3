@@ -1,0 +1,17 @@
+{
+  "findings": [
+    {
+      "shortform_keyword": "EXPOSED-INTERNAL-IP",
+      "file_path": "myHospital\\settings.py",
+      "line_number": 28,
+      "severity": "LOW",
+      "context_snippet": "ALLOWED_HOSTS = ['192.168.0.111', '127.0.0.1', '192.168.43.155']",
+      "source": "regex",
+      "pattern_name": "exposed_internal_ip",
+      "confidence": "MEDIUM"
+    }
+  ],
+  "total_findings": 1,
+  "scan_id": "3b0f883f-2777-4674-9edb-a00949dedbbe",
+  "timestamp": "2026-02-07T02:46:35.321187"
+}

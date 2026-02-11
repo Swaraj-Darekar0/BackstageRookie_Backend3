@@ -1,0 +1,658 @@
+{
+  "SQLI-UNSAN-INPUT": {
+    "title": "SQL Injection via Unsanitized Input",
+    "description": "The application constructs SQL queries using unsanitized user input, which can allow attackers to manipulate query logic and access unauthorized data.",
+    "remediation_steps": [
+      "Use parameterized queries or prepared statements",
+      "Implement input validation and sanitization",
+      "Use ORM frameworks that handle parameterization",
+      "Apply principle of least privilege for database access"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-89: Improper Neutralization of Special Elements used in an SQL Command",
+      "PCI_DSS": "Requirement 6.2.4",
+      "SOC2": "CC6.1"
+    }
+  },
+  "SQL-INJECTION-REGEX": {
+    "title": "SQL Injection (Regex Detection)",
+    "description": "SQL injection vulnerability detected through pattern matching analysis.",
+    "remediation_steps": [
+      "Use parameterized queries or prepared statements",
+      "Implement input validation and sanitization",
+      "Use ORM frameworks that handle parameterization"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-89",
+      "PCI_DSS": "Requirement 6.2.4"
+    }
+  },
+  "SQL-INJECTION-BANDIT": {
+    "title": "SQL Injection (Bandit Detection)",
+    "description": "SQL injection vulnerability detected by Bandit static analysis tool.",
+    "remediation_steps": [
+      "Use parameterized queries or prepared statements",
+      "Implement input validation and sanitization",
+      "Use ORM frameworks that handle parameterization"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-89",
+      "PCI_DSS": "Requirement 6.2.4"
+    }
+  },
+  "XSS-UNESC-OUTPUT": {
+    "title": "Cross-Site Scripting (XSS) via Unescaped Output",
+    "description": "User-controlled data is rendered in web pages without proper encoding, allowing attackers to inject malicious scripts.",
+    "remediation_steps": [
+      "Implement output encoding/escaping",
+      "Use Content Security Policy (CSP)",
+      "Validate and sanitize all input",
+      "Use secure templating engines"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-79: Improper Neutralization of Input During Web Page Generation",
+      "PCI_DSS": "Requirement 6.2.4"
+    }
+  },
+  "HARDCODED-SECRET": {
+    "title": "Hardcoded Credentials",
+    "description": "Sensitive credentials are hardcoded in the source code, making them accessible to anyone with code access.",
+    "remediation_steps": [
+      "Use environment variables for sensitive data",
+      "Implement secure credential management systems",
+      "Use encrypted configuration files",
+      "Implement proper access controls"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A07:2021 – Identification and Authentication Failures",
+      "CWE": "CWE-798: Use of Hard-coded Credentials",
+      "SOC2": "CC6.1"
+    }
+  },
+  "HARDCODED-PASSWORD-STRING": {
+    "title": "Hardcoded Password String",
+    "description": "Password hardcoded directly in source code as string literal.",
+    "remediation_steps": [
+      "Remove hardcoded password from code",
+      "Use environment variables",
+      "Use secrets management system (e.g., AWS Secrets Manager)"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A07:2021 – Identification and Authentication Failures",
+      "CWE": "CWE-798",
+      "PCI_DSS": "Requirement 8.2.1"
+    }
+  },
+  "HARDCODED-PASSWORD-FUNCARG": {
+    "title": "Hardcoded Password in Function Argument",
+    "description": "Password passed as hardcoded argument to function.",
+    "remediation_steps": [
+      "Remove hardcoded password from function call",
+      "Pass credentials from environment or config"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A07:2021 – Identification and Authentication Failures",
+      "CWE": "CWE-798"
+    }
+  },
+  "HARDCODED-PASSWORD-DEFAULT": {
+    "title": "Hardcoded Password as Default Value",
+    "description": "Password set as default value in function definition.",
+    "remediation_steps": [
+      "Remove default password value",
+      "Use None as default and load from config"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A07:2021 – Identification and Authentication Failures",
+      "CWE": "CWE-798"
+    }
+  },
+  "SUBPROCESS-SHELL-TRUE": {
+    "title": "Subprocess Called with shell=True",
+    "description": "Subprocess called with shell=True flag, allowing shell injection attacks.",
+    "remediation_steps": [
+      "Use shell=False for subprocess calls",
+      "Use shlex.split() for arguments",
+      "Validate and sanitize all user input"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-78: Improper Neutralization of Special Elements used in an OS Command",
+      "PCI_DSS": "Requirement 6.5.1"
+    }
+  },
+  "COMMAND-INJECTION": {
+    "title": "Command Injection Vulnerability",
+    "description": "User input flows directly to system command execution without sanitization.",
+    "remediation_steps": [
+      "Avoid os.system() and use subprocess.run() with shell=False",
+      "Use parameterized/safe APIs",
+      "Implement strict input validation"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-78",
+      "PCI_DSS": "Requirement 6.5.1"
+    }
+  },
+  "PICKLE-UNSAFE": {
+    "title": "Unsafe Pickle Deserialization",
+    "description": "Unsafe deserialization using pickle.loads() can execute arbitrary code.",
+    "remediation_steps": [
+      "Use json instead of pickle for untrusted data",
+      "If pickle is required, use restricted unpickler",
+      "Never unpickle untrusted data"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A08:2021 – Software and Data Integrity Failures",
+      "CWE": "CWE-502: Deserialization of Untrusted Data"
+    }
+  },
+  "MARSHAL-UNSAFE": {
+    "title": "Unsafe Marshal Deserialization",
+    "description": "Using marshal for untrusted data can lead to arbitrary code execution.",
+    "remediation_steps": [
+      "Use json instead of marshal",
+      "Never unmarshal untrusted data",
+      "Use safer serialization formats"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A08:2021 – Software and Data Integrity Failures",
+      "CWE": "CWE-502"
+    }
+  },
+  "YAML-LOAD-UNSAFE": {
+    "title": "Unsafe YAML Loading",
+    "description": "yaml.load() without Loader parameter can execute arbitrary code.",
+    "remediation_steps": [
+      "Use yaml.safe_load() instead",
+      "Specify Loader=yaml.SafeLoader",
+      "Validate YAML structure before processing"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A08:2021 – Software and Data Integrity Failures",
+      "CWE": "CWE-502"
+    }
+  },
+  "WEAK-CRYPTO-MD5": {
+    "title": "Weak Cryptographic Hash (MD5/SHA1)",
+    "description": "MD5 or SHA1 used for cryptographic purposes, which are cryptographically broken.",
+    "remediation_steps": [
+      "Use SHA-256 or stronger hash algorithms",
+      "For passwords, use bcrypt, argon2, or scrypt",
+      "Never use MD5 or SHA1 for security"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A02:2021 – Cryptographic Failures",
+      "CWE": "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+    }
+  },
+  "WEAK-CRYPTO-HASH": {
+    "title": "Weak Hash Algorithm",
+    "description": "Weak or insufficient hash algorithm used for cryptographic operations.",
+    "remediation_steps": [
+      "Use SHA-256 or stronger",
+      "For passwords, use bcrypt with sufficient rounds",
+      "Use PBKDF2 with adequate iterations"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A02:2021 – Cryptographic Failures",
+      "CWE": "CWE-327"
+    }
+  },
+  "INSECURE-TEMPFILE": {
+    "title": "Insecure Temporary File Usage",
+    "description": "Use of insecure temporary file creation methods like mktemp() or hardcoded /tmp paths.",
+    "remediation_steps": [
+      "Use tempfile.NamedTemporaryFile()",
+      "Use tempfile.mkdtemp()",
+      "Never hardcode /tmp directory"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A01:2021 – Broken Access Control",
+      "CWE": "CWE-377: Insecure Temporary File"
+    }
+  },
+  "EVAL-EXEC-USE": {
+    "title": "Use of Eval or Exec",
+    "description": "eval() or exec() used which can execute arbitrary code from untrusted input.",
+    "remediation_steps": [
+      "Avoid eval() and exec() entirely",
+      "Use ast.literal_eval() for safe evaluation",
+      "Use safer alternatives like compile() + restricted globals"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code"
+    }
+  },
+  "NOSQL-INJECTION": {
+    "title": "NoSQL Injection Vulnerability",
+    "description": "NoSQL queries constructed with unsanitized user input, similar to SQL injection.",
+    "remediation_steps": [
+      "Use parameterized queries",
+      "Implement input validation",
+      "Use ORM frameworks",
+      "Apply principle of least privilege"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-943: Improper Neutralization of Special Elements in Data Query Logic"
+    }
+  },
+  "LDAP-INJECTION": {
+    "title": "LDAP Injection Vulnerability",
+    "description": "LDAP queries constructed with unsanitized user input.",
+    "remediation_steps": [
+      "Use parameterized LDAP queries",
+      "Escape special LDAP characters",
+      "Implement input validation",
+      "Use LDAP libraries with built-in escaping"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-90: Improper Neutralization of Special Elements used in an LDAP Query"
+    }
+  },
+  "WEAK-RANDOM-TOKEN": {
+    "title": "Weak Random Number Generation for Tokens",
+    "description": "random.randint() or similar used for security tokens instead of cryptographically secure methods.",
+    "remediation_steps": [
+      "Use secrets.token_urlsafe()",
+      "Use secrets.token_hex()",
+      "Use os.urandom() for cryptographic operations",
+      "Never use random.* for security"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A02:2021 – Cryptographic Failures",
+      "CWE": "CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator"
+    }
+  },
+  "COOKIE-NO-HTTPONLY": {
+    "title": "Missing HttpOnly Flag on Cookie",
+    "description": "Cookie set without HttpOnly flag, allowing JavaScript access and XSS attacks.",
+    "remediation_steps": [
+      "Set HttpOnly flag on all sensitive cookies",
+      "Set Secure flag for HTTPS only",
+      "Set SameSite attribute"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A05:2021 – Security Misconfiguration",
+      "CWE": "CWE-614: Sensitive Cookie in HTTPS Session Without Secure Attribute"
+    }
+  },
+  "CSRF-TOKEN-MISSING": {
+    "title": "Missing CSRF Protection Token",
+    "description": "State-changing operation (POST/PUT/DELETE) without CSRF token validation.",
+    "remediation_steps": [
+      "Implement CSRF tokens",
+      "Use SameSite cookie attribute",
+      "Validate origin and referer headers",
+      "Use double-submit cookie pattern"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A01:2021 – Broken Access Control",
+      "CWE": "CWE-352: Cross-Site Request Forgery (CSRF)"
+    }
+  },
+  "DEBUG-MODE-ENABLED": {
+    "title": "Debug Mode Enabled in Production",
+    "description": "Application running with DEBUG=True exposing sensitive information.",
+    "remediation_steps": [
+      "Set DEBUG=False in production",
+      "Never commit DEBUG=True to repository",
+      "Use environment variables for configuration"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A05:2021 – Security Misconfiguration",
+      "CWE": "CWE-215: Information Exposure Through Debug Information"
+    }
+  },
+  "HARDCODED-ENCRYPTION-KEY": {
+    "title": "Hardcoded Encryption Key",
+    "description": "Encryption key hardcoded in source code or configuration.",
+    "remediation_steps": [
+      "Store keys in secure key management system",
+      "Use environment variables",
+      "Use AWS KMS or similar service",
+      "Rotate keys regularly"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A02:2021 – Cryptographic Failures",
+      "CWE": "CWE-321: Use of Hard-coded Cryptographic Key"
+    }
+  },
+  "WEAK-SSL-CONFIG": {
+    "title": "Weak SSL/TLS Configuration",
+    "description": "SSL verification disabled or weak SSL/TLS settings used.",
+    "remediation_steps": [
+      "Enable SSL certificate verification",
+      "Use TLS 1.2 or higher",
+      "Use strong cipher suites",
+      "Update SSL libraries regularly"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A02:2021 – Cryptographic Failures",
+      "CWE": "CWE-295: Improper Certificate Validation"
+    }
+  },
+  "ECB-MODE-USED": {
+    "title": "ECB Mode Used for Encryption",
+    "description": "Electronic Codebook (ECB) mode used, which is deterministic and leaks patterns.",
+    "remediation_steps": [
+      "Use CBC, CTR, or GCM mode instead",
+      "Add authentication with GMAC or HMAC",
+      "Use modern encryption libraries"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A02:2021 – Cryptographic Failures",
+      "CWE": "CWE-327"
+    }
+  },
+  "XXE-XML-PARSING": {
+    "title": "XXE Vulnerability in XML Parsing",
+    "description": "XML parser configured to process external entities, allowing XXE attacks.",
+    "remediation_steps": [
+      "Disable external entity processing",
+      "Use xml.etree.ElementTree with restrict_entities=True",
+      "Use defusedxml library",
+      "Validate XML schema"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A05:2021 – Security Misconfiguration",
+      "CWE": "CWE-611: Improper Restriction of XML External Entity Reference"
+    }
+  },
+  "XXE-YAML-PARSING": {
+    "title": "XXE Vulnerability in YAML Parsing",
+    "description": "YAML parser processes external entities allowing XXE attacks.",
+    "remediation_steps": [
+      "Use yaml.safe_load() instead of yaml.load()",
+      "Disable external entity processing",
+      "Validate YAML structure"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A05:2021 – Security Misconfiguration",
+      "CWE": "CWE-611"
+    }
+  },
+  "SSRF-REQUEST": {
+    "title": "Server-Side Request Forgery (SSRF)",
+    "description": "Application makes requests to user-supplied URLs without validation.",
+    "remediation_steps": [
+      "Validate and whitelist allowed URLs",
+      "Reject private IP ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)",
+      "Use URL parsing to extract hostname",
+      "Implement rate limiting on requests"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A10:2021 – Server-Side Request Forgery (SSRF)",
+      "CWE": "CWE-918: Server-Side Request Forgery (SSRF)"
+    }
+  },
+  "SENSITIVE-DATA-LOGGED": {
+    "title": "Sensitive Data Logged",
+    "description": "Sensitive information (passwords, tokens, PII) logged in application logs.",
+    "remediation_steps": [
+      "Implement data masking in logs",
+      "Never log passwords or tokens",
+      "Use structured logging with redaction",
+      "Implement log access controls"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A09:2021 – Security Logging and Monitoring Failures",
+      "CWE": "CWE-532: Insertion of Sensitive Information into Log File"
+    }
+  },
+  "VERBOSE-ERROR-MESSAGE": {
+    "title": "Verbose Error Messages",
+    "description": "Exception details or stack traces returned to users, exposing system information.",
+    "remediation_steps": [
+      "Return generic error messages to users",
+      "Log detailed errors server-side only",
+      "Implement error handling middleware",
+      "Use error codes instead of descriptions"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A05:2021 – Security Misconfiguration",
+      "CWE": "CWE-209: Information Exposure Through an Error Message"
+    }
+  },
+  "EXPOSED-API-KEY": {
+    "title": "Exposed API Key",
+    "description": "API key or access token hardcoded in source code.",
+    "remediation_steps": [
+      "Move API keys to environment variables",
+      "Use secret management systems",
+      "Rotate compromised keys immediately",
+      "Use scoped/limited-permission keys"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A07:2021 – Identification and Authentication Failures",
+      "CWE": "CWE-798"
+    }
+  },
+  "UNSAFE-ASSERT": {
+    "title": "Unsafe Use of Assert",
+    "description": "assert() used for validation in security-critical code (can be disabled with -O flag).",
+    "remediation_steps": [
+      "Use proper if statements for validation",
+      "Raise exceptions instead of assert",
+      "Never use assert for security checks"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-506: Embedded Malicious Code"
+    }
+  },
+  "UNSAFE-GETATTR": {
+    "title": "Unsafe getattr() Usage",
+    "description": "getattr() with untrusted attribute name allowing arbitrary attribute access.",
+    "remediation_steps": [
+      "Use whitelist of allowed attributes",
+      "Validate attribute names",
+      "Use dictionary lookup instead of getattr()"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-95"
+    }
+  },
+  "MONKEY-PATCHING": {
+    "title": "Dangerous Monkey Patching",
+    "description": "Modifying built-in functions or classes from untrusted input.",
+    "remediation_steps": [
+      "Never modify built-in objects",
+      "Use dependency injection instead",
+      "Validate and sanitize all dynamic code",
+      "Use code review for monkey patching"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-95"
+    }
+  },
+  "SESSION-FIXATION": {
+    "title": "Session Fixation Vulnerability",
+    "description": "Session ID not regenerated after authentication, allowing session fixation attacks.",
+    "remediation_steps": [
+      "Regenerate session ID after login",
+      "Use session.regenerate_id() or equivalent",
+      "Invalidate old session after successful authentication"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A07:2021 – Identification and Authentication Failures",
+      "CWE": "CWE-384: Session Fixation"
+    }
+  },
+  "NO-RATE-LIMITING": {
+    "title": "Missing Rate Limiting",
+    "description": "Endpoint or API accepting unlimited requests, allowing brute force and DoS attacks.",
+    "remediation_steps": [
+      "Implement rate limiting per IP/user/API key",
+      "Use exponential backoff for failures",
+      "Implement CAPTCHA after N attempts",
+      "Monitor and alert on rate limit violations"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A01:2021 – Broken Access Control",
+      "CWE": "CWE-770: Allocation of Resources Without Limits"
+    }
+  },
+  "INTERNAL-IP-EXPOSED": {
+    "title": "Internal IP Address Exposed",
+    "description": "Internal IP addresses visible in responses or logs.",
+    "remediation_steps": [
+      "Remove internal IPs from error messages",
+      "Use IP masking in logs",
+      "Implement proper firewall rules",
+      "Monitor DNS for internal zone leaks"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A01:2021 – Broken Access Control",
+      "CWE": "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+    }
+  },
+  "UNSAFE-REDIRECT": {
+    "title": "Unsafe URL Redirect",
+    "description": "Open redirect allowing attackers to redirect users to arbitrary sites.",
+    "remediation_steps": [
+      "Whitelist allowed redirect URLs",
+      "Use relative URLs only",
+      "Validate redirect target hostname",
+      "Warn users before external redirects"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A01:2021 – Broken Access Control",
+      "CWE": "CWE-601: URL Redirection to Untrusted Site"
+    }
+  },
+  "UNSAFE-INPUT-USAGE": {
+    "title": "Unsafe Input Function Usage",
+    "description": "input() builtin used for reading untrusted data in scripts.",
+    "remediation_steps": [
+      "Use sys.stdin for safer input",
+      "Validate all input",
+      "Use argparse for command-line arguments",
+      "Sanitize input before processing"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-78"
+    }
+  },
+  "MISSING-AUTH-CHECK": {
+    "title": "Missing Authentication Check",
+    "description": "Function performing sensitive operations without authentication verification.",
+    "remediation_steps": [
+      "Add @login_required decorator",
+      "Verify user is authenticated",
+      "Implement session validation",
+      "Use authentication middleware"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A07:2021 – Identification and Authentication Failures",
+      "CWE": "CWE-287: Improper Authentication"
+    }
+  },
+  "IDOR-VULNERABILITY": {
+    "title": "Insecure Direct Object Reference (IDOR)",
+    "description": "User can access objects they don't own by manipulating ID parameters.",
+    "remediation_steps": [
+      "Implement access control checks",
+      "Verify user owns the resource",
+      "Use indirect references (map ID → resource)",
+      "Implement authorization middleware"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A01:2021 – Broken Access Control",
+      "CWE": "CWE-639: Authorization Bypass Through User-Controlled Key"
+    }
+  },
+  "TAINTED-DATA-FLOW": {
+    "title": "Tainted Data Flow to Sensitive Operation",
+    "description": "User input flows directly to sensitive operation (database query, system call) without sanitization.",
+    "remediation_steps": [
+      "Implement input validation",
+      "Use parameterized operations",
+      "Apply output encoding",
+      "Use security libraries"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A03:2021 – Injection",
+      "CWE": "CWE-89"
+    }
+  },
+  "RACE-CONDITION-TOCTOU": {
+    "title": "Race Condition (Time-of-Check to Time-of-Use)",
+    "description": "Code checks if resource exists, then uses it; attacker can modify between check and use.",
+    "remediation_steps": [
+      "Use atomic operations",
+      "Implement file locking",
+      "Use database transactions",
+      "Use optimistic locking"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A01:2021 – Broken Access Control",
+      "CWE": "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition"
+    }
+  },
+  "VULNERABLE-DEPENDENCY": {
+    "title": "Vulnerable Dependency",
+    "description": "Project depends on package version with known security vulnerabilities.",
+    "remediation_steps": [
+      "Update to patched version",
+      "If no patch available, use workaround",
+      "Monitor CVE databases",
+      "Use software composition analysis tools"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A06:2021 – Vulnerable and Outdated Components",
+      "CWE": "CWE-1035: Use of a Component with a Known Vulnerability"
+    }
+  },
+  "PATH-TRAVERSAL": {
+    "title": "Path Traversal Vulnerability",
+    "description": "User input used to construct file paths allowing access to unauthorized directories.",
+    "remediation_steps": [
+      "Use absolute paths",
+      "Validate against whitelist",
+      "Use realpath() and check if within allowed directory",
+      "Sanitize ../  and null bytes"
+    ],
+    "compliance_mappings": {
+      "OWASP_TOP_10": "A01:2021 – Broken Access Control",
+      "CWE": "CWE-22: Improper Limitation of a Pathname to a Restricted Directory"
+    }
+  },
+  "POLICY-VIOLATION": {
+    "title": "Policy Violation",
+    "description": "Finding violates organization security policy or compliance requirement.",
+    "remediation_steps": [
+      "Review security policy",
+      "Implement required controls",
+      "Document exceptions if justified",
+      "Schedule remediation"
+    ],
+    "compliance_mappings": {
+      "CUSTOM": "Organizational Policy"
+    }
+  },
+  "RECOMMENDATION": {
+    "title": "Security Recommendation",
+    "description": "Suggested improvement to overall security posture based on analysis.",
+    "remediation_steps": [
+      "Review recommendation details",
+      "Assess feasibility and impact",
+      "Plan implementation",
+      "Document decision"
+    ],
+    "compliance_mappings": {
+      "CUSTOM": "Best Practices"
+    }
+  }
+}

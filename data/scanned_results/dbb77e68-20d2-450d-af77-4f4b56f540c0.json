@@ -1,0 +1,345 @@
+{
+  "error": "Error during LLM API call: Responses.create() got an unexpected keyword argument 'messages'",
+  "total_findings": 14,
+  "scan_id": "dbb77e68-20d2-450d-af77-4f4b56f540c0",
+  "timestamp": "2026-02-04T14:18:17.097179",
+  "framework_analysis": {
+    "framework": "flask/fastapi",
+    "endpoints": [
+      {
+        "path": "/login",
+        "methods": [
+          "POST"
+        ],
+        "view": "login",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\dbb77e68-20d2-450d-af77-4f4b56f540c0\\LibraryMangement_Flask\\libraryManagement\\auth\\routes.py",
+        "line_number": 14,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/logout",
+        "methods": [
+          "POST"
+        ],
+        "view": "logout",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\dbb77e68-20d2-450d-af77-4f4b56f540c0\\LibraryMangement_Flask\\libraryManagement\\auth\\routes.py",
+        "line_number": 32,
+        "auth": {
+          "required": true,
+          "hints": [
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "jwt",
+              "line": 31
+            },
+            {
+              "type": "decorator",
+              "pattern": "JWT",
+              "line": 31
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 32
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 32
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 31
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 31
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 31
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 31
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/signup",
+        "methods": [
+          "POST"
+        ],
+        "view": "signup",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\dbb77e68-20d2-450d-af77-4f4b56f540c0\\LibraryMangement_Flask\\libraryManagement\\auth\\routes.py",
+        "line_number": 38,
+        "auth": {
+          "required": false,
+          "hints": [],
+          "locations": []
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      },
+      {
+        "path": "/",
+        "methods": [
+          "POST",
+          "GET",
+          "PUT",
+          "DELETE"
+        ],
+        "view": "book",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\dbb77e68-20d2-450d-af77-4f4b56f540c0\\LibraryMangement_Flask\\libraryManagement\\books\\routes.py",
+        "line_number": 12,
+        "auth": {
+          "required": true,
+          "hints": [
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "jwt",
+              "line": 11
+            },
+            {
+              "type": "decorator",
+              "pattern": "JWT",
+              "line": 11
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 11
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 11
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 11
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 11
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 13
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": [
+            200
+          ]
+        }
+      },
+      {
+        "path": "/",
+        "methods": [
+          "GET",
+          "PUT",
+          "DELETE"
+        ],
+        "view": "profile",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\dbb77e68-20d2-450d-af77-4f4b56f540c0\\LibraryMangement_Flask\\libraryManagement\\Member\\routes.py",
+        "line_number": 13,
+        "auth": {
+          "required": true,
+          "hints": [
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT",
+            "jwt",
+            "JWT"
+          ],
+          "locations": [
+            {
+              "type": "decorator",
+              "pattern": "jwt",
+              "line": 12
+            },
+            {
+              "type": "decorator",
+              "pattern": "JWT",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 13
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 14
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 14
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 14
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 14
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 12
+            },
+            {
+              "type": "code_usage",
+              "pattern": "jwt",
+              "line": 14
+            },
+            {
+              "type": "code_usage",
+              "pattern": "JWT",
+              "line": 14
+            }
+          ]
+        },
+        "request": {
+          "fields": []
+        },
+        "response": {
+          "status_codes": []
+        }
+      }
+    ],
+    "errors": [],
+    "llm_enriched": {
+      "error": "Gemini API call failed: 401 Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project. [reason: \"ACCESS_TOKEN_TYPE_UNSUPPORTED\"\nmetadata {\n  key: \"service\"\n  value: \"generativelanguage.googleapis.com\"\n}\nmetadata {\n  key: \"method\"\n  value: \"google.ai.generativelanguage.v1beta.GenerativeService.GenerateContent\"\n}\n]",
+      "raw_response": ""
+    }
+  }
+}

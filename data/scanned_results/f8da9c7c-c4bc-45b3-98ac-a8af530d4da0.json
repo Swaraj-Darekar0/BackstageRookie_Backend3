@@ -1,0 +1,1759 @@
+{
+  "executive_summary": {
+    "overview": "This security assessment of the myHospital application, a critical system in the healthcare sector, identified a significant information leakage vulnerability. The application's configuration inadvertently exposes internal network IP addresses, which, while not directly exploitable, provides valuable reconnaissance data to potential adversaries. This finding highlights a broader concern regarding secure configuration management and information hygiene within a sensitive environment, particularly given the co-occurrence of debug mode being enabled.",
+    "vulnerability_overview_text": "1 Medium vulnerability identified.",
+    "vulnerability_list": [
+      {
+        "id": "M1",
+        "title": "Exposure of Internal IP Addresses in Application Configuration",
+        "cvss": 5.3,
+        "page": "myHospital\\settings.py:28"
+      }
+    ],
+    "severity_distribution": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 1,
+      "LOW": 0
+    }
+  },
+  "methodology": {
+    "introduction": "This report details the results of a security assessment conducted on the specified repository. The analysis involved a multi-layered approach, combining automated static analysis tools with advanced, AI-driven verification and enrichment to identify potential security vulnerabilities.",
+    "objective": "The primary objective of this assessment was to identify security weaknesses, assess their potential impact, and provide actionable recommendations for remediation to improve the overall security posture of the application.",
+    "scope_text": "The assessment was performed on the source code of the repository cloned at the time of the scan. The analysis focused on common web application vulnerabilities, insecure coding practices, and dependency risks.",
+    "systems": [],
+    "user_accounts_description": "As this was a static source code analysis, no user accounts were provisioned or tested.",
+    "accounts": []
+  },
+  "findings": [
+    {
+      "id": "M1",
+      "title": "Exposure of Internal IP Addresses in Application Configuration",
+      "severity": "medium",
+      "severity_label": "Medium",
+      "cvss": 5.3,
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "target": "myHospital\\settings.py",
+      "references": [
+        "https://owasp.org/www-community/attacks/Information_Exposure",
+        "https://owasp.org/www-project-top-ten/2021/A05_2021-Security_Misconfiguration"
+      ],
+      "overview": "The Django application's core configuration file, `settings.py`, includes internal IP addresses within the `ALLOWED_HOSTS` setting. This configuration, particularly when `DEBUG` mode is enabled, can inadvertently expose internal network topology to potential attackers, facilitating reconnaissance efforts against the organization's infrastructure.",
+      "details": "The `ALLOWED_HOSTS` setting is a security measure in Django designed to prevent HTTP Host header attacks by specifying a whitelist of hostnames or IP addresses that the application should respond to. However, directly embedding internal IP addresses (e.g., '192.168.0.111', '192.168.43.155') in this setting represents an information leakage vulnerability. While not directly exploitable for remote code execution or data theft, revealing internal network addressing schemes can provide valuable reconnaissance data to adversaries. In a healthcare sector application, such information could aid attackers in mapping the internal network, identifying potential targets, or planning more sophisticated attacks. The presence of `DEBUG = True` in the same settings file further amplifies this risk, as debug information can reveal additional sensitive details during error conditions, making the overall configuration less secure.",
+      "evidence": [
+        {
+          "name": "myHospital\\settings.py:28",
+          "description": "The ALLOWED_HOSTS setting explicitly lists internal IP addresses, potentially exposing internal network configuration details:\npython\n26: DEBUG = True\n27: \n28: ALLOWED_HOSTS = ['192.168.0.111', '127.0.0.1', '192.168.43.155']\n"
+        }
+      ],
+      "recommendation": "- Remove all internal IP addresses from the `ALLOWED_HOSTS` setting.\n- Only include legitimate public-facing domain names or hostnames that the application is intended to serve in `ALLOWED_HOSTS`.\n- For development environments, consider using `['localhost', '127.0.0.1']` and ensure strict network isolation, or use specific hostnames that resolve to the development machine.\n- Ensure `DEBUG = False` in all production and staging environments to prevent sensitive information disclosure and other debug-related risks.\n- Utilize environment variables or a separate, non-version-controlled configuration file for sensitive settings like hostnames or internal network details.",
+      "prompts_to_solve_the_vulnerability": "In `myHospital\\settings.py` at line 28, the `ALLOWED_HOSTS` setting contains internal IP addresses like '192.168.0.111' and '192.168.43.155'. To resolve this information leakage vulnerability, you must remove these internal IP addresses. Modify the `ALLOWED_HOSTS` list to only include the actual public domain names or hostnames that your Django application should respond to (e.g., `['yourdomain.com', 'www.yourdomain.com']`). For local development, it's safer to use `['localhost', '127.0.0.1']`. Additionally, verify that `DEBUG` is set to `False` for any production deployments to prevent sensitive debug information from being exposed."
+    }
+  ],
+  "total_findings": 1,
+  "scan_id": "f8da9c7c-c4bc-45b3-98ac-a8af530d4da0",
+  "timestamp": "2026-02-08T22:55:43.801802",
+  "framework_analysis": {
+    "framework": "django",
+    "endpoints": [
+      {
+        "path": "/admin/",
+        "view": "admin.site.urls",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\myHospital\\urls.py",
+        "line_number": 22
+      },
+      {
+        "path": "/",
+        "view": "home",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\home\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/home/",
+        "view": "home",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\home\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/profile/",
+        "view": "myProfile",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\profiles\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/profile/register/",
+        "view": "register",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\profiles\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/profile/do_register/",
+        "view": "doRegister",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\profiles\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/appointments/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\appointments\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/appointments/book/",
+        "view": "book",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\appointments\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/appointments/do_book/",
+        "view": "doBook",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\appointments\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/appointments/do_change/",
+        "view": "doChange",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\appointments\\urls.py",
+        "line_number": 11
+      },
+      {
+        "path": "/case/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\case\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/case/generate/",
+        "view": "generate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\case\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/case/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\case\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/reports/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\reports\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/reports/generate/",
+        "view": "generate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\reports\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/reports/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\reports\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/reports/do_change/",
+        "view": "doChange",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\reports\\urls.py",
+        "line_number": 10
+      },
+      {
+        "path": "/bill/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\bill\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/bill/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\bill\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/bill/pay/",
+        "view": "pay",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\bill\\urls.py",
+        "line_number": 11
+      },
+      {
+        "path": "/bill/medicines/",
+        "view": "viewMedicine",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\bill\\urls.py",
+        "line_number": 12
+      },
+      {
+        "path": "/login/",
+        "view": "login",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\myHospital\\urls.py",
+        "line_number": 30
+      },
+      {
+        "path": "/logout/",
+        "view": "logout",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\myHospital\\urls.py",
+        "line_number": 31
+      },
+      {
+        "path": "/loginmodule/auth",
+        "view": "auth_view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\backendTwo\\PulledCode_temp\\f8da9c7c-c4bc-45b3-98ac-a8af530d4da0\\myHospital\\loginmodule\\urls.py",
+        "line_number": 7
+      }
+    ],
+    "errors": [],
+    "llm_enriched": {
+      "metadata": {
+        "framework": "django",
+        "sector": "Healthcare",
+        "compliances": [
+          "HIPAA",
+          "HITECH"
+        ]
+      },
+      "endpoints": [
+        {
+          "path": "/admin/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 22
+          },
+          "auth": {
+            "required": true,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              403,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "The admin interface itself does not directly handle patient data, but its access controls are critical for HIPAA compliance."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "The admin interface itself does not directly handle patient data, but its access controls are critical for HITECH compliance."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 6
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              404,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a public-facing home page and unlikely to contain sensitive Protected Health Information (PHI)."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a public-facing home page and unlikely to contain sensitive Protected Health Information (PHI)."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/home/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 6
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              404,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a public-facing home page and unlikely to contain sensitive Protected Health Information (PHI)."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a public-facing home page and unlikely to contain sensitive Protected Health Information (PHI)."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/profile/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              403,
+              404,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for accessing user profile data.",
+              "Potential_attack_scenario": "An attacker can view sensitive personal information of other users by accessing their profile pages without authentication."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint is intended to display user profiles, which can contain sensitive personal health information (PHI). Lack of authentication exposes this data."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint is intended to display user profiles, which can contain sensitive personal health information (PHI). Lack of authentication exposes this data, violating HITECH breach notification rules."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/profile/register/",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "username",
+                "type": "string",
+                "sensitive": true
+              },
+              {
+                "name": "password",
+                "type": "string",
+                "sensitive": true
+              },
+              {
+                "name": "email",
+                "type": "string",
+                "sensitive": true
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a registration form and while it collects personal data, it does not directly handle PHI."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a registration form and while it collects personal data, it does not directly handle PHI."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/profile/do_register/",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 9
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "username",
+                "type": "string",
+                "sensitive": true
+              },
+              {
+                "name": "password",
+                "type": "string",
+                "sensitive": true
+              },
+              {
+                "name": "email",
+                "type": "string",
+                "sensitive": true
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is missing for the registration processing endpoint.",
+              "Potential_attack_scenario": "An attacker could potentially flood the registration process or attempt to register with malicious intent if proper rate limiting or validation is not in place."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This endpoint processes registration data, not direct PHI."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This endpoint processes registration data, not direct PHI."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/appointments/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for accessing appointment data.",
+              "Potential_attack_scenario": "An attacker can view sensitive appointment details of other users by accessing this endpoint without authentication."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint is for viewing appointments, which can contain Protected Health Information (PHI). Lack of authentication exposes this data."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint is for viewing appointments, which can contain Protected Health Information (PHI). Lack of authentication exposes this data, violating HITECH breach notification rules."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/appointments/book/",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "patient_id",
+                "type": "number",
+                "sensitive": true
+              },
+              {
+                "name": "doctor_id",
+                "type": "number",
+                "sensitive": false
+              },
+              {
+                "name": "date",
+                "type": "string",
+                "sensitive": false
+              },
+              {
+                "name": "time",
+                "type": "string",
+                "sensitive": false
+              },
+              {
+                "name": "reason",
+                "type": "string",
+                "sensitive": false
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is missing for booking appointments.",
+              "Potential_attack_scenario": "An unauthenticated user could book appointments for others or misuse the booking system."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Booking an appointment involves Protected Health Information (PHI). Lack of strong authentication poses a risk."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Booking an appointment involves Protected Health Information (PHI). Lack of strong authentication poses a risk to data integrity and privacy."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/appointments/do_book/",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 9
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "patient_id",
+                "type": "number",
+                "sensitive": true
+              },
+              {
+                "name": "doctor_id",
+                "type": "number",
+                "sensitive": false
+              },
+              {
+                "name": "date",
+                "type": "string",
+                "sensitive": false
+              },
+              {
+                "name": "time",
+                "type": "string",
+                "sensitive": false
+              },
+              {
+                "name": "reason",
+                "type": "string",
+                "sensitive": false
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is missing for processing appointment bookings.",
+              "Potential_attack_scenario": "An unauthenticated user could potentially submit malicious or duplicate appointment booking requests."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "This endpoint processes booking requests, which involve Protected Health Information (PHI). Lack of authentication poses a risk."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "This endpoint processes booking requests, which involve Protected Health Information (PHI). Lack of authentication poses a risk to data integrity and privacy."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/appointments/do_change/",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 11
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "appointment_id",
+                "type": "number",
+                "sensitive": false
+              },
+              {
+                "name": "new_date",
+                "type": "string",
+                "sensitive": false
+              },
+              {
+                "name": "new_time",
+                "type": "string",
+                "sensitive": false
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for changing appointments.",
+              "Potential_attack_scenario": "An attacker could change appointments for other users, potentially causing disruption or impersonation, by accessing this endpoint without authentication."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Modifying appointment details can affect Protected Health Information (PHI). Lack of authentication allows unauthorized modifications."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Modifying appointment details can affect Protected Health Information (PHI). Lack of authentication poses a significant risk to data integrity and patient care."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/case/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 6
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for accessing case data.",
+              "Potential_attack_scenario": "An attacker can view sensitive case details (medical history, patient info) of other users by accessing this endpoint without authentication."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint is for viewing cases, which can contain Protected Health Information (PHI). Lack of authentication exposes this data."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint is for viewing cases, which can contain Protected Health Information (PHI). Lack of authentication exposes this data, violating HITECH breach notification rules."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/case/generate/",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "patient_id",
+                "type": "number",
+                "sensitive": true
+              },
+              {
+                "name": "case_details",
+                "type": "string",
+                "sensitive": false
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is missing for generating cases.",
+              "Potential_attack_scenario": "An unauthenticated user could potentially create fake cases or misuse the system for unauthorized data entry."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Generating a case involves Protected Health Information (PHI). Lack of authentication poses a risk."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Generating a case involves Protected Health Information (PHI). Lack of authentication poses a risk to data integrity and privacy."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/case/do_generate/",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "patient_id",
+                "type": "number",
+                "sensitive": true
+              },
+              {
+                "name": "case_details",
+                "type": "string",
+                "sensitive": false
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is missing for processing case generation.",
+              "Potential_attack_scenario": "An unauthenticated user could potentially submit malicious or invalid case data."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Processing case generation involves Protected Health Information (PHI). Lack of authentication poses a risk."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Processing case generation involves Protected Health Information (PHI). Lack of authentication poses a risk to data integrity and privacy."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/reports/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 6
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for accessing reports.",
+              "Potential_attack_scenario": "An attacker can access sensitive patient reports without proper authorization."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Reports can contain Protected Health Information (PHI). Lack of authentication exposes this data."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Reports can contain Protected Health Information (PHI). Lack of authentication exposes this data, violating HITECH breach notification rules."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/reports/generate/",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "patient_id",
+                "type": "number",
+                "sensitive": true
+              },
+              {
+                "name": "report_type",
+                "type": "string",
+                "sensitive": false
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is missing for generating reports.",
+              "Potential_attack_scenario": "An unauthenticated user could generate unauthorized or fabricated reports."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Generating reports involves Protected Health Information (PHI). Lack of authentication poses a risk."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Generating reports involves Protected Health Information (PHI). Lack of authentication poses a risk to data integrity and privacy."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/reports/do_generate/",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "patient_id",
+                "type": "number",
+                "sensitive": true
+              },
+              {
+                "name": "report_type",
+                "type": "string",
+                "sensitive": false
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is missing for processing report generation.",
+              "Potential_attack_scenario": "An unauthenticated user could submit malicious or invalid report generation requests."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Processing report generation involves Protected Health Information (PHI). Lack of authentication poses a risk."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Processing report generation involves Protected Health Information (PHI). Lack of authentication poses a risk to data integrity and privacy."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/reports/do_change/",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 10
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "report_id",
+                "type": "number",
+                "sensitive": false
+              },
+              {
+                "name": "new_content",
+                "type": "string",
+                "sensitive": false
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for changing reports.",
+              "Potential_attack_scenario": "An attacker could modify or corrupt sensitive patient reports without proper authorization."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Modifying reports can affect Protected Health Information (PHI). Lack of authentication allows unauthorized modifications."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Modifying reports can affect Protected Health Information (PHI). Lack of authentication poses a significant risk to data integrity and patient care."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/bill/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for accessing billing information.",
+              "Potential_attack_scenario": "An attacker can view sensitive billing and financial information of other users without proper authorization."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Billing information can be considered part of Protected Health Information (PHI) or linked to it. Lack of authentication exposes this sensitive data."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Billing information can be considered part of Protected Health Information (PHI) or linked to it. Lack of authentication exposes this sensitive data, violating HITECH breach notification rules."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/bill/do_generate/",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 9
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "patient_id",
+                "type": "number",
+                "sensitive": true
+              },
+              {
+                "name": "bill_details",
+                "type": "object",
+                "sensitive": false
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is missing for generating bills.",
+              "Potential_attack_scenario": "An unauthenticated user could generate fraudulent bills or misuse the billing system."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Generating bills involves Protected Health Information (PHI) and financial data. Lack of authentication poses a risk."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Generating bills involves Protected Health Information (PHI) and financial data. Lack of authentication poses a risk to data integrity and privacy."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/bill/pay/",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 11
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "bill_id",
+                "type": "number",
+                "sensitive": false
+              },
+              {
+                "name": "payment_method",
+                "type": "string",
+                "sensitive": false
+              },
+              {
+                "name": "card_details",
+                "type": "object",
+                "sensitive": true
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for payment processing.",
+              "Potential_attack_scenario": "An attacker could make payments on behalf of other users or perform unauthorized transactions by accessing this endpoint without authentication."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Processing payments involves financial data linked to patient accounts, which can be considered sensitive. Lack of authentication poses a significant risk."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Processing payments involves financial data linked to patient accounts. Lack of authentication poses a risk to data integrity and privacy."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/bill/medicines/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 12
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              403,
+              500
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for accessing medicine billing details.",
+              "Potential_attack_scenario": "An attacker can view sensitive medicine and billing information of other users without proper authorization."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Medicine billing details can be considered part of Protected Health Information (PHI). Lack of authentication exposes this sensitive data."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "Medicine billing details can be considered part of Protected Health Information (PHI). Lack of authentication exposes this sensitive data, violating HITECH breach notification rules."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/login/",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 30
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "form-data",
+            "fields": [
+              {
+                "name": "username",
+                "type": "string",
+                "sensitive": true
+              },
+              {
+                "name": "password",
+                "type": "string",
+                "sensitive": true
+              }
+            ]
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a login endpoint. While it handles credentials, it does not directly expose PHI. Security of the login process itself is crucial for overall compliance."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a login endpoint. While it handles credentials, it does not directly expose PHI. Security of the login process itself is crucial for overall compliance."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/logout/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 31
+          },
+          "auth": {
+            "required": false,
+            "type": "session",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              302,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout functionality itself does not typically involve PHI but is essential for session management."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout functionality itself does not typically involve PHI but is essential for session management."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/loginmodule/auth",
+          "methods": [
+            "POST"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "application/json",
+            "fields": [
+              {
+                "name": "username",
+                "type": "string",
+                "sensitive": true
+              },
+              {
+                "name": "password",
+                "type": "string",
+                "sensitive": true
+              }
+            ]
+          },
+          "response": {
+            "content_type": "application/json",
+            "status_codes": [
+              200,
+              401,
+              500
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication is missing for the authentication endpoint.",
+              "Potential_attack_scenario": "An attacker could attempt to brute-force credentials or exploit vulnerabilities in the authentication process if not properly secured and authenticated."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This endpoint handles authentication, which is critical for securing PHI access, but doesn't directly expose PHI."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This endpoint handles authentication, which is critical for securing PHI access, but doesn't directly expose PHI."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 10.0,
+            "cvss_vector": " ",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

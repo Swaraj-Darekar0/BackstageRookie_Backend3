@@ -1,0 +1,89 @@
+{
+  "metrics": {
+    "by_source": {
+      "regex": 3,
+      "ast": 0,
+      "external_tools": 3,
+      "llm": 0
+    },
+    "by_severity": {
+      "CRITICAL": 1,
+      "HIGH": 0,
+      "MEDIUM": 3,
+      "LOW": 2
+    },
+    "execution_times": {
+      "regex": 0.8265025615692139,
+      "ast": 0.6095027923583984,
+      "external_tools": 39.66561245918274,
+      "llm": 163.5951008796692
+    },
+    "total_findings": 6,
+    "total_time": 204.69997024536133
+  },
+  "findings": [
+    {
+      "shortform_keyword": "HARDCODED-SECRET",
+      "file_path": "june.py",
+      "line_number": 17,
+      "severity": "CRITICAL",
+      "context_snippet": "client = genai.Client(api_key=\"<YOUR-API-KEY>\")",
+      "source": "regex",
+      "pattern_name": "hardcoded_secret",
+      "confidence": "MEDIUM"
+    },
+    {
+      "shortform_keyword": "REQUEST-TIMEOUT-MISSING",
+      "file_path": "D:\\Downloads\\Project\\SecurityMongul\\backend\\PulledCode\\June-Voice-AI\\june.py",
+      "line_number": 88,
+      "severity": "MEDIUM",
+      "context_snippet": "87     try:\n88         tts_resp = requests.post(\n89             \"http://localhost:8880/v1/audio/speech\",\n90             json={\n91                 \"model\": \"kokoro\",\n92                 \"input\": response_text,\n93                 \"voice\": voice,\n94                 \"response_format\": \"mp3\",\n95          ",
+      "source": "bandit",
+      "confidence": "HIGH",
+      "bandit_test_id": "B113",
+      "bandit_issue": "Call to requests without timeout"
+    },
+    {
+      "shortform_keyword": "REQUEST-TIMEOUT-MISSING",
+      "file_path": "D:\\Downloads\\Project\\SecurityMongul\\backend\\PulledCode\\June-Voice-AI\\june.py",
+      "line_number": 112,
+      "severity": "MEDIUM",
+      "context_snippet": "111     try:\n112         response = requests.post(R_API_URL)\n113         return response.status_code == 200\n",
+      "source": "bandit",
+      "confidence": "HIGH",
+      "bandit_test_id": "B113",
+      "bandit_issue": "Call to requests without timeout"
+    },
+    {
+      "shortform_keyword": "REQUEST-TIMEOUT-MISSING",
+      "file_path": "D:\\Downloads\\Project\\SecurityMongul\\backend\\PulledCode\\June-Voice-AI\\june.py",
+      "line_number": 120,
+      "severity": "MEDIUM",
+      "context_snippet": "119     try:\n120         response = requests.post(T_API_URL)\n121         if response.status_code == 200:\n",
+      "source": "bandit",
+      "confidence": "HIGH",
+      "bandit_test_id": "B113",
+      "bandit_issue": "Call to requests without timeout"
+    },
+    {
+      "shortform_keyword": "SENSITIVE-DATA-EXPOSURE-IN-ERROR",
+      "file_path": "t_api.py",
+      "line_number": 84,
+      "severity": "LOW",
+      "context_snippet": "return JSONResponse(status_code=500, content={\"error\": str(e)})",
+      "source": "regex",
+      "pattern_name": "verbose_error_message",
+      "confidence": "MEDIUM"
+    },
+    {
+      "shortform_keyword": "SENSITIVE-DATA-EXPOSURE-IN-ERROR",
+      "file_path": "t_api.py",
+      "line_number": 102,
+      "severity": "LOW",
+      "context_snippet": "return JSONResponse(status_code=500, content={\"error\": str(e)})",
+      "source": "regex",
+      "pattern_name": "verbose_error_message",
+      "confidence": "MEDIUM"
+    }
+  ]
+}

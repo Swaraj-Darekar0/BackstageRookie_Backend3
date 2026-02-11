@@ -1,0 +1,1562 @@
+{
+  "findings": [
+    {
+      "id": "EXPOSED-INTERNAL-IP",
+      "title": "Exposed Internal Ip",
+      "severity": "LOW",
+      "severity_label": "LOW",
+      "cvss": 0,
+      "vector": "",
+      "target": "myHospital\\settings.py",
+      "references": [],
+      "overview": "ALLOWED_HOSTS = ['192.168.0.111', '127.0.0.1', '192.168.43.155']",
+      "details": "",
+      "evidence": [
+        {
+          "name": "myHospital\\settings.py:28",
+          "description": ""
+        }
+      ],
+      "recommendation": ""
+    }
+  ],
+  "total_findings": 1,
+  "scan_id": "cb3c6971-4759-4719-bb8e-0f6bf19d356c",
+  "timestamp": "2026-02-07T02:47:59.282416",
+  "framework_analysis": {
+    "framework": "django",
+    "endpoints": [
+      {
+        "path": "/admin/",
+        "view": "admin.site.urls",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\myHospital\\urls.py",
+        "line_number": 22
+      },
+      {
+        "path": "/",
+        "view": "home",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\home\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/home/",
+        "view": "home",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\home\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/profile/",
+        "view": "myProfile",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\profiles\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/profile/register/",
+        "view": "register",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\profiles\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/profile/do_register/",
+        "view": "doRegister",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\profiles\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/appointments/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\appointments\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/appointments/book/",
+        "view": "book",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\appointments\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/appointments/do_book/",
+        "view": "doBook",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\appointments\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/appointments/do_change/",
+        "view": "doChange",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\appointments\\urls.py",
+        "line_number": 11
+      },
+      {
+        "path": "/case/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\case\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/case/generate/",
+        "view": "generate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\case\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/case/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\case\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/reports/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\reports\\urls.py",
+        "line_number": 6
+      },
+      {
+        "path": "/reports/generate/",
+        "view": "generate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\reports\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/reports/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\reports\\urls.py",
+        "line_number": 8
+      },
+      {
+        "path": "/reports/do_change/",
+        "view": "doChange",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\reports\\urls.py",
+        "line_number": 10
+      },
+      {
+        "path": "/bill/",
+        "view": "view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\bill\\urls.py",
+        "line_number": 7
+      },
+      {
+        "path": "/bill/do_generate/",
+        "view": "doGenerate",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\bill\\urls.py",
+        "line_number": 9
+      },
+      {
+        "path": "/bill/pay/",
+        "view": "pay",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\bill\\urls.py",
+        "line_number": 11
+      },
+      {
+        "path": "/bill/medicines/",
+        "view": "viewMedicine",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\bill\\urls.py",
+        "line_number": 12
+      },
+      {
+        "path": "/login/",
+        "view": "login",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\myHospital\\urls.py",
+        "line_number": 30
+      },
+      {
+        "path": "/logout/",
+        "view": "logout",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\myHospital\\urls.py",
+        "line_number": 31
+      },
+      {
+        "path": "/loginmodule/auth",
+        "view": "auth_view",
+        "source": "D:\\Downloads\\Project\\SecurityMongul\\PulledCode_temp\\cb3c6971-4759-4719-bb8e-0f6bf19d356c\\myHospital\\loginmodule\\urls.py",
+        "line_number": 7
+      }
+    ],
+    "errors": [],
+    "llm_enriched": {
+      "metadata": {
+        "framework": "django",
+        "sector": "Healthcare",
+        "compliances": [
+          "HIPAA",
+          "HITECH"
+        ]
+      },
+      "endpoints": [
+        {
+          "path": "/admin/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 22
+          },
+          "auth": {
+            "required": true,
+            "type": "recommended",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a general admin interface and not directly handling patient health information."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a general admin interface and not directly handling patient health information."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 3.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 6
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This appears to be a public homepage and not directly handling PHI."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This appears to be a public homepage and not directly handling PHI."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 3.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/home/",
+          "methods": [
+            "GET"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 6
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This appears to be a public homepage and not directly handling PHI."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This appears to be a public homepage and not directly handling PHI."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 3.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/profile/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a profile endpoint that may contain sensitive user data.",
+              "Potential_attack_scenario": "An attacker could access or modify user profile information without authentication."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint relates to user profiles, which can contain Protected Health Information (PHI)."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint relates to user profiles, which can contain Protected Health Information (PHI) and requires appropriate security measures."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": [
+              "https://owasp.org/www-community/attacks/SQL_Injection"
+            ]
+          }
+        },
+        {
+          "path": "/profile/register/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a registration endpoint that handles sensitive user data.",
+              "Potential_attack_scenario": "An attacker could potentially register malicious accounts or gain unauthorized access to user data during registration."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Registration endpoints collect user data, which could include sensitive health information, even if not directly PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "Registration endpoints collect user data that may fall under HITECH regulations if it relates to healthcare services."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 8.8,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": []
+          }
+        },
+        {
+          "path": "/profile/do_register/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 9
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a registration processing endpoint that handles sensitive user data.",
+              "Potential_attack_scenario": "An attacker could submit malicious data or exploit vulnerabilities during the registration process."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "This endpoint processes registration data, which could include sensitive health information."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "medium",
+              "reason": "This endpoint processes registration data that may fall under HITECH regulations if it relates to healthcare services."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 8.8,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "references": []
+          }
+        },
+        {
+          "path": "/appointments/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for an appointments endpoint that likely handles sensitive patient information.",
+              "Potential_attack_scenario": "An attacker could view, book, or modify other users' appointments."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint handles appointment information, which is considered PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint handles appointment information, which is considered PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/appointments/book/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for an appointment booking endpoint that handles sensitive patient information.",
+              "Potential_attack_scenario": "An attacker could book appointments on behalf of others or manipulate booking availability."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint handles appointment booking, which involves PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint handles appointment booking, which involves PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/appointments/do_book/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 9
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for an appointment booking processing endpoint that handles sensitive patient information.",
+              "Potential_attack_scenario": "An attacker could submit malicious booking data or exploit vulnerabilities during the booking process."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes appointment booking data, which is PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes appointment booking data, which is PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/appointments/do_change/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 11
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for an appointment change processing endpoint that handles sensitive patient information.",
+              "Potential_attack_scenario": "An attacker could change other users' appointments or exploit vulnerabilities during the change process."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes appointment modification data, which is PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes appointment modification data, which is PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/case/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 6
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a case endpoint that likely handles sensitive patient case information.",
+              "Potential_attack_scenario": "An attacker could view or modify other users' case details."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint handles patient case information, which is PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint handles patient case information, which is PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/case/generate/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a case generation endpoint that handles sensitive patient information.",
+              "Potential_attack_scenario": "An attacker could generate fraudulent case files or access sensitive data during generation."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint generates case files, which involves PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint generates case files, which involves PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/case/do_generate/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a case generation processing endpoint that handles sensitive patient information.",
+              "Potential_attack_scenario": "An attacker could submit malicious data for case generation or exploit vulnerabilities during the process."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes case generation data, which is PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes case generation data, which is PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/reports/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 6
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a reports endpoint that may contain sensitive patient data.",
+              "Potential_attack_scenario": "An attacker could access or view sensitive patient reports without authorization."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint serves reports, which can contain PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint serves reports, which can contain PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/reports/generate/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a report generation endpoint that handles sensitive patient data.",
+              "Potential_attack_scenario": "An attacker could generate unauthorized reports or exploit vulnerabilities during generation."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint generates reports, which involves PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint generates reports, which involves PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/reports/do_generate/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 8
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a report generation processing endpoint that handles sensitive patient data.",
+              "Potential_attack_scenario": "An attacker could submit malicious data for report generation or exploit vulnerabilities during the process."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes report generation data, which is PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes report generation data, which is PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/reports/do_change/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 10
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a report modification processing endpoint that handles sensitive patient data.",
+              "Potential_attack_scenario": "An attacker could modify other users' reports or exploit vulnerabilities during the modification process."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes report modification data, which is PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes report modification data, which is PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/bill/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a billing endpoint that may contain sensitive financial and personal health information.",
+              "Potential_attack_scenario": "An attacker could view or access other users' billing information and payment details."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint handles billing information, which can include financial data and may be linked to PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint handles billing information, which may be linked to PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/bill/do_generate/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 9
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a billing generation processing endpoint that handles sensitive financial and health information.",
+              "Potential_attack_scenario": "An attacker could generate fraudulent bills or exploit vulnerabilities during the generation process."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes billing generation data, which is sensitive and potentially linked to PHI."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint processes billing generation data, which is sensitive and potentially linked to PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/bill/pay/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 11
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a payment endpoint that handles sensitive financial information.",
+              "Potential_attack_scenario": "An attacker could make unauthorized payments or steal financial details."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "medium",
+              "reason": "While payment information itself isn't directly PHI, it's often linked to patient accounts and requires secure handling."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "medium",
+              "reason": "Secure handling of financial data linked to healthcare services is important for HITECH compliance."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/bill/medicines/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 12
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401,
+              403
+            ],
+            "contains_sensitive_data": true
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "high",
+              "description": "Authentication is missing for a medicine billing endpoint that likely handles sensitive prescription and billing information.",
+              "Potential_attack_scenario": "An attacker could view or access other users' medication and billing details."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint handles medicine billing, which directly involves PHI (medication history)."
+            },
+            "HITECH": {
+              "applicable": true,
+              "risk_level": "high",
+              "reason": "This endpoint handles medicine billing, which directly involves PHI and requires strict security."
+            }
+          },
+          "llm_notes": {
+            "severity": "critical",
+            "severity_label": "Critical",
+            "cvss": 9.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/login/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 30
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication endpoint is missing authentication, which could lead to brute-force attacks or enumeration.",
+              "Potential_attack_scenario": "An attacker could attempt to guess credentials or enumerate valid usernames."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is a login endpoint; while credentials are sensitive, it's not directly handling PHI."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Secure login is crucial, but this endpoint itself is not directly processing PHI."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 7.5,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/logout/",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 31
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout functionality is generally safe, but should be tied to a secure session."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Logout functionality is generally safe, but should be tied to a secure session."
+            }
+          },
+          "llm_notes": {
+            "severity": "low",
+            "severity_label": "Low",
+            "cvss": 3.1,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N",
+            "references": []
+          }
+        },
+        {
+          "path": "/loginmodule/auth",
+          "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ],
+          "source_info": {
+            "source_file": "urls.py",
+            "line_number": 7
+          },
+          "auth": {
+            "required": false,
+            "type": "none",
+            "detected_at_lines": []
+          },
+          "request": {
+            "content_type": "unknown",
+            "fields": []
+          },
+          "response": {
+            "content_type": "unknown",
+            "status_codes": [
+              200,
+              401
+            ],
+            "contains_sensitive_data": false
+          },
+          "security_risks": [
+            {
+              "id": "AUTH_MISSING",
+              "severity": "medium",
+              "description": "Authentication endpoint is missing authentication, which could lead to brute-force attacks or enumeration.",
+              "Potential_attack_scenario": "An attacker could attempt to guess credentials or enumerate valid usernames."
+            }
+          ],
+          "compliance_analysis": {
+            "HIPAA": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "This is an authentication endpoint; while credentials are sensitive, it's not directly handling PHI."
+            },
+            "HITECH": {
+              "applicable": false,
+              "risk_level": "low",
+              "reason": "Secure login is crucial, but this endpoint itself is not directly processing PHI."
+            }
+          },
+          "llm_notes": {
+            "severity": "high",
+            "severity_label": "High",
+            "cvss": 7.5,
+            "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "references": []
+          }
+        }
+      ]
+    }
+  }
+}

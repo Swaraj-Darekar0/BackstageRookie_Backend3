@@ -1,0 +1,280 @@
+/* =====================================================
+   PAGE SETUP (PDF / PRINT FRIENDLY)
+   ===================================================== */
+
+@page {
+  size: A4;
+  margin: 24mm 20mm 24mm 20mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11pt;
+  line-height: 1.55;
+  color: #111;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* =====================================================
+   TYPOGRAPHY
+   ===================================================== */
+
+h1 {
+  font-size: 18pt;
+  margin: 28px 0 14px;
+  border-bottom: 2px solid #222;
+  padding-bottom: 6px;
+}
+
+h2 {
+  font-size: 14pt;
+  margin: 22px 0 10px;
+}
+
+h3 {
+  font-size: 12pt;
+  margin: 18px 0 8px;
+}
+
+h4 {
+  font-size: 11pt;
+  margin: 14px 0 6px;
+}
+
+p {
+  margin: 6px 0 12px;
+  text-align: justify;
+}
+
+ul {
+  margin: 8px 0 14px 20px;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+/* =====================================================
+   PAGE BREAK CONTROL
+   ===================================================== */
+
+.page-break {
+  page-break-before: always;
+}
+
+article {
+  page-break-inside: avoid;
+}
+
+/* =====================================================
+   COVER PAGE
+   ===================================================== */
+
+.cover-page {
+  text-align: center;
+  page-break-after: always;
+}
+
+.cover-page h1 {
+  font-size: 28pt;
+  margin-top: 130px;
+  border: none;
+}
+
+.cover-page h2 {
+  font-size: 18pt;
+  margin-top: 36px;
+}
+
+.cover-page .company,
+.cover-page .client,
+.cover-page .meta {
+  margin-top: 24px;
+}
+
+.cover-page .confidential {
+  margin-top: 60px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+/* =====================================================
+   TABLE OF CONTENTS
+   ===================================================== */
+
+.toc-placeholder {
+  margin-top: 24px;
+  font-style: italic;
+  color: #555;
+}
+
+/* =====================================================
+   TABLES (GLOBAL)
+   ===================================================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 18px;
+  font-size: 10.5pt;
+}
+
+th,
+td {
+  border: 1px solid #333;
+  padding: 7px 9px;
+  vertical-align: top;
+}
+
+th {
+  background: #f2f2f2;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Compact metadata tables (endpoint summary) */
+article table:first-child th {
+  width: 30%;
+  background: #fafafa;
+}
+
+/* =====================================================
+   EXECUTIVE SUMMARY
+   ===================================================== */
+
+#executive-summary figure {
+  margin: 22px 0;
+  text-align: center;
+}
+
+#executive-summary figcaption {
+  font-size: 10pt;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+/* =====================================================
+   FINDINGS & ENDPOINT CARDS
+   ===================================================== */
+
+.finding {
+  margin-top: 26px;
+  padding: 14px 16px;
+  border-left: 6px solid #999;
+  background: #fafafa;
+}
+
+/* Severity color system (matches reference tone) */
+.severity-critical {
+  border-left-color: #b00020;   /* Deep red */
+  background: #fff4f4;
+}
+
+.severity-high {
+  border-left-color: #e65100;   /* Orange-red */
+  background: #fff7f0;
+}
+
+.severity-medium {
+  border-left-color: #f9a825;   /* Yellow */
+  background: #fffde7;
+}
+
+.severity-low {
+  border-left-color: #558b2f;   /* Muted green */
+  background: #f6fbf3;
+}
+
+/* Headings inside findings */
+.finding h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
+
+/* Label-value alignment */
+.finding p strong {
+  display: inline-block;
+  min-width: 110px;
+}
+
+/* =====================================================
+   ENDPOINT SECURITY ANALYSIS
+   ===================================================== */
+
+#endpoint-analysis article {
+  margin-top: 30px;
+}
+
+#endpoint-analysis table {
+  margin-bottom: 16px;
+}
+
+/* Endpoint header table emphasis */
+#endpoint-analysis article table:first-child {
+  border: 2px solid #333;
+}
+
+#endpoint-analysis article table:first-child th {
+  background: #eee;
+}
+
+/* =====================================================
+   COMPLIANCE TABLES
+   ===================================================== */
+
+#endpoint-analysis table thead th {
+  background: #eaeaea;
+}
+
+/* =====================================================
+   METRICS
+   ===================================================== */
+
+#metrics table {
+  max-width: 60%;
+}
+
+/* =====================================================
+   DISCLAIMER & APPENDIX
+   ===================================================== */
+
+#disclaimer {
+  font-size: 10pt;
+}
+
+#appendix pre {
+  font-family: "Courier New", monospace;
+  font-size: 9pt;
+  background: #f8f8f8;
+  border: 1px solid #ccc;
+  padding: 10px;
+  white-space: pre-wrap;
+}
+
+/* =====================================================
+   PRINT OPTIMIZATION
+   ===================================================== */
+
+@media print {
+  a {
+    color: black;
+    text-decoration: none;
+  }
+
+  table {
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+}
