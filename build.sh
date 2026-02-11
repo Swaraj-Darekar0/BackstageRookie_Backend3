@@ -2,7 +2,7 @@
 # exit on error
 set -o errexit
 
-pip install -r requirements.txt
+pip install -r requirement.txt
 
 # Install Playwright system dependencies and Chromium
 playwright install --with-deps chromium
