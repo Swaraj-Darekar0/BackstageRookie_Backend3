@@ -8,11 +8,9 @@ google-generativeai
 bandit
 pip-audit
 pypandoc
-pip-audit
 google-auth
 psycopg2-binary
 jinja2 
 playwright 
 celery
 redis
-eventlet
