@@ -1,0 +1,19 @@
+# Use the official Playwright Python image which comes with all dependencies pre-installed
+FROM mcr.microsoft.com/playwright/python:v1.45.0-jammy
+
+# Set work directory
+WORKDIR /app
+# Ensure the application user (group 1000) can read secret files
+RUN usermod -a -G 1000 root
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Explicitly install the Chromium browser
+RUN playwright install chromium
+
+# Copy the rest of your application
+COPY . .
+
+# Start command (This will be overridden in Render's dashboard for the worker)
+CMD ["gunicorn", "run:app", "--bind", "0.0.0.0:10000"]
