@@ -6,8 +6,10 @@ from flask_cors import CORS
 
 
 google_auth_bp = Blueprint("google_auth", __name__)
-
-CLIENT_SECRETS_FILE = os.path.join(os.path.dirname(__file__), "client_secret.json")
+if os.path.exists("/etc/secrets/client_secret.json"):
+    CLIENT_SECRETS_FILE = "/etc/secrets/client_secret.json"
+else:
+    CLIENT_SECRETS_FILE = os.path.join(os.path.dirname(__file__), "client_secret.json")
 
 
 SCOPES = [
