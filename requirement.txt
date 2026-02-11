@@ -5,6 +5,8 @@ python-dotenv
 python-docx
 gitpython
 google-generativeai
+google-auth-oauthlib
+google-auth-httplib2
 bandit
 pip-audit
 pypandoc
