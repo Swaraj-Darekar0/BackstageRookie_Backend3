@@ -35,11 +35,10 @@ def create_app():
     celery.Task = ContextTask
     app.celery = celery 
 
-    app.config['SESSION_COOKIE_SAMESITE'] = 'LAX'
-    app.config['SESSION_COOKIE_SECURE'] = False
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+    app.config['SESSION_COOKIE_SECURE'] = True
      # Set to True in production with HTTPS
     app.config['SESSION_COOKIE_HTTPONLY'] = True
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
     # Register blueprints
     from app.routes.GoogleIntegra import google_auth_bp

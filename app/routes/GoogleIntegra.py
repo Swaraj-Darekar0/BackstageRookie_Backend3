@@ -62,7 +62,7 @@ def google_callback():
         if not creds.id_token:
             # Fallback for unexpected missing ID token if fetch_token didn't error
             session.clear()
-            return redirect("http://localhost:3000/login?error=no_id_token")
+            return redirect("https://backstage-rookie-frontend.vercel.app/login?error=no_id_token")
 
         # Store token in session
         session["google_access_token"] = creds.token
