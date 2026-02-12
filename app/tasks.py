@@ -13,21 +13,16 @@ from app.services.django_info_service import extract_django_endpoints
 from app.services.flaskFastApi_info_service import extract_flask_fastapi_endpoints
 from app.services.report_service_two import ReportServiceTwo # NEW: For generate_report_task
 import asyncio # NEW: For generate_report_task
-
+from supabase import create_client, Client
 from app.tasksLLM.utils import load_scan_results_helper, generate_br_advice_with_gemini # NEW: Helper functions
 from google.oauth2.credentials import Credentials
 import google.generativeai as genai
 
 
-# Helper function for cleanup
-def _remove_readonly_onerror(func, path, _):
-    """
-    Error handler for `shutil.rmtree`.
-    If the error is due to an access error (read-only file), it attempts to
-    add write permission and then retries the operation.
-    """
-    os.chmod(path, stat.S_IWRITE)
-    func(path)
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 @celery.task(bind=True)
 def run_analysis_task(self, scan_id: str, github_url: str, sector_hint: str, framework_hint: str, plan: str, user_token: str):
@@ -127,33 +122,38 @@ def generate_report_task(self, scan_id: str, report_type: str, user_token: str, 
             print(f"[/api/generate-report] Enriched scan results saved to {results_path}")
             self.update_state(state='PROGRESS', meta={'message': ' Enriched Scan results saved.'})
             # 2. ReportServiceTwo (PDF): Passing user_token if it needs to fetch images or extra data
-            try:
-                report_service_two = ReportServiceTwo()
-                pdf_report_path = asyncio.run(report_service_two.generate_pdf_report(
+            
+            print(f"[Task:{self.request.id}] Generating PDF locally...")
+            report_service_two = ReportServiceTwo()
+            pdf_report_path = asyncio.run(report_service_two.generate_pdf_report(
                     scan_id=scan_id, 
                     user_name=user_name, 
                     user_email=user_email,
-                    user_token=user_token # Added
+                    user_token=user_token
                 ))
-                print(f"[/api/generate-report] PDF report generated: {pdf_report_path}")
-            except Exception as pdf_e:
-                print(f"[/api/generate-report] ERROR generating PDF report: {str(pdf_e)}")
+                
+                # 4. NEW: Upload to Supabase Storage
+            filename = os.path.basename(pdf_report_path)
+            print(f"[/api/generate-report] Uploading {filename} to Supabase Storage...")
+                
+            with open(pdf_report_path, 'rb') as f:
+                    # "reports" is the bucket name you must create in Supabase Dashboard
+                supabase.storage.from_("reports").upload(
+                    path=filename,
+                    file=f,
+                    file_options={"content-type": "application/pdf", "x-upsert": "true"}
+                )
 
-            # 3. ReportService (DOCX): Passing user_token
-            # report_service = ReportService()
-            # docx_report_path = report_service.generate_report(
-            #     scan_id=scan_id, 
-            #     report_type=report_type, 
-            #     user_token=user_token, # Already existed, but ensuring it's used
-            #     model_name=model_name
-            # )
+                # 5. Clean up the local worker file to save space
+            if os.path.exists(pdf_report_path):
+                os.remove(pdf_report_path)
 
             return {
                 'status': 'success',
-                'pdf_filename': os.path.basename(pdf_report_path) if pdf_report_path else None,
-                # 'docx_filename': os.path.basename(docx_report_path) if docx_report_path else None,
-                'message': 'Reports generated successfully.'
+                'pdf_filename': filename, # We return the filename so main.py knows what to look for
+                'message': 'Reports generated and uploaded successfully.'
             }
+
         except Exception as e:
             print(f"[Task:{self.request.id}] ERROR: {str(e)}")
             raise
@@ -190,3 +190,14 @@ def cleanup_scan_data(scan_id):
                     print(f"[Cleanup] Deleted: {file_path}")
             except Exception as e:
                 print(f"[Cleanup] Error deleting {file_path}: {e}")
+
+    try:
+        filenames = [
+            f"report_{scan_id}.pdf",
+            f"report_{scan_id}_technical.pdf"
+        ]
+        # Remove from bucket
+        supabase.storage.from_("reports").remove(filenames)
+        print(f"[Cleanup] Removed reports from Supabase for {scan_id}")
+    except Exception as e:
+        print(f"[Cleanup] Supabase cleanup error: {e}")          

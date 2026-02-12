@@ -18,3 +18,4 @@ playwright
 celery
 redis
 openai
+supabase

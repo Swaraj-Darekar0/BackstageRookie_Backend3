@@ -14,9 +14,9 @@ from google.auth.transport import requests as google_requests
 import redis
 # Add the new task to your imports
 from functools import wraps
-from flask import request, jsonify, Blueprint, send_file, session, current_app, url_for
+from flask import redirect, request, jsonify, Blueprint, send_file, session, current_app, url_for
 from celery_app import celery # NEW: Import the Celery app instance
-
+from supabase import create_client, Client
 
 from app.tasks import run_analysis_task, generate_report_task,cleanup_scan_data
 
@@ -26,6 +26,11 @@ main_bp = Blueprint('main', __name__)
 load_dotenv()
 # Global variable to store current plan (in production, use database)
 CURRENT_PLAN = 'basic'  # Default plan
+
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def login_required(f):
     @wraps(f)
@@ -107,14 +112,7 @@ def get_plan():
     })
 
 
-def _remove_readonly_onerror(func, path, _):
-    """
-    Error handler for `shutil.rmtree`.
-    If the error is due to an access error (read-only file), it attempts to
-    add write permission and then retries the operation.
-    """
-    os.chmod(path, stat.S_IWRITE)
-    func(path)
+
 
 redis_url = os.getenv('REDIS_URL')
 
@@ -318,37 +316,48 @@ def get_report_status(task_id):
     return jsonify(response_data)
 
 
+# ... existing imports ...
+# NEW: Import Supabase
+from supabase import create_client, Client
+
+# Initialize Supabase Client
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+# ... (Keep other routes) ...
+
 @main_bp.route('/api/reports/download/<filename>', methods=['GET'])
 @login_required
 def download_report(filename):
     """
-    Allows downloading of generated reports.
-    Includes security measures to prevent path traversal.
+    Generates a signed URL for the file in Supabase and redirects the user.
     """
-    reports_dir = os.path.join(current_app.config['DATA_DIR'], 'generated_reports')
-    
-    # Security: Prevent path traversal
-    base = os.path.normpath(reports_dir)
-    full_path = os.path.normpath(os.path.join(base, filename))
-
-    if not full_path.startswith(base):
-        # Attempted path traversal
-        return jsonify({'status': 'error', 'message': 'Invalid filename or attempted path traversal.'}), 400
-
-    if not os.path.exists(full_path):
-        return jsonify({'status': 'error', 'message': 'File not found.'}), 404
+    # Security: Basic filename check
+    if '..' in filename or filename.startswith('/'):
+        return jsonify({'status': 'error', 'message': 'Invalid filename.'}), 400
 
     try:
-        mimetype = None
-        if filename.endswith('.pdf'):
-            mimetype = 'application/pdf'
-        elif filename.endswith('.docx'):
-            mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        # Generate a Signed URL valid for 60 seconds
+        # This is secure: only this user gets this link right now.
+        response = supabase.storage.from_("reports").create_signed_url(filename, 60)
         
-        return send_file(full_path, as_attachment=True, download_name=filename, mimetype=mimetype)
+        # 'response' is usually a dict or object depending on version. 
+        # In recent supabase-py, create_signed_url returns a dict {'signedURL': '...'} or just the string.
+        # Let's handle the dict case safely:
+        signed_url = response.get('signedURL') if isinstance(response, dict) else response
+
+        if not signed_url:
+            return jsonify({'status': 'error', 'message': 'File not found in storage.'}), 404
+
+        print(f"[/api/download] Redirecting to Supabase for {filename}")
+        
+        # Redirect the user to the Supabase download link
+        return redirect(signed_url)
+
     except Exception as e:
         print(f"[/api/reports/download/{filename}] ERROR: {str(e)}")
-        return jsonify({'status': 'error', 'message': 'Could not serve file.'}), 500
+        return jsonify({'status': 'error', 'message': 'Could not retrieve file.'}), 500
 
 @main_bp.route('/api/auth/me', methods=['GET'])
 @login_required
