@@ -317,15 +317,7 @@ def get_report_status(task_id):
 
 
 # ... existing imports ...
-# NEW: Import Supabase
-from supabase import create_client, Client
 
-# Initialize Supabase Client
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-# ... (Keep other routes) ...
 
 @main_bp.route('/api/reports/download/<filename>', methods=['GET'])
 @login_required

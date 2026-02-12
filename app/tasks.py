@@ -24,6 +24,15 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+def _remove_readonly_onerror(func, path, _):
+    """
+    Error handler for `shutil.rmtree`.
+    If the error is due to an access error (read-only file), it attempts to
+    add write permission and then retries the operation.
+    """
+    os.chmod(path, stat.S_IWRITE)
+    func(path)
+
 @celery.task(bind=True)
 def run_analysis_task(self, scan_id: str, github_url: str, sector_hint: str, framework_hint: str, plan: str, user_token: str):
     from app import create_app
