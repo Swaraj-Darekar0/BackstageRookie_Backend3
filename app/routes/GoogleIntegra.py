@@ -61,6 +61,7 @@ def google_callback():
 
         if not creds.id_token:
             # Fallback for unexpected missing ID token if fetch_token didn't error
+            print("Google OAuth callback failed: No ID token received.")
             session.clear()
             return redirect("https://backstage-rookie-frontend.vercel.app/login?error=no_id_token")
 

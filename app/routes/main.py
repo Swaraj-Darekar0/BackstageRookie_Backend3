@@ -30,17 +30,8 @@ CURRENT_PLAN = 'basic'  # Default plan
 def login_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
-        # 1. Check for Bearer token in Authorization header
-        auth_header = request.headers.get('Authorization')
-        if auth_header and auth_header.startswith('Bearer '):
-            token = auth_header.split(' ')[1]
-            # For now, simply having the token is enough.
-            # You might want to validate it here.
-            if 'google_access_token' not in session:
-                session['google_access_token'] = token
-
-        # 2. Fallback to checking session
-        if "google_access_token" not in session:
+        # Strictly check for both tokens in the session
+        if "google_access_token" not in session or "google_id_token" not in session:
             return jsonify({"error": "Unauthorized"}), 401
         return f(*args, **kwargs)
     return wrapper

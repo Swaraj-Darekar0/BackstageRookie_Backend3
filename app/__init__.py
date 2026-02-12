@@ -20,7 +20,7 @@ def create_app():
     app.config['DATA_DIR'] = os.path.join(project_root, 'data')
     app.config['TEMPLATES_DIR'] = os.path.join(project_root, 'templates')
 
-    CORS(app, supports_credentials=True, origins=["http://localhost:3000","https://backstage-rookie-frontend.vercel.app"])
+    CORS(app, supports_credentials=True, origins=["https://backstage-rookie-frontend.vercel.app","https://backstage-rookie-frontend.vercel.app"])
     
     # --- Celery Integration ---
     # Update Celery with Flask's configuration
@@ -34,10 +34,10 @@ def create_app():
     
     celery.Task = ContextTask
     app.celery = celery 
-
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     app.config['SESSION_COOKIE_SAMESITE'] = None
     app.config['SESSION_COOKIE_SECURE'] = True
-     # Set to True in production with HTTPS
+    #  # Set to True in production with HTTPS
     app.config['SESSION_COOKIE_HTTPONLY'] = True
 
     # Register blueprints
