@@ -322,34 +322,24 @@ def get_report_status(task_id):
 @main_bp.route('/api/reports/download/<filename>', methods=['GET'])
 @login_required
 def download_report(filename):
-    """
-    Generates a signed URL for the file in Supabase and redirects the user.
-    """
-    # Security: Basic filename check
-    if '..' in filename or filename.startswith('/'):
-        return jsonify({'status': 'error', 'message': 'Invalid filename.'}), 400
-
     try:
-        # Generate a Signed URL valid for 60 seconds
-        # This is secure: only this user gets this link right now.
+        # Generate the Signed URL from Supabase
         response = supabase.storage.from_("reports").create_signed_url(filename, 60)
-        
-        # 'response' is usually a dict or object depending on version. 
-        # In recent supabase-py, create_signed_url returns a dict {'signedURL': '...'} or just the string.
-        # Let's handle the dict case safely:
         signed_url = response.get('signedURL') if isinstance(response, dict) else response
 
         if not signed_url:
-            return jsonify({'status': 'error', 'message': 'File not found in storage.'}), 404
+            return jsonify({'status': 'error', 'message': 'File not found.'}), 404
 
-        print(f"[/api/download] Redirecting to Supabase for {filename}")
-        
-        # Redirect the user to the Supabase download link
-        return redirect(signed_url)
+        # Instead of 'return redirect(signed_url)', return the URL as JSON
+        # This gives the frontend total control over the binary download
+        return jsonify({
+            'status': 'success',
+            'download_url': signed_url
+        })
 
     except Exception as e:
-        print(f"[/api/reports/download/{filename}] ERROR: {str(e)}")
-        return jsonify({'status': 'error', 'message': 'Could not retrieve file.'}), 500
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+    
 
 @main_bp.route('/api/auth/me', methods=['GET'])
 @login_required
