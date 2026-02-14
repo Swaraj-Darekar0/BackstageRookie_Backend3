@@ -17,6 +17,9 @@ from functools import wraps
 from flask import redirect, request, jsonify, Blueprint, send_file, session, current_app, url_for
 from celery_app import celery # NEW: Import the Celery app instance
 from supabase import create_client, Client
+import requests # Ensure this is imported at the top of your file
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 
 from app.tasks import run_analysis_task, generate_report_task,cleanup_scan_data
 
@@ -32,6 +35,8 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+# In app/routes/main.py
+
 def login_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
@@ -39,14 +44,18 @@ def login_required(f):
         auth_header = request.headers.get('Authorization')
         if auth_header and auth_header.startswith('Bearer '):
             token = auth_header.split(' ')[1]
-            # For now, simply having the token is enough.
-            # You might want to validate it here.
+            
+            # If the session is empty but we have a valid header token, 
+            # manually populate the session for this request
             if 'google_access_token' not in session:
                 session['google_access_token'] = token
+                # Mark session as modified so Flask handles the update
+                session.modified = True 
 
-        # 2. Fallback to checking session
+        # 2. Final check: Does the session now have the token?
         if "google_access_token" not in session:
             return jsonify({"error": "Unauthorized"}), 401
+            
         return f(*args, **kwargs)
     return wrapper
 
@@ -341,9 +350,6 @@ def download_report(filename):
         return jsonify({'status': 'error', 'message': str(e)}), 500
     
 
-import requests # Ensure this is imported at the top of your file
-from google.oauth2 import id_token
-from google.auth.transport import requests as google_requests
 
 @main_bp.route('/api/auth/me', methods=['GET'])
 @login_required
@@ -353,48 +359,37 @@ def get_user_profile():
     Saves/updates the user in Supabase.
     """
     user_profile = None
-    
-    # --- METHOD 1: Try to use ID Token from Session (Cookie-based) ---
+
+        # Try Session (ID Token) first
     if 'google_id_token' in session:
         try:
-            id_token_str = session['google_id_token']
-            id_info = id_token.verify_oauth2_token(
-                id_token_str, 
-                google_requests.Request()
-            )
+            id_info = id_token.verify_oauth2_token(session['google_id_token'], google_requests.Request())
             user_profile = {
-                'name': id_info.get('name'),
-                'email': id_info.get('email'),
-                'picture': id_info.get('picture')
-            }
-            print("[/api/auth/me] User profile retrieved from ID Token.")
-        except Exception as e:
-            print(f"[/api/auth/me] ID Token verification failed: {e}")
+                    'name': id_info.get('name'),
+                    'email': id_info.get('email'),
+                    'picture': id_info.get('picture')
+                }
+        except Exception:
+                pass
 
-    # --- METHOD 2: Fallback to Access Token (Header/Bearer-based) ---
-    # This is essential for cross-browser/cross-domain compatibility
+        # BRAVE FIX: Fallback to Access Token (Header-based)
     if not user_profile:
         access_token = session.get('google_access_token')
         if access_token:
-            try:
-                # Call Google's standard userinfo endpoint
-                response = requests.get(
-                    "https://www.googleapis.com/oauth2/v3/userinfo",
-                    headers={"Authorization": f"Bearer {access_token}"}
+            resp = requests.get(
+                "https://www.googleapis.com/oauth2/v3/userinfo",
+                headers={"Authorization": f"Bearer {access_token}"}
                 )
-                if response.status_code == 200:
-                    info = response.json()
-                    user_profile = {
+            if resp.status_code == 200:
+                info = resp.json()
+                user_profile = {
                         'name': info.get('name'),
                         'email': info.get('email'),
                         'picture': info.get('picture')
-                    }
-                    print("[/api/auth/me] User profile retrieved from Access Token.")
-            except Exception as e:
-                print(f"[/api/auth/me] Failed to fetch profile from Access Token: {e}")
+            }
 
-    if not user_profile:
-        return jsonify({"error": "Unauthorized", "message": "No valid session found"}), 401
+        if not user_profile:
+            return jsonify({"error": "Profile sync failed"}), 401
 
     # --- SAVE TO SUPABASE (UPSERT) ---
     try:
