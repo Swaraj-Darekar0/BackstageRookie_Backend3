@@ -35,8 +35,8 @@ def create_app():
     celery.Task = ContextTask
     app.celery = celery 
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' #
-    app.config['SESSION_COOKIE_SECURE'] = False
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None' #
+    app.config['SESSION_COOKIE_SECURE'] = True
     #  # Set to True in production with HTTPS
     # app.config['SESSION_COOKIE_DOMAIN'] = 'backstagerookie-backend3.onrender.com' # Set to your backend domain
     app.config['SESSION_COOKIE_HTTPONLY'] = True
