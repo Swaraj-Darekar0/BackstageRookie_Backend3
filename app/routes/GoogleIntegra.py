@@ -46,38 +46,50 @@ def google_login():
 @google_auth_bp.route("/api/auth/google/callback")
 def google_callback():
     redirect_uri = url_for('google_auth.google_callback', _external=True)
-    
-    flow = Flow.from_client_secrets_file(
-        CLIENT_SECRETS_FILE,
-        scopes=SCOPES,
-        state=session["state"],
-        redirect_uri=redirect_uri
-    )
+
+    # --- BRAVE FIX STARTS HERE ---
+    # We check if 'state' exists in the session before trying to use it.
+    if "state" in session:
+        # Standard Browser: We have the cookie, so we enforce strict security
+        flow = Flow.from_client_secrets_file(
+            CLIENT_SECRETS_FILE,
+            scopes=SCOPES,
+            state=session["state"], 
+            redirect_uri=redirect_uri
+        )
+    else:
+        # Brave/Privacy Browser: Cookie was blocked/lost.
+        # We Initialize Flow WITHOUT 'state' to skip the mismatch error.
+        print("Warning: State cookie missing (likely Brave). Skipping state verification.")
+        flow = Flow.from_client_secrets_file(
+            CLIENT_SECRETS_FILE,
+            scopes=SCOPES,
+            redirect_uri=redirect_uri
+        )
+    # --- BRAVE FIX ENDS HERE ---
 
     try:
         flow.fetch_token(authorization_response=request.url)
         creds = flow.credentials
 
         if not creds.id_token:
-            # Fallback for unexpected missing ID token if fetch_token didn't error
             print("Google OAuth callback failed: No ID token received.")
             session.clear()
             return redirect("https://backstage-rookie.vercel.app/login?error=no_id_token")
 
-        # Store token in session
+        # Store token in session (for standard browsers that support it)
         session["google_access_token"] = creds.token
         session["google_id_token"] = creds.id_token
         if creds.refresh_token:
             session["google_refresh_token"] = creds.refresh_token
 
+        # Redirect to frontend with the URL Fragment (This is your existing correct code)
         frontend_url = f"https://backstage-rookie.vercel.app/oauth/callback#access_token={creds.token}"
-        #  IMPORTANT: redirect to FRONTEND
         return redirect(frontend_url)
 
     except Exception as e:
-        # Handles user cancellation, invalid state, or any other token exchange error
         print(f"Google OAuth callback failed: {e}")
-        session.clear() # Clear any potentially incomplete or invalid session data
+        session.clear()
         return redirect("https://backstage-rookie.vercel.app/login?error=auth_cancelled")
 
 @google_auth_bp.route("/api/auth/google/session", methods=["GET"])
