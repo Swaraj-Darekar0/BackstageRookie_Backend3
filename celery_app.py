@@ -19,7 +19,7 @@ def make_celery(app_name=__name__):
         result_expires=10800,
         broker_transport_options={
             'visibility_timeout': 3600,
-            'polling_interval': 5.0  # Check every 10 seconds instead of 1
+            'polling_interval': 15.0  # Check every 10 seconds instead of 1
         },
         
         # Reduce connection overhead by keeping connections open
