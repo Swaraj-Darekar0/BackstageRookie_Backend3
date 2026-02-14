@@ -35,7 +35,7 @@ def google_login():
     auth_url, state = flow.authorization_url(
         prompt="consent",
         access_type='offline',
-        include_granted_scopes='true'
+        include_granted_scopes='false'
     )
     session["state"] = state
 

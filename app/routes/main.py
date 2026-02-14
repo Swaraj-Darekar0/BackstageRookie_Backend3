@@ -341,70 +341,90 @@ def download_report(filename):
         return jsonify({'status': 'error', 'message': str(e)}), 500
     
 
+import requests # Ensure this is imported at the top of your file
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
+
 @main_bp.route('/api/auth/me', methods=['GET'])
 @login_required
 def get_user_profile():
-    """Get user profile from ID token and save/update to Supabase."""
-    if 'google_id_token' not in session:
-        return jsonify({"error": "ID token not found in session"}), 401
+    """
+    Get user profile using ID Token (Session) OR Access Token (Header).
+    Saves/updates the user in Supabase.
+    """
+    user_profile = None
     
-    id_token_str = session['google_id_token']
-    try:
-        id_info = id_token.verify_oauth2_token(id_token_str, google_requests.Request())
-        user_email = id_info.get('email')
-        session['user_email'] = user_email 
-        session.modified = True
-        user_profile = {
-            'name': id_info.get('name'),
-            'email': id_info.get('email'),
-            'picture': id_info.get('picture')
-        }
-
-        # --- NEW: Save user to Supabase ---
+    # --- METHOD 1: Try to use ID Token from Session (Cookie-based) ---
+    if 'google_id_token' in session:
         try:
-            db_url = os.getenv("SUPABASE_DB_URL")
-            if db_url:
-                # Normalize common misconfigurations:
-                # - remove surrounding quotes
-                # - handle values like "DATABASE_URL=postgresql://..." by extracting after '='
-                db_url_clean = db_url.strip().strip('"').strip("'")
-                if db_url_clean.upper().startswith('DATABASE_URL='):
-                    db_url_clean = db_url_clean.split('=', 1)[1]
+            id_token_str = session['google_id_token']
+            id_info = id_token.verify_oauth2_token(
+                id_token_str, 
+                google_requests.Request()
+            )
+            user_profile = {
+                'name': id_info.get('name'),
+                'email': id_info.get('email'),
+                'picture': id_info.get('picture')
+            }
+            print("[/api/auth/me] User profile retrieved from ID Token.")
+        except Exception as e:
+            print(f"[/api/auth/me] ID Token verification failed: {e}")
 
-                try:
-                    conn = psycopg2.connect(db_url_clean)
-                    cur = conn.cursor()
+    # --- METHOD 2: Fallback to Access Token (Header/Bearer-based) ---
+    # This is essential for cross-browser/cross-domain compatibility
+    if not user_profile:
+        access_token = session.get('google_access_token')
+        if access_token:
+            try:
+                # Call Google's standard userinfo endpoint
+                response = requests.get(
+                    "https://www.googleapis.com/oauth2/v3/userinfo",
+                    headers={"Authorization": f"Bearer {access_token}"}
+                )
+                if response.status_code == 200:
+                    info = response.json()
+                    user_profile = {
+                        'name': info.get('name'),
+                        'email': info.get('email'),
+                        'picture': info.get('picture')
+                    }
+                    print("[/api/auth/me] User profile retrieved from Access Token.")
+            except Exception as e:
+                print(f"[/api/auth/me] Failed to fetch profile from Access Token: {e}")
 
-                    # Use UPSERT logic: Insert a new user, or update their name if the email already exists.
-                    cur.execute(
-                        """
-                        INSERT INTO users (email, name)
-                        VALUES (%s, %s)
-                        ON CONFLICT (email)
-                        DO UPDATE SET name = EXCLUDED.name;
-                        """,
-                        (user_profile['email'], user_profile['name'])
-                    )
+    if not user_profile:
+        return jsonify({"error": "Unauthorized", "message": "No valid session found"}), 401
 
-                    conn.commit()
-                    cur.close()
-                    conn.close()
-                    print(f"[/api/auth/me] Successfully saved/updated user {user_profile['email']} to database.")
-                except Exception as db_error:
-                    # Log the error but don't fail the login request
-                    print(f"[/api/auth/me] ERROR: Could not save user to database. Sanitized SUPABASE_DB_URL: {db_url_clean}. Error: {str(db_error)}")
-            else:
-                print("[/api/auth/me] WARNING: SUPABASE_DB_URL environment variable not set. Skipping database operation.")
+    # --- SAVE TO SUPABASE (UPSERT) ---
+    try:
+        session['user_email'] = user_profile['email']
+        db_url = os.getenv("SUPABASE_DB_URL")
+        
+        if db_url:
+            db_url_clean = db_url.strip().strip('"').strip("'")
+            if db_url_clean.upper().startswith('DATABASE_URL='):
+                db_url_clean = db_url_clean.split('=', 1)[1]
 
-        except Exception as db_error:
-            # Catch any unexpected exceptions during env read/sanitize
-            print(f"[/api/auth/me] ERROR: Unexpected error when handling SUPABASE_DB_URL: {str(db_error)}")
-        # --- END NEW ---
+            conn = psycopg2.connect(db_url_clean)
+            cur = conn.cursor()
+            cur.execute(
+                """
+                INSERT INTO users (email, name)
+                VALUES (%s, %s)
+                ON CONFLICT (email)
+                DO UPDATE SET name = EXCLUDED.name;
+                """,
+                (user_profile['email'], user_profile['name'])
+            )
+            conn.commit()
+            cur.close()
+            conn.close()
+            print(f"[/api/auth/me] Database updated for {user_profile['email']}")
+    except Exception as db_error:
+        print(f"[/api/auth/me] DB Error: {str(db_error)}")
 
-        return jsonify(user_profile)
-    except ValueError as e:
-        return jsonify({"error": "Invalid ID token", "message": str(e)}), 401
-
+    return jsonify(user_profile)
 
 @main_bp.route('/api/models', methods=['GET'])
 @login_required
