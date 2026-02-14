@@ -17,8 +17,6 @@ SCOPES = [
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
     "https://www.googleapis.com/auth/generative-language.peruserquota",
-    "https://www.googleapis.com/auth/generative-language.retriever",
-    "https://www.googleapis.com/auth/drive.readonly" 
 ]
 
 @google_auth_bp.route("/api/auth/google/login")
@@ -37,7 +35,7 @@ def google_login():
     auth_url, state = flow.authorization_url(
         prompt="consent",
         access_type='offline',
-        include_granted_scopes='true'
+        include_granted_scopes='false'
     )
     session["state"] = state
 
