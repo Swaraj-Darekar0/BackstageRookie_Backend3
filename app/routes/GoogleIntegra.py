@@ -61,7 +61,7 @@ def google_callback():
             # Fallback for unexpected missing ID token if fetch_token didn't error
             print("Google OAuth callback failed: No ID token received.")
             session.clear()
-            return redirect("https://backstage-rookie-frontend.vercel.app/login?error=no_id_token")
+            return redirect("https://backstage-rookie.vercel.app/login?error=no_id_token")
 
         # Store token in session
         session["google_access_token"] = creds.token
@@ -71,13 +71,13 @@ def google_callback():
 
 
         #  IMPORTANT: redirect to FRONTEND
-        return redirect("https://backstage-rookie-frontend.vercel.app/oauth/callback")
+        return redirect("https://backstage-rookie.vercel.app/oauth/callback")
 
     except Exception as e:
         # Handles user cancellation, invalid state, or any other token exchange error
         print(f"Google OAuth callback failed: {e}")
         session.clear() # Clear any potentially incomplete or invalid session data
-        return redirect("https://backstage-rookie-frontend.vercel.app/login?error=auth_cancelled")
+        return redirect("https://backstage-rookie.vercel.app/login?error=auth_cancelled")
 
 @google_auth_bp.route("/api/auth/google/session", methods=["GET"])
 def get_google_session():
