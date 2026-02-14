@@ -38,7 +38,7 @@ def create_app():
     app.config['SESSION_COOKIE_SAMESITE'] = 'None' #
     app.config['SESSION_COOKIE_SECURE'] = True
     #  # Set to True in production with HTTPS
-    # app.config['SESSION_COOKIE_DOMAIN'] = 'backstagerookie-backend3.onrender.com' # Set to your backend domain
+    app.config['SESSION_COOKIE_DOMAIN'] = 'backstagerookie-backend3.onrender.com' # Set to your backend domain
     app.config['SESSION_COOKIE_HTTPONLY'] = True
 
     # Register blueprints
