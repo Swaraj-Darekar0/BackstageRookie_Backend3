@@ -69,9 +69,9 @@ def google_callback():
         if creds.refresh_token:
             session["google_refresh_token"] = creds.refresh_token
 
-
+        frontend_url = f"https://backstage-rookie.vercel.app/oauth/callback#access_token={creds.token}"
         #  IMPORTANT: redirect to FRONTEND
-        return redirect("https://backstage-rookie.vercel.app/oauth/callback")
+        return redirect(frontend_url)
 
     except Exception as e:
         # Handles user cancellation, invalid state, or any other token exchange error
