@@ -20,7 +20,7 @@ def create_app():
     app.config['DATA_DIR'] = os.path.join(project_root, 'data')
     app.config['TEMPLATES_DIR'] = os.path.join(project_root, 'templates')
 
-    CORS(app, supports_credentials=True, origins=["https://backstage-rookie-frontend.vercel.app","https://backstage-rookie-frontend.vercel.app"])
+    CORS(app, supports_credentials=True, origins=["https://backstage-rookie.vercel.app","https://backstage-rookie-frontend.vercel.app"],allow_headers=["Content-Type", "Authorization"],methods=["GET", "POST", "OPTIONS", "DELETE"])
     
     # --- Celery Integration ---
     # Update Celery with Flask's configuration
