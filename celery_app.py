@@ -11,25 +11,31 @@ def make_celery(app_name=__name__):
         app_name,
         broker=redis_url,
         backend=redis_url,
-        include=['app.tasks']  # NEW: Automatically discover tasks
+        include=['app.tasks']
     )
     celery_app.conf.update(
-        # Increase the time a worker waits for a message from 1s to 5s or 10s
-        # This directly reduces BRPOP frequency
+        # --- REDUCE HEARTBEAT FREQUENCY ---
+        # Disable worker events entirely (This stops the PUBLISH in your logs)
+        worker_send_task_events=False, 
+        task_send_sent_event=False,
+        
+        # If you still want heartbeats but slower, set these:
+        # Check in every 5 minutes instead of every few seconds
+        broker_heartbeat=300, 
+        
+        # --- OPTIMIZE POLLING ---
         result_expires=10800,
         broker_transport_options={
             'visibility_timeout': 3600,
-            'polling_interval': 15.0  # Check every 10 seconds instead of 1
+            'polling_interval': 60.0, # Check for new tasks once a minute
         },
         
-        # Reduce connection overhead by keeping connections open
-        broker_pool_limit=2, 
-        redis_backend_use_ssl={'ssl_cert_reqs': 'none'},# Keep your SSL setting
-        task_ignore_result=False 
-      )
+        broker_pool_limit=None, # Helps stabilize connection reuse
+        redis_backend_use_ssl={'ssl_cert_reqs': 'none'},
+        task_ignore_result=True # Ignore results by default to save more commands
+    )
     
     return celery_app
-
 # Create the Celery instance WITHOUT creating a Flask app instance here
 celery = make_celery()
 
