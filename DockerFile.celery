@@ -15,4 +15,4 @@ COPY . .
 
 # We still run Gunicorn here to satisfy Render's health checks for Web Services
 # Using & to run both processes in the background
-CMD gunicorn run:app --bind 0.0.0.0:10000 & celery -A worker.celery worker --loglevel=info --concurrency=1
+CMD gunicorn run:app --bind 0.0.0.0:10000 & celery -A worker.celery worker --loglevel=info --concurrency=1 --without-gossip --without-mingle    

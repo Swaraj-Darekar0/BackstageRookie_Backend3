@@ -18,16 +18,16 @@ def make_celery(app_name=__name__):
         # Disable worker events entirely (This stops the PUBLISH in your logs)
         worker_send_task_events=False, 
         task_send_sent_event=False,
-        
+        worker_event_heartbeat=15.0,
         # If you still want heartbeats but slower, set these:
         # Check in every 5 minutes instead of every few seconds
-        broker_heartbeat=300, 
+        broker_heartbeat=30, 
         
         # --- OPTIMIZE POLLING ---
         result_expires=10800,
         broker_transport_options={
             'visibility_timeout': 3600,
-            'polling_interval': 60.0, # Check for new tasks once a minute
+            'polling_interval': 30.0, # Check for new tasks once a minute
         },
         
         broker_pool_limit=None, # Helps stabilize connection reuse
