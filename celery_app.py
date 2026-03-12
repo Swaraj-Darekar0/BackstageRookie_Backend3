@@ -16,23 +16,23 @@ def make_celery(app_name=__name__):
     celery_app.conf.update(
         # --- REDUCE HEARTBEAT FREQUENCY ---
         # Disable worker events entirely (This stops the PUBLISH in your logs)
-        worker_send_task_events=False, 
-        task_send_sent_event=False,
-        worker_event_heartbeat=15.0,
+        # worker_send_task_events=False, 
+        # task_send_sent_event=False,
+        # worker_event_heartbeat=15.0,
         # If you still want heartbeats but slower, set these:
         # Check in every 5 minutes instead of every few seconds
-        broker_heartbeat=30, 
+        broker_heartbeat=10, 
         
         # --- OPTIMIZE POLLING ---
         result_expires=10800,
         broker_transport_options={
             'visibility_timeout': 3600,
-            'polling_interval': 30.0, # Check for new tasks once a minute
+            'polling_interval': 15.0, # Check for new tasks once a minute
         },
         
         broker_pool_limit=None, # Helps stabilize connection reuse
         redis_backend_use_ssl={'ssl_cert_reqs': 'none'},
-        task_ignore_result=True # Ignore results by default to save more commands
+        task_ignore_result=False # Ignore results by default to save more commands
     )
     
     return celery_app
